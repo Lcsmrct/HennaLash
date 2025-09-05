@@ -68,11 +68,8 @@ class TimeSlot(BaseModel):
 
 class TimeSlotCreate(BaseModel):
     date: datetime
-    start_time: str  # Changed from time to str
-    end_time: str    # Changed from time to str
-    service_name: str
-    service_duration: int
-    price: float
+    time: str  # Une seule heure (ex: "14:00")
+    service_duration: int  # Durée en minutes pour calculer end_time automatiquement
 
 class TimeSlotResponse(BaseModel):
     id: str
