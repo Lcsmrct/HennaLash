@@ -85,7 +85,7 @@ const AdminDashboard = () => {
         description: "Rendez-vous mis à jour !"
       });
       
-      fetchData();
+      refreshData();
     } catch (error) {
       console.error('Error updating appointment:', error);
       toast({
