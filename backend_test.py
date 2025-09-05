@@ -472,8 +472,173 @@ class SalonBookingTester:
             else:
                 self.log_test("Update Review Status", False, "Update review failed", result)
     
+    async def test_appointment_notes_bug_fix(self):
+        """Test 9: Appointment Notes Bug Fix - Client info display in admin"""
+        if not self.client_token or not self.admin_token:
+            self.log_test("Appointment Notes Bug Fix", False, "Missing client or admin token")
+            return
+        
+        # Create a new slot for this specific test
+        tomorrow = datetime.now() + timedelta(days=2)
+        slot_data = {
+            "date": tomorrow.strftime("%Y-%m-%dT%H:%M:%S"),
+            "start_time": "11:00:00",
+            "end_time": "12:00:00",
+            "service_name": "Henné & Extensions",
+            "service_duration": 60,
+            "price": 120.00
+        }
+        
+        result = await self.make_request("POST", "/slots", slot_data, token=self.admin_token)
+        if not result["success"]:
+            self.log_test("Create Test Slot for Notes", False, "Failed to create test slot", result)
+            return
+        
+        test_slot_id = result["data"].get("id")
+        
+        # Test 1: Create appointment with formatted notes (simulating client form)
+        formatted_notes = """📱 Instagram: @marie_beaute
+📍 Lieu: domicile  
+👥 Nombre de personnes: 2
+ℹ️ Informations supplémentaires:
+Motifs floraux souhaités, style bohème
+📝 Notes:
+Première fois, prévoir plus de temps pour expliquer l'entretien"""
+        
+        appointment_data = {
+            "slot_id": test_slot_id,
+            "notes": formatted_notes
+        }
+        
+        result = await self.make_request("POST", "/appointments", appointment_data, token=self.client_token)
+        
+        if result["success"]:
+            appointment = result["data"]
+            test_appointment_id = appointment.get("id")
+            if appointment.get("notes") == formatted_notes:
+                self.log_test("Create Appointment with Formatted Notes", True, 
+                             f"Appointment created with formatted notes (ID: {test_appointment_id})")
+            else:
+                self.log_test("Create Appointment with Formatted Notes", False, 
+                             "Notes not stored correctly", {"expected": formatted_notes, "actual": appointment.get("notes")})
+        else:
+            self.log_test("Create Appointment with Formatted Notes", False, "Failed to create appointment", result)
+            return
+        
+        # Test 2: Verify notes are stored in database (GET as client)
+        result = await self.make_request("GET", "/appointments", token=self.client_token)
+        
+        if result["success"]:
+            appointments = result["data"]
+            test_appointment = next((apt for apt in appointments if apt.get("id") == test_appointment_id), None)
+            
+            if test_appointment and test_appointment.get("notes") == formatted_notes:
+                self.log_test("Notes Persistence in Database", True, "Notes correctly stored and retrieved from database")
+            else:
+                self.log_test("Notes Persistence in Database", False, 
+                             "Notes not persisted correctly", {"appointment": test_appointment})
+        else:
+            self.log_test("Notes Persistence in Database", False, "Failed to retrieve appointments", result)
+        
+        # Test 3: Verify admin can see notes (GET as admin)
+        result = await self.make_request("GET", "/appointments", token=self.admin_token)
+        
+        if result["success"]:
+            appointments = result["data"]
+            test_appointment = next((apt for apt in appointments if apt.get("id") == test_appointment_id), None)
+            
+            if test_appointment:
+                notes = test_appointment.get("notes")
+                user_name = test_appointment.get("user_name")
+                user_email = test_appointment.get("user_email")
+                
+                # Check if all client info is available to admin
+                if (notes == formatted_notes and 
+                    user_name and "Sarah" in user_name and 
+                    user_email == "sarah.johnson@email.com"):
+                    self.log_test("Admin Notes Visibility", True, 
+                                 f"Admin can see complete client info: notes, name ({user_name}), email ({user_email})")
+                else:
+                    self.log_test("Admin Notes Visibility", False, 
+                                 "Admin missing client information", 
+                                 {"notes": notes, "user_name": user_name, "user_email": user_email})
+            else:
+                self.log_test("Admin Notes Visibility", False, "Admin cannot find appointment", {"appointments_count": len(appointments)})
+        else:
+            self.log_test("Admin Notes Visibility", False, "Admin failed to retrieve appointments", result)
+        
+        # Test 4: Test with different note formats
+        # Create another slot
+        slot_data2 = {
+            "date": (tomorrow + timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%S"),
+            "start_time": "14:00:00",
+            "end_time": "15:00:00",
+            "service_name": "Pose Cils",
+            "service_duration": 60,
+            "price": 80.00
+        }
+        
+        result = await self.make_request("POST", "/slots", slot_data2, token=self.admin_token)
+        if result["success"]:
+            test_slot_id2 = result["data"].get("id")
+            
+            # Test with minimal notes (no Instagram)
+            minimal_notes = """📍 Lieu: salon
+👥 Nombre de personnes: 1
+📝 Notes:
+Cliente régulière, allergie aux produits parfumés"""
+            
+            appointment_data2 = {
+                "slot_id": test_slot_id2,
+                "notes": minimal_notes
+            }
+            
+            result = await self.make_request("POST", "/appointments", appointment_data2, token=self.client_token)
+            
+            if result["success"]:
+                # Verify admin can see this appointment too
+                result = await self.make_request("GET", "/appointments", token=self.admin_token)
+                if result["success"]:
+                    appointments = result["data"]
+                    minimal_appointment = next((apt for apt in appointments if apt.get("notes") == minimal_notes), None)
+                    
+                    if minimal_appointment:
+                        self.log_test("Different Note Formats Support", True, 
+                                     "System supports different note formats (with/without Instagram)")
+                    else:
+                        self.log_test("Different Note Formats Support", False, 
+                                     "Minimal notes format not working")
+                else:
+                    self.log_test("Different Note Formats Support", False, "Failed to verify minimal notes")
+        
+        # Test 5: Test empty notes
+        slot_data3 = {
+            "date": (tomorrow + timedelta(hours=4)).strftime("%Y-%m-%dT%H:%M:%S"),
+            "start_time": "16:00:00",
+            "end_time": "17:00:00",
+            "service_name": "Consultation",
+            "service_duration": 60,
+            "price": 0.00
+        }
+        
+        result = await self.make_request("POST", "/slots", slot_data3, token=self.admin_token)
+        if result["success"]:
+            test_slot_id3 = result["data"].get("id")
+            
+            appointment_data3 = {
+                "slot_id": test_slot_id3,
+                "notes": ""
+            }
+            
+            result = await self.make_request("POST", "/appointments", appointment_data3, token=self.client_token)
+            
+            if result["success"]:
+                self.log_test("Empty Notes Support", True, "System handles empty notes correctly")
+            else:
+                self.log_test("Empty Notes Support", False, "System fails with empty notes", result)
+
     async def test_database_operations(self):
-        """Test 9: Database Operations & Data Persistence"""
+        """Test 10: Database Operations & Data Persistence"""
         # Test data persistence by retrieving created data
         persistence_tests = []
         
