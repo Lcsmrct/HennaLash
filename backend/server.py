@@ -181,6 +181,14 @@ async def create_appointment(
     if existing:
         raise HTTPException(status_code=400, detail="You already have an appointment for this slot")
     
+    # Check if anyone else already booked this slot
+    any_existing = await db.appointments.find_one({
+        "slot_id": appointment_data.slot_id,
+        "status": {"$in": ["pending", "confirmed"]}
+    })
+    if any_existing:
+        raise HTTPException(status_code=400, detail="This slot has already been booked by another client")
+    
     appointment = Appointment(
         user_id=current_user.id,
         slot_id=appointment_data.slot_id,
