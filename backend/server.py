@@ -12,6 +12,7 @@ from datetime import datetime
 from .models import *
 from .auth import *
 from .database import get_database, create_indexes, close_db_connection
+from .email_service import email_service
 
 ROOT_DIR = Path(__file__).parent
 
