@@ -57,8 +57,8 @@ class UserResponse(BaseModel):
 class TimeSlot(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     date: datetime
-    start_time: time
-    end_time: time
+    start_time: str  # Changed from time to str
+    end_time: str    # Changed from time to str
     service_name: str
     service_duration: int  # minutes
     price: float
@@ -68,8 +68,8 @@ class TimeSlot(BaseModel):
 
 class TimeSlotCreate(BaseModel):
     date: datetime
-    start_time: time
-    end_time: time
+    start_time: str  # Changed from time to str
+    end_time: str    # Changed from time to str
     service_name: str
     service_duration: int
     price: float
@@ -77,8 +77,8 @@ class TimeSlotCreate(BaseModel):
 class TimeSlotResponse(BaseModel):
     id: str
     date: datetime
-    start_time: time
-    end_time: time
+    start_time: str  # Changed from time to str
+    end_time: str    # Changed from time to str
     service_name: str
     service_duration: int
     price: float
