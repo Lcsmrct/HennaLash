@@ -400,7 +400,7 @@ class SalonBookingTester:
                 self.log_test("Update Appointment Status", False, "Update appointment failed", result)
     
     async def test_reviews_system(self):
-        """Test 7: Reviews System"""
+        """Test 8: Reviews System"""
         if not self.client_token:
             self.log_test("Reviews System", False, "No client token available")
             return
