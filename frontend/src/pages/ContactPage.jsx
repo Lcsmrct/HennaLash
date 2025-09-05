@@ -29,9 +29,10 @@ const ContactPage = () => {
     const selectedPlan = localStorage.getItem('selectedPlan');
     if (selectedPlan) {
       const serviceMap = {
-        'Henné Simple': 'Henné Simple - 25€',
-        'Henné Traditionnel': 'Henné Traditionnel - 45€',
-        'Henné Mariée': 'Henné Mariée - 120€'
+        'Mains Très Simple': 'Mains Très Simple - 5€',
+        'Simple': 'Simple - 8€',
+        'Chargé': 'Chargé - 12€',
+        'Mariée': 'Mariée - 20€'
       };
       setFormData(prev => ({ 
         ...prev, 
