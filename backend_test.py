@@ -237,34 +237,75 @@ class SalonBookingTester:
             else:
                 self.log_test("Admin Auth Me Endpoint", False, "Admin auth/me failed", result)
     
+    async def test_simplified_slot_creation(self):
+        """Test 6A: Simplified Slot Creation (New Feature)"""
+        if not self.admin_token:
+            self.log_test("Simplified Slot Creation", False, "No admin token available")
+            return
+        
+        # Test simplified slot creation with only date and time
+        tomorrow = datetime.now() + timedelta(days=1)
+        slot_data = {
+            "date": tomorrow.strftime("%Y-%m-%dT00:00:00Z"),
+            "time": "14:00"
+        }
+        
+        start_time = datetime.now()
+        result = await self.make_request("POST", "/slots", slot_data, token=self.admin_token)
+        end_time = datetime.now()
+        response_time = (end_time - start_time).total_seconds()
+        
+        if result["success"]:
+            slot_response = result["data"]
+            self.created_slot_id = slot_response.get("id")
+            
+            # Verify automatic calculations
+            start_time_field = slot_response.get("start_time")
+            end_time_field = slot_response.get("end_time")
+            service_duration = slot_response.get("service_duration")
+            
+            if (start_time_field == "14:00" and 
+                end_time_field == "15:00" and 
+                service_duration == 60 and
+                slot_response.get("is_available")):
+                self.log_test("Simplified Slot Creation", True, 
+                             f"Slot created with auto-calculated end_time (15:00) and duration (60min). Response time: {response_time:.2f}s")
+            else:
+                self.log_test("Simplified Slot Creation", False, 
+                             f"Auto-calculation failed. start_time: {start_time_field}, end_time: {end_time_field}, duration: {service_duration}", 
+                             slot_response)
+        else:
+            self.log_test("Simplified Slot Creation", False, "Simplified slot creation failed", result)
+        
+        # Test performance requirement (< 2 seconds)
+        if response_time < 2.0:
+            self.log_test("Slot Creation Performance", True, f"Response time {response_time:.2f}s < 2s requirement")
+        else:
+            self.log_test("Slot Creation Performance", False, f"Response time {response_time:.2f}s exceeds 2s requirement")
+
     async def test_time_slots_management(self):
-        """Test 6: Time Slots Management (Admin only)"""
+        """Test 6B: Time Slots Management (Admin only)"""
         if not self.admin_token:
             self.log_test("Time Slots Management", False, "No admin token available")
             return
         
-        # Create time slot
-        tomorrow = datetime.now() + timedelta(days=1)
+        # Create another slot for testing (using old format for compatibility)
+        tomorrow = datetime.now() + timedelta(days=2)
         slot_data = {
-            "date": tomorrow.strftime("%Y-%m-%dT%H:%M:%S"),
-            "start_time": "09:00:00",
-            "end_time": "10:00:00",
-            "service_name": "Hair Cut & Style",
-            "service_duration": 60,
-            "price": 85.00
+            "date": tomorrow.strftime("%Y-%m-%dT00:00:00Z"),
+            "time": "09:00"
         }
         
         result = await self.make_request("POST", "/slots", slot_data, token=self.admin_token)
         
         if result["success"]:
             slot_response = result["data"]
-            self.created_slot_id = slot_response.get("id")
-            if slot_response.get("service_name") == "Hair Cut & Style" and slot_response.get("is_available"):
-                self.log_test("Create Time Slot", True, f"Time slot created successfully with ID: {self.created_slot_id}")
+            if slot_response.get("service_duration") == 60 and slot_response.get("is_available"):
+                self.log_test("Create Additional Time Slot", True, f"Additional time slot created successfully")
             else:
-                self.log_test("Create Time Slot", False, "Time slot data incorrect", slot_response)
+                self.log_test("Create Additional Time Slot", False, "Time slot data incorrect", slot_response)
         else:
-            self.log_test("Create Time Slot", False, "Time slot creation failed", result)
+            self.log_test("Create Additional Time Slot", False, "Time slot creation failed", result)
         
         # Create another slot for testing
         slot_data2 = {
