@@ -323,20 +323,6 @@ const BookingDetailsPage = () => {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="notes" className="flex items-center">
-                    <MessageSquare className="mr-2 h-4 w-4" />
-                    Notes additionnelles (optionnel)
-                  </Label>
-                  <Textarea
-                    id="notes"
-                    value={bookingForm.notes}
-                    onChange={(e) => setBookingForm({...bookingForm, notes: e.target.value})}
-                    placeholder="Toute information complémentaire..."
-                    className="min-h-[60px]"
-                  />
-                </div>
-
                 <div className="flex gap-4">
                   <Button 
                     type="button" 
