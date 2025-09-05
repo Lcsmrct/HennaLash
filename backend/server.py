@@ -265,6 +265,12 @@ async def get_appointments(
     # Populate with user and slot info
     result = []
     for apt in appointments:
+        # Gérer la rétrocompatibilité pour les appointments existants
+        if 'service_name' not in apt:
+            apt['service_name'] = None
+        if 'service_price' not in apt:
+            apt['service_price'] = None
+            
         apt_response = AppointmentResponse(**apt)
         
         # Get user info
