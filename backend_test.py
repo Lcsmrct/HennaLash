@@ -171,7 +171,7 @@ class SalonBookingTester:
         # Login admin user
         admin_login = {
             "email": "admin@salon.com",
-            "password": "AdminPass123!"
+            "password": "Admin123!"
         }
         
         result = await self.make_request("POST", "/auth/login", admin_login, expect_status=200)
