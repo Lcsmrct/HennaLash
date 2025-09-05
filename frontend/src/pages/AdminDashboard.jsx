@@ -362,16 +362,6 @@ const AdminDashboard = () => {
                       </DialogHeader>
                       <form onSubmit={createSlot} className="space-y-4">
                         <div className="space-y-2">
-                          <Label htmlFor="service_name">Service</Label>
-                          <Input
-                            id="service_name"
-                            value={slotForm.service_name}
-                            onChange={(e) => setSlotForm({...slotForm, service_name: e.target.value})}
-                            placeholder="Coupe & Style"
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
                           <Label htmlFor="date">Date</Label>
                           <Input
                             id="date"
@@ -403,31 +393,8 @@ const AdminDashboard = () => {
                             />
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label htmlFor="duration">Durée (min)</Label>
-                            <Input
-                              id="duration"
-                              type="number"
-                              value={slotForm.service_duration}
-                              onChange={(e) => setSlotForm({...slotForm, service_duration: parseInt(e.target.value)})}
-                              required
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="price">Prix (€)</Label>
-                            <Input
-                              id="price"
-                              type="number"
-                              step="0.01"
-                              value={slotForm.price}
-                              onChange={(e) => setSlotForm({...slotForm, price: parseFloat(e.target.value)})}
-                              required
-                            />
-                          </div>
-                        </div>
                         <DialogFooter>
-                          <Button type="submit">Créer le créneau</Button>
+                          <Button type="submit" className="bg-blue-600 hover:bg-blue-700">Créer le créneau</Button>
                         </DialogFooter>
                       </form>
                     </DialogContent>
