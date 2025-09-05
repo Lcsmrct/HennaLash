@@ -353,10 +353,10 @@ class SalonBookingTester:
         else:
             self.log_test("Admin Endpoint Access Control", False, "Access control failed", result)
     
-    async def test_appointments_system(self):
-        """Test 7: Appointments System"""
+    async def test_appointments_with_services(self):
+        """Test 7A: Appointments with Service Selection (New Feature)"""
         if not self.client_token or not self.created_slot_id:
-            self.log_test("Appointments System", False, "Missing client token or slot ID")
+            self.log_test("Appointments with Services", False, "Missing client token or slot ID")
             return
         
         # First, make the slot available again for booking
@@ -364,23 +364,72 @@ class SalonBookingTester:
             await self.make_request("PUT", f"/slots/{self.created_slot_id}?is_available=true", 
                                   token=self.admin_token)
         
-        # Create appointment as client
-        appointment_data = {
-            "slot_id": self.created_slot_id,
-            "notes": "First time customer, please call to confirm"
-        }
+        # Test all 4 services
+        services = [
+            {"name": "Très simple", "price": 5},
+            {"name": "Simple", "price": 8},
+            {"name": "Chargé", "price": 12},
+            {"name": "Mariée", "price": 20}
+        ]
         
-        result = await self.make_request("POST", "/appointments", appointment_data, token=self.client_token)
-        
-        if result["success"]:
-            appointment = result["data"]
-            self.created_appointment_id = appointment.get("id")
-            if appointment.get("slot_id") == self.created_slot_id and appointment.get("status") == "pending":
-                self.log_test("Create Appointment", True, f"Appointment created successfully with ID: {self.created_appointment_id}")
+        for i, service in enumerate(services):
+            # Create a new slot for each service test
+            tomorrow = datetime.now() + timedelta(days=3 + i)
+            slot_data = {
+                "date": tomorrow.strftime("%Y-%m-%dT00:00:00Z"),
+                "time": f"{10 + i}:00"
+            }
+            
+            slot_result = await self.make_request("POST", "/slots", slot_data, token=self.admin_token)
+            if not slot_result["success"]:
+                continue
+                
+            slot_id = slot_result["data"].get("id")
+            
+            # Create appointment with service selection
+            appointment_data = {
+                "slot_id": slot_id,
+                "service_name": service["name"],
+                "service_price": service["price"],
+                "notes": f"Test appointment for {service['name']} service"
+            }
+            
+            start_time = datetime.now()
+            result = await self.make_request("POST", "/appointments", appointment_data, token=self.client_token)
+            end_time = datetime.now()
+            response_time = (end_time - start_time).total_seconds()
+            
+            if result["success"]:
+                appointment = result["data"]
+                if (appointment.get("service_name") == service["name"] and 
+                    appointment.get("service_price") == service["price"] and
+                    appointment.get("status") == "pending"):
+                    self.log_test(f"Create Appointment - {service['name']} ({service['price']}€)", True, 
+                                 f"Service appointment created successfully. Response time: {response_time:.2f}s")
+                    
+                    # Store first appointment for later tests
+                    if i == 0:
+                        self.created_appointment_id = appointment.get("id")
+                else:
+                    self.log_test(f"Create Appointment - {service['name']}", False, 
+                                 "Service data incorrect in appointment", appointment)
             else:
-                self.log_test("Create Appointment", False, "Appointment data incorrect", appointment)
-        else:
-            self.log_test("Create Appointment", False, "Appointment creation failed", result)
+                self.log_test(f"Create Appointment - {service['name']}", False, 
+                             "Service appointment creation failed", result)
+            
+            # Test performance requirement (< 2 seconds)
+            if response_time < 2.0:
+                self.log_test(f"Appointment Performance - {service['name']}", True, 
+                             f"Response time {response_time:.2f}s < 2s requirement")
+            else:
+                self.log_test(f"Appointment Performance - {service['name']}", False, 
+                             f"Response time {response_time:.2f}s exceeds 2s requirement")
+
+    async def test_appointments_system(self):
+        """Test 7B: Appointments System (Legacy)"""
+        if not self.client_token or not self.created_slot_id:
+            self.log_test("Appointments System", False, "Missing client token or slot ID")
+            return
         
         # Verify slot becomes unavailable after booking
         result = await self.make_request("GET", "/slots")
