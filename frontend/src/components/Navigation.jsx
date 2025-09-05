@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { User, LogOut } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import { mockData } from '../mock';
 
 const Navigation = () => {
   const location = useLocation();
+  const { isAuthenticated, user, logout } = useAuth();
 
   const getIcon = (iconName) => {
     switch (iconName) {
@@ -17,7 +19,44 @@ const Navigation = () => {
     }
   };
 
+  // Filter navigation items based on auth state
+  const getNavigationItems = () => {
+    if (isAuthenticated) {
+      // Authenticated users
+      const baseItems = mockData.navigation.filter(item => 
+        !['Mon Espace', 'Déconnexion'].includes(item.label)
+      );
+      
+      // Add appropriate user space link
+      if (user?.role === 'admin') {
+        baseItems.push({ label: 'Admin', href: '/admin', icon: 'user' });
+      } else {
+        baseItems.push({ label: 'Mon Espace', href: '/mon-espace', icon: 'user' });
+      }
+      
+      // Add logout
+      baseItems.push({ 
+        label: 'Déconnexion', 
+        href: '#', 
+        icon: 'log-out',
+        onClick: logout
+      });
+      
+      return baseItems;
+    } else {
+      // Non-authenticated users
+      const baseItems = mockData.navigation.filter(item => 
+        !['Mon Espace', 'Déconnexion'].includes(item.label)
+      );
+      
+      // Add login/register links
+      baseItems.push({ label: 'Connexion', href: '/connexion', icon: 'user' });
+      
+      return baseItems;
+    }
+  };
 
+  const navigationItems = getNavigationItems();
 
   return (
     <nav className="bg-white/95 backdrop-blur-sm shadow-sm fixed top-0 left-0 right-0 z-50">
@@ -31,8 +70,22 @@ const Navigation = () => {
           {/* Navigation Links */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              {mockData.navigation.map((item, index) => {
+              {navigationItems.map((item, index) => {
                 const isActive = location.pathname === item.href;
+                
+                if (item.onClick) {
+                  // For logout button
+                  return (
+                    <button
+                      key={index}
+                      onClick={item.onClick}
+                      className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 hover:text-orange-600 transition-colors duration-200"
+                    >
+                      {item.icon && getIcon(item.icon)}
+                      {item.label}
+                    </button>
+                  );
+                }
                 
                 return (
                   <Link
