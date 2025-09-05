@@ -110,6 +110,8 @@ const BookingDetailsPage = () => {
 
       await axios.post(`${API_BASE_URL}/api/appointments`, {
         slot_id: slotId,
+        service_name: bookingForm.service_name,
+        service_price: bookingForm.service_price,
         notes: notes
       });
       
