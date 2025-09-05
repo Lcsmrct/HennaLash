@@ -35,6 +35,13 @@ export const useCache = (key, fetchFn, cacheTime = 5 * 60 * 1000) => { // 5 minu
     } catch (err) {
       setError(err);
       console.error(`Error fetching ${key}:`, err);
+      
+      // En cas d'erreur, essayer d'utiliser des données en cache même expirées
+      const cachedData = cache.get(key);
+      if (cachedData) {
+        console.warn(`Using stale cache for ${key} due to error`);
+        setData(cachedData);
+      }
     } finally {
       setLoading(false);
     }
