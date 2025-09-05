@@ -78,87 +78,78 @@ const ReviewsPage = () => {
           {/* Title */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              {testimonials.title}
+              Avis Clients
             </h1>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed mb-6">
-              {testimonials.subtitle}
+              Découvrez les témoignages de nos clients satisfaits
             </p>
             
             {/* Rating */}
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <span className="text-6xl font-bold text-orange-600">
-                {testimonials.rating.score}
-              </span>
-              <div className="flex">
-                {renderStars(5)}
+            {reviews.length > 0 && (
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <span className="text-6xl font-bold text-orange-600">
+                  {(reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length).toFixed(1)}
+                </span>
+                <div className="flex">
+                  {renderStars(Math.round(reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length))}
+                </div>
               </div>
-            </div>
+            )}
             <p className="text-sm text-gray-500">
-              {testimonials.rating.text}
+              Basé sur {reviews.length} avis client(s)
             </p>
           </div>
 
-          {/* Service Filters */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            <Filter className="w-5 h-5 text-gray-400 mt-2" />
-            {services.map((service) => (
-              <button
-                key={service}
-                onClick={() => setSelectedService(service)}
-                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
-                  selectedService === service
-                    ? 'bg-orange-600 text-white transform scale-105'
-                    : 'bg-white text-gray-700 hover:bg-orange-100 hover:text-orange-600 shadow-md'
-                }`}
-              >
-                {service}
-              </button>
-            ))}
-          </div>
-
           {/* Reviews Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {displayReviews.map((review) => (
-              <Card key={review.id} className="bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                <CardContent className="p-6">
-                  {/* Avatar and Info */}
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
-                      {review.avatar}
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900">
-                        {review.name}
-                      </h4>
-                      <p className="text-sm text-gray-500">
-                        {review.timeAgo}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <div className="flex">
-                        {renderStars(review.rating)}
+          {reviews.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-gray-500 text-lg">Aucun avis approuvé pour le moment.</p>
+              <p className="text-gray-400 text-sm mt-2">Les avis apparaîtront ici une fois validés par l'équipe.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+              {reviews.map((review) => (
+                <Card key={review.id} className="bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                  <CardContent className="p-6">
+                    {/* Avatar and Info */}
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                        {review.user_name ? review.user_name.charAt(0).toUpperCase() : 'A'}
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-gray-900">
+                          {review.user_name || 'Client'}
+                        </h4>
+                        <p className="text-sm text-gray-500">
+                          {new Date(review.created_at).toLocaleDateString('fr-FR')}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <div className="flex">
+                          {renderStars(review.rating)}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Review Text */}
-                  <p className="text-gray-700 leading-relaxed mb-4 text-sm">
-                    "{review.review}"
-                  </p>
+                    {/* Review Text */}
+                    <p className="text-gray-700 leading-relaxed mb-4 text-sm">
+                      "{review.comment}"
+                    </p>
 
-                  {/* Service Badge */}
-                  <div className="flex items-center justify-between">
-                    <Badge variant="outline" className="text-orange-600 border-orange-600">
-                      {review.service}
-                    </Badge>
-                    <button className="text-red-500 hover:text-red-600 transition-colors">
-                      <Heart className="w-4 h-4" />
-                    </button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                    {/* Service Badge */}
+                    <div className="flex items-center justify-between">
+                      <Badge variant="outline" className="text-orange-600 border-orange-600">
+                        {review.rating} étoile{review.rating > 1 ? 's' : ''}
+                      </Badge>
+                      <button className="text-red-500 hover:text-red-600 transition-colors">
+                        <Heart className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
 
           {/* Stats Section */}
           <div className="grid md:grid-cols-4 gap-8 mb-16 text-center">
