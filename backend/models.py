@@ -108,8 +108,8 @@ class AppointmentResponse(BaseModel):
     id: str
     user_id: str
     slot_id: str
-    service_name: str
-    service_price: float
+    service_name: Optional[str] = None  # Rétrocompatibilité
+    service_price: Optional[float] = None  # Rétrocompatibilité
     status: AppointmentStatus
     notes: Optional[str] = None
     created_at: datetime
