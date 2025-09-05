@@ -59,21 +59,6 @@ export const mockData = {
     plans: [
       {
         icon: "heart",
-        name: "Mains Très Simple",
-        price: "5€",
-        duration: "Durée: 15-20 min",
-        description: "Motifs très simples et délicats pour débuter",
-        features: [
-          "Design minimaliste",
-          "Motifs basiques",
-          "Henné 100% naturel",
-          "Conseils d'entretien"
-        ],
-        buttonText: "Réserver",
-        popular: false
-      },
-      {
-        icon: "star",
         name: "Simple",
         price: "8€",
         duration: "Durée: 20-30 min",
