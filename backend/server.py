@@ -423,6 +423,12 @@ async def update_review_status(
 async def root():
     return {"message": "Salon Booking API"}
 
+@api_router.get("/ping")
+@api_router.head("/ping")
+async def ping():
+    """Health check endpoint that responds to both GET and HEAD requests."""
+    return {"status": "Ok"}
+
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate, db = Depends(get_db)):
     status_dict = input.dict()
