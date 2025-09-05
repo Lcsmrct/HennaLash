@@ -281,7 +281,7 @@ const AdminDashboard = () => {
                         <div className="flex justify-between items-start">
                           <div className="space-y-2">
                             <h3 className="font-semibold">
-                              {appointment.slot_info?.service_name || 'Service non spécifié'}
+                              {appointment.service_name || 'Service non spécifié'}
                             </h3>
                             <p className="text-sm text-gray-600">
                               <User className="mr-1 h-4 w-4 inline" />
