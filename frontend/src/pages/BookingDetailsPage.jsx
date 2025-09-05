@@ -205,7 +205,7 @@ const BookingDetailsPage = () => {
                   {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
                 </div>
                 <p className="text-2xl font-bold text-orange-600">
-                  {slot.price}€
+                  {bookingForm.service_price}€
                 </p>
               </div>
             </CardContent>
