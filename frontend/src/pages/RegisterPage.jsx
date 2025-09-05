@@ -258,7 +258,9 @@ const RegisterPage = () => {
             </Link>
           </p>
         </CardFooter>
-      </Card>
+          </Card>
+        </div>
+      </section>
     </div>
   );
 };
