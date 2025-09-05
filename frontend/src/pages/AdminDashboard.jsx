@@ -383,24 +383,6 @@ const AdminDashboard = () => {
                               required
                             />
                           </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="service_duration">Durée (minutes)</Label>
-                            <Select 
-                              value={slotForm.service_duration.toString()} 
-                              onValueChange={(value) => setSlotForm({...slotForm, service_duration: parseInt(value)})}
-                            >
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="15">15 minutes</SelectItem>
-                                <SelectItem value="30">30 minutes</SelectItem>
-                                <SelectItem value="45">45 minutes</SelectItem>
-                                <SelectItem value="60">60 minutes</SelectItem>
-                                <SelectItem value="90">90 minutes</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
                         </div>
                         <DialogFooter>
                           <Button type="submit" className="bg-blue-600 hover:bg-blue-700">Créer le créneau</Button>
