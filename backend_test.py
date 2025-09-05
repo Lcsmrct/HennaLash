@@ -210,7 +210,7 @@ class SalonBookingTester:
             self.log_test("Admin User Login", False, "Admin login failed", result)
     
     async def test_auth_me_endpoint(self):
-        """Test 4: /auth/me endpoint with valid tokens"""
+        """Test 5: /auth/me endpoint with valid tokens"""
         # Test client token
         if self.client_token:
             result = await self.make_request("GET", "/auth/me", token=self.client_token)
