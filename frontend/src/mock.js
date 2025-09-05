@@ -224,7 +224,7 @@ export const mockData = {
     info: {
       title: "Contact Direct",
       phone: "06 12 34 56 78",
-      email: "contact@henne-artisanal.fr",
+      email: "contact@hennalash.fr",
       address: {
         street: "123 Rue de la Beauté",
         city: "75001 Paris"
