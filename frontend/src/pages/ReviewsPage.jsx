@@ -7,6 +7,13 @@ import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import axios from 'axios';
 
+// Cache pour les avis - durée de vie 5 minutes
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+let reviewsCache = {
+  data: null,
+  timestamp: null
+};
+
 const ReviewsPage = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,8 +28,25 @@ const ReviewsPage = () => {
   const fetchApprovedReviews = async () => {
     try {
       setLoading(true);
+      
+      // Vérifier le cache d'abord
+      const now = Date.now();
+      if (reviewsCache.data && reviewsCache.timestamp && (now - reviewsCache.timestamp) < CACHE_DURATION) {
+        setReviews(reviewsCache.data);
+        setLoading(false);
+        return;
+      }
+      
       const response = await axios.get(`${API_BASE_URL}/api/reviews?approved_only=true`);
-      setReviews(response.data);
+      const reviewsData = response.data;
+      
+      // Mettre en cache
+      reviewsCache = {
+        data: reviewsData,
+        timestamp: now
+      };
+      
+      setReviews(reviewsData);
     } catch (error) {
       console.error('Error fetching reviews:', error);
       setReviews([]);
