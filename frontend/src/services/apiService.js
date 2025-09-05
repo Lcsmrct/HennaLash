@@ -92,23 +92,23 @@ export const apiService = {
   getDashboardData: async (userRole = 'client') => {
     if (userRole === 'admin') {
       const [appointments, slots, reviews] = await Promise.all([
-        apiService.getAppointments(),
-        apiService.getSlots(),
-        apiService.getAllReviews()
+        apiClient.get('/api/appointments'),
+        apiClient.get('/api/slots'),
+        apiClient.get('/api/reviews')
       ]);
       return {
-        appointments,
-        slots,
-        reviews
+        appointments: appointments.data,
+        slots: slots.data,
+        reviews: reviews.data
       };
     } else {
       const [appointments, slots] = await Promise.all([
-        apiService.getAppointments(),
-        apiService.getSlots(true)
+        apiClient.get('/api/appointments'),
+        apiClient.get('/api/slots?available_only=true')
       ]);
       return {
-        appointments,
-        slots
+        appointments: appointments.data,
+        slots: slots.data
       };
     }
   }
