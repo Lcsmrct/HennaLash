@@ -116,14 +116,66 @@ const Navigation = () => {
 
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <button className="bg-gray-100 p-2 rounded-md text-gray-600 hover:text-orange-600 hover:bg-gray-200 transition-colors">
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+            <button 
+              onClick={toggleMobileMenu}
+              className="bg-gray-100 p-2 rounded-md text-gray-600 hover:text-orange-600 hover:bg-gray-200 transition-colors"
+              aria-label="Toggle mobile menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
             </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile menu overlay */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm shadow-lg border-t border-gray-200">
+            {navigationItems.map((item, index) => {
+              const isActive = location.pathname === item.href;
+              
+              if (item.onClick) {
+                // For logout button
+                return (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      item.onClick();
+                      closeMobileMenu();
+                    }}
+                    className="flex items-center gap-2 w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-gray-50 transition-colors duration-200 rounded-md"
+                  >
+                    {item.icon && getIcon(item.icon)}
+                    {item.label}
+                  </button>
+                );
+              }
+              
+              return (
+                <Link
+                  key={index}
+                  to={item.href}
+                  onClick={closeMobileMenu}
+                  className={`flex items-center gap-2 px-3 py-2 text-base font-medium transition-colors duration-200 rounded-md ${
+                    isActive
+                      ? 'text-orange-600 bg-orange-50'
+                      : 'text-gray-700 hover:text-orange-600 hover:bg-gray-50'
+                  }`}
+                >
+                  {item.icon && getIcon(item.icon)}
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
