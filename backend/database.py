@@ -21,19 +21,25 @@ async def close_db_connection():
 
 # Initialize indexes for better performance
 async def create_indexes():
-    """Create database indexes."""
+    """Create database indexes for better performance."""
     # Users indexes
     await db.users.create_index("email", unique=True)
+    await db.users.create_index("id", unique=True)
     
     # Appointments indexes
     await db.appointments.create_index("user_id")
     await db.appointments.create_index("slot_id")
     await db.appointments.create_index("status")
+    await db.appointments.create_index("id", unique=True)
     
     # Time slots indexes
     await db.time_slots.create_index("date")
     await db.time_slots.create_index("is_available")
+    await db.time_slots.create_index("id", unique=True)
     
-    # Reviews indexes
+    # Reviews indexes - optimized for faster queries
     await db.reviews.create_index("user_id")
     await db.reviews.create_index("status")
+    await db.reviews.create_index("id", unique=True)
+    await db.reviews.create_index([("status", 1), ("created_at", -1)])  # Compound index for approved reviews sorted by date
+    await db.reviews.create_index("created_at", direction=-1)  # For sorting by most recent
