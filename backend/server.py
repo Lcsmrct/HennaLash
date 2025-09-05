@@ -342,8 +342,8 @@ async def create_review(
 @api_router.get("/reviews", response_model=List[ReviewResponse])
 async def get_reviews(
     approved_only: bool = True,
-    current_user: Optional[User] = Depends(get_current_active_user_with_db),
-    db = Depends(get_db)
+    db = Depends(get_db),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)
 ):
     """Get reviews (approved only for public, all for admin)."""
     query = {}
