@@ -131,5 +131,60 @@ Système de réservation
         
         return await self.send_email(admin_email, subject, body, html_body)
 
+    async def send_appointment_confirmation_to_client(self, client_email: str, client_name: str, 
+                                                    service_name: str, appointment_date: str, 
+                                                    appointment_time: str, service_price: float):
+        """Send appointment confirmation to client when admin confirms."""
+        subject = f"Confirmation de votre rendez-vous - {service_name}"
+        
+        body = f"""
+Bonjour {client_name},
+
+Excellente nouvelle ! Votre rendez-vous a été confirmé :
+
+Service: {service_name}
+Date: {appointment_date}
+Heure: {appointment_time}
+Prix: {service_price}€
+
+Nous avons hâte de vous accueillir !
+
+En cas de besoin, n'hésitez pas à nous contacter.
+
+Cordialement,
+L'équipe Henné Artisanal
+        """
+        
+        html_body = f"""
+        <html>
+        <body style="font-family: Arial, sans-serif; color: #333;">
+            <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+                <h2 style="color: #e67e22;">✅ Rendez-vous Confirmé !</h2>
+                <p>Bonjour <strong>{client_name}</strong>,</p>
+                <p>Excellente nouvelle ! Votre rendez-vous a été confirmé :</p>
+                
+                <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 10px 0;"><strong>🎨 Service:</strong> {service_name}</li>
+                        <li style="margin: 10px 0;"><strong>📅 Date:</strong> {appointment_date}</li>
+                        <li style="margin: 10px 0;"><strong>🕐 Heure:</strong> {appointment_time}</li>
+                        <li style="margin: 10px 0;"><strong>💰 Prix:</strong> {service_price}€</li>
+                    </ul>
+                </div>
+                
+                <p>Nous avons hâte de vous accueillir !</p>
+                <p>En cas de besoin, n'hésitez pas à nous contacter.</p>
+                <p>Cordialement,<br><strong>L'équipe Henné Artisanal</strong></p>
+                
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666;">
+                    <p>Cet email a été envoyé automatiquement suite à la confirmation de votre rendez-vous.</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+        
+        return await self.send_email(client_email, subject, body, html_body)
+
 # Global email service instance
 email_service = EmailService()
