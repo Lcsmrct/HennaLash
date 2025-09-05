@@ -162,10 +162,10 @@ const ContactPage = () => {
                           <SelectValue placeholder="Choisissez votre service" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Henné Simple - 25€">Henné Simple - 25€</SelectItem>
-                          <SelectItem value="Henné Traditionnel - 45€">Henné Traditionnel - 45€</SelectItem>
-                          <SelectItem value="Henné Mariée - 120€">Henné Mariée - 120€</SelectItem>
-                          <SelectItem value="Atelier Groupe">Atelier Groupe</SelectItem>
+                          <SelectItem value="Mains Très Simple - 5€">Mains Très Simple - 5€</SelectItem>
+                          <SelectItem value="Simple - 8€">Simple - 8€</SelectItem>
+                          <SelectItem value="Chargé - 12€">Chargé - 12€</SelectItem>
+                          <SelectItem value="Mariée - 20€">Mariée - 20€</SelectItem>
                           <SelectItem value="Autre demande">Autre demande</SelectItem>
                         </SelectContent>
                       </Select>
