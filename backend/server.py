@@ -307,6 +307,30 @@ async def update_appointment_status(
             {"$set": {"is_available": True}}
         )
     
+    # Send confirmation email to client when admin confirms appointment
+    if update_data.status == AppointmentStatus.CONFIRMED:
+        try:
+            # Get user and slot details
+            user = await db.users.find_one({"id": appointment["user_id"]})
+            slot = await db.time_slots.find_one({"id": appointment["slot_id"]})
+            
+            if user and slot:
+                user_name = f"{user['first_name']} {user['last_name']}"
+                slot_obj = TimeSlot(**slot)
+                appointment_date = slot_obj.date.strftime("%d/%m/%Y")
+                appointment_time = f"{slot_obj.start_time} - {slot_obj.end_time}"
+                
+                await email_service.send_appointment_confirmation_to_client(
+                    client_email=user["email"],
+                    client_name=user_name,
+                    service_name=appointment.get("service_name", "Service"),
+                    appointment_date=appointment_date,
+                    appointment_time=appointment_time,
+                    service_price=appointment.get("service_price", 0)
+                )
+        except Exception as e:
+            logger.warning(f"Failed to send confirmation email to client: {str(e)}")
+    
     updated_appointment = await db.appointments.find_one({"id": appointment_id})
     return AppointmentResponse(**updated_appointment)
 
