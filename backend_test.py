@@ -105,27 +105,45 @@ class SalonBookingTester:
             self.log_test("API Health Check", False, "API health check failed", result)
     
     async def test_ping_endpoint(self):
-        """Test 2: Ping Endpoint (GET and HEAD methods)"""
-        # Test GET /api/ping
+        """Test 2: Ping Endpoint (GET and HEAD methods) - Keep-alive Feature"""
+        # Test GET /api/ping with performance measurement
+        start_time = datetime.now()
         result = await self.make_request("GET", "/ping")
+        end_time = datetime.now()
+        response_time = (end_time - start_time).total_seconds()
         
         if result["success"] and result["data"].get("status") == "Ok":
-            self.log_test("Ping Endpoint (GET)", True, "GET /api/ping responds with status 'Ok'")
+            self.log_test("Ping Endpoint (GET)", True, 
+                         f"GET /api/ping responds with status 'Ok'. Response time: {response_time:.2f}s")
         else:
             self.log_test("Ping Endpoint (GET)", False, "GET /api/ping failed or incorrect response", result)
         
-        # Test HEAD /api/ping
+        # Test HEAD /api/ping with performance measurement
         try:
             url = f"{API_BASE_URL}/ping"
             headers = {"Content-Type": "application/json"}
             
+            start_time = datetime.now()
             async with self.session.head(url, headers=headers) as response:
+                end_time = datetime.now()
+                head_response_time = (end_time - start_time).total_seconds()
+                
                 if response.status == 200:
-                    self.log_test("Ping Endpoint (HEAD)", True, "HEAD /api/ping responds correctly with status 200")
+                    self.log_test("Ping Endpoint (HEAD)", True, 
+                                 f"HEAD /api/ping responds correctly with status 200. Response time: {head_response_time:.2f}s")
                 else:
-                    self.log_test("Ping Endpoint (HEAD)", False, f"HEAD /api/ping returned status {response.status}", {"status": response.status})
+                    self.log_test("Ping Endpoint (HEAD)", False, 
+                                 f"HEAD /api/ping returned status {response.status}", {"status": response.status})
         except Exception as e:
             self.log_test("Ping Endpoint (HEAD)", False, "HEAD /api/ping request failed", {"error": str(e)})
+        
+        # Test performance requirements for keep-alive (< 2 seconds)
+        if response_time < 2.0 and 'head_response_time' in locals() and head_response_time < 2.0:
+            self.log_test("Keep-alive Performance", True, 
+                         f"Both GET ({response_time:.2f}s) and HEAD ({head_response_time:.2f}s) < 2s requirement")
+        else:
+            self.log_test("Keep-alive Performance", False, 
+                         f"Performance issue: GET {response_time:.2f}s, HEAD {head_response_time:.2f}s")
     
     async def test_user_registration(self):
         """Test 3: User Registration"""
