@@ -104,6 +104,29 @@ class SalonBookingTester:
         else:
             self.log_test("API Health Check", False, "API health check failed", result)
     
+    async def test_ping_endpoint(self):
+        """Test 2: Ping Endpoint (GET and HEAD methods)"""
+        # Test GET /api/ping
+        result = await self.make_request("GET", "/ping")
+        
+        if result["success"] and result["data"].get("status") == "Ok":
+            self.log_test("Ping Endpoint (GET)", True, "GET /api/ping responds with status 'Ok'")
+        else:
+            self.log_test("Ping Endpoint (GET)", False, "GET /api/ping failed or incorrect response", result)
+        
+        # Test HEAD /api/ping
+        try:
+            url = f"{API_BASE_URL}/ping"
+            headers = {"Content-Type": "application/json"}
+            
+            async with self.session.head(url, headers=headers) as response:
+                if response.status == 200:
+                    self.log_test("Ping Endpoint (HEAD)", True, "HEAD /api/ping responds correctly with status 200")
+                else:
+                    self.log_test("Ping Endpoint (HEAD)", False, f"HEAD /api/ping returned status {response.status}", {"status": response.status})
+        except Exception as e:
+            self.log_test("Ping Endpoint (HEAD)", False, "HEAD /api/ping request failed", {"error": str(e)})
+    
     async def test_user_registration(self):
         """Test 2: User Registration"""
         # Register client user
