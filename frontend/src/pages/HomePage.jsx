@@ -4,7 +4,6 @@ import HeroSection from '../components/HeroSection';
 import FeaturesSection from '../components/FeaturesSection';
 import CTASection from '../components/CTASection';
 import PricingSection from '../components/PricingSection';
-import TestimonialsSection from '../components/TestimonialsSection';
 
 const HomePage = () => {
   return (
@@ -14,7 +13,6 @@ const HomePage = () => {
       <FeaturesSection />
       <CTASection />
       <PricingSection />
-      <TestimonialsSection />
     </div>
   );
 };
