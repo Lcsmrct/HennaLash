@@ -20,6 +20,14 @@ const Navigation = () => {
     }
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   // Filter navigation items based on auth state
   const getNavigationItems = () => {
     if (isAuthenticated) {
