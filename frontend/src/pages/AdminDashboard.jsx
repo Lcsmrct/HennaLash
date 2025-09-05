@@ -78,8 +78,7 @@ const AdminDashboard = () => {
       setShowSlotDialog(false);
       setSlotForm({
         date: '',
-        time: '',
-        service_duration: 60
+        time: ''
       });
       
       fetchData();
