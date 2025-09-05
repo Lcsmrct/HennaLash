@@ -75,14 +75,28 @@ const BookingDetailsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Combiner toutes les informations dans les notes
-      const notes = `
-Instagram: ${bookingForm.instagram}
-Lieu: ${bookingForm.lieu}
-Nombre de personnes: ${bookingForm.nombre_personnes}
-Informations supplémentaires: ${bookingForm.informations_supplementaires}
-Notes: ${bookingForm.notes}
-      `.trim();
+      // Combiner toutes les informations dans les notes avec un formatage amélioré
+      const notesArray = [];
+      
+      if (bookingForm.instagram) {
+        notesArray.push(`📱 Instagram: ${bookingForm.instagram}`);
+      }
+      
+      if (bookingForm.lieu) {
+        notesArray.push(`📍 Lieu: ${bookingForm.lieu}`);
+      }
+      
+      notesArray.push(`👥 Nombre de personnes: ${bookingForm.nombre_personnes}`);
+      
+      if (bookingForm.informations_supplementaires) {
+        notesArray.push(`ℹ️ Informations supplémentaires:\n${bookingForm.informations_supplementaires}`);
+      }
+      
+      if (bookingForm.notes) {
+        notesArray.push(`📝 Notes:\n${bookingForm.notes}`);
+      }
+      
+      const notes = notesArray.join('\n\n');
 
       await axios.post(`${API_BASE_URL}/api/appointments`, {
         slot_id: slotId,
