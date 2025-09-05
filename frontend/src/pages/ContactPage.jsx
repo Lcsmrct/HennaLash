@@ -163,7 +163,6 @@ const ContactPage = () => {
                           <SelectValue placeholder="Choisissez votre service" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Mains Très Simple - 5€">Mains Très Simple - 5€</SelectItem>
                           <SelectItem value="Simple - 8€">Simple - 8€</SelectItem>
                           <SelectItem value="Chargé - 12€">Chargé - 12€</SelectItem>
                           <SelectItem value="Mariée - 20€">Mariée - 20€</SelectItem>
