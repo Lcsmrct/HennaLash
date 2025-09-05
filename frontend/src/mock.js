@@ -61,9 +61,14 @@ export const mockData = {
         icon: "heart",
         name: "Très simple",
         price: "5€",
-        duration: "",
+        duration: "Durée: 10-15 min",
         description: "Design sur un doigt",
-        features: [],
+        features: [
+          "Design simple sur un doigt",
+          "Motifs traditionnels",
+          "Henné premium",
+          "Conseils personnalisés"
+        ],
         buttonText: "Réserver",
         popular: false
       },
@@ -71,9 +76,14 @@ export const mockData = {
         icon: "heart",
         name: "Simple",
         price: "8€",
-        duration: "",
-        description: "",
-        features: [],
+        duration: "Durée: 20-30 min",
+        description: "Designs simples et élégants pour toute occasion",
+        features: [
+          "Design simple sur une main",
+          "Motifs traditionnels",
+          "Henné premium",
+          "Conseils personnalisés"
+        ],
         buttonText: "Réserver",
         popular: true
       },
@@ -81,9 +91,14 @@ export const mockData = {
         icon: "star",
         name: "Chargé",
         price: "12€",
-        duration: "",
-        description: "",
-        features: [],
+        duration: "Durée: 45min - 1h",
+        description: "Créations détaillées et ornementées",
+        features: [
+          "Design sur les deux mains",
+          "Motifs complexes",
+          "Henné premium",
+          "Photos incluses"
+        ],
         buttonText: "Réserver",
         popular: false
       },
@@ -91,9 +106,15 @@ export const mockData = {
         icon: "crown",
         name: "Mariée",
         price: "20€",
-        duration: "",
-        description: "",
-        features: [],
+        duration: "Durée: 1h - 1h30",
+        description: "Service spécial mariée avec motifs exceptionnels",
+        features: [
+          "Mains et avant-bras",
+          "Designs personnalisés",
+          "Henné de luxe",
+          "Service privilégié",
+          "Séance photo incluse"
+        ],
         buttonText: "Réserver",
         popular: false
       }
