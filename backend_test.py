@@ -172,7 +172,7 @@ class SalonBookingTester:
             self.log_test("Admin User Registration", False, "Admin registration failed", result)
     
     async def test_user_login(self):
-        """Test 3: User Login & JWT Tokens"""
+        """Test 4: User Login & JWT Tokens"""
         # Login client user
         client_login = {
             "email": "sarah.johnson@email.com",
