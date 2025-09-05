@@ -238,7 +238,7 @@ class SalonBookingTester:
                 self.log_test("Admin Auth Me Endpoint", False, "Admin auth/me failed", result)
     
     async def test_time_slots_management(self):
-        """Test 5: Time Slots Management (Admin only)"""
+        """Test 6: Time Slots Management (Admin only)"""
         if not self.admin_token:
             self.log_test("Time Slots Management", False, "No admin token available")
             return
