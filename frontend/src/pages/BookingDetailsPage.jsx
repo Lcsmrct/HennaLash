@@ -221,6 +221,39 @@ const BookingDetailsPage = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Service Selection */}
+                <div className="space-y-3">
+                  <Label className="text-lg font-semibold">🎨 Choisissez votre service</Label>
+                  <div className="grid gap-3">
+                    {services.map((service) => (
+                      <div 
+                        key={service.name}
+                        className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                          bookingForm.service_name === service.name 
+                            ? 'border-orange-500 bg-orange-50' 
+                            : 'border-gray-200 hover:border-orange-300'
+                        }`}
+                        onClick={() => setBookingForm({
+                          ...bookingForm, 
+                          service_name: service.name, 
+                          service_price: service.price
+                        })}
+                      >
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <h3 className="font-semibold">{service.name}</h3>
+                            <p className="text-sm text-gray-600">{service.description}</p>
+                            <p className="text-xs text-gray-500">{service.duration}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-xl font-bold text-orange-600">{service.price}€</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="instagram" className="flex items-center">
                     <Instagram className="mr-2 h-4 w-4" />
