@@ -24,8 +24,6 @@ const ClientDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
 
-  const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
-
   // Redirect if not authenticated or is admin
   if (!isAuthenticated) {
     return <Navigate to="/connexion" replace />;
