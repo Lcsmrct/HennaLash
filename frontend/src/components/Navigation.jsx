@@ -17,31 +17,7 @@ const Navigation = () => {
     }
   };
 
-  const handleNavClick = (item, index) => {
-    // Handle special navigation for sections on homepage
-    if (item.href === '/tarifs' && location.pathname === '/') {
-      // Scroll to pricing section on homepage
-      document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
-    
-    if (item.href === '/avis' && location.pathname === '/') {
-      // Scroll to testimonials section on homepage  
-      document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
 
-    // For tarifs and avis, if not on homepage, go to homepage first then scroll
-    if (item.href === '/tarifs' && location.pathname !== '/') {
-      window.location.href = '/#pricing';
-      return;
-    }
-    
-    if (item.href === '/avis' && location.pathname !== '/') {
-      window.location.href = '/#testimonials';
-      return;
-    }
-  };
 
   return (
     <nav className="bg-white/95 backdrop-blur-sm shadow-sm fixed top-0 left-0 right-0 z-50">
