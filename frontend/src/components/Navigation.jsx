@@ -25,7 +25,7 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-orange-600">Henné Artisanal</h1>
+            <h1 className="text-2xl font-bold text-orange-600">HennaLash</h1>
           </Link>
 
           {/* Navigation Links */}
