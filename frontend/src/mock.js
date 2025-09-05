@@ -195,7 +195,6 @@ export const mockData = {
         { name: 'phone', label: 'Téléphone', type: 'tel', required: true, placeholder: '06 12 34 56 78' },
         { name: 'service', label: 'Service souhaité', type: 'select', required: true, options: [
           'Choisissez votre service',
-          'Mains Très Simple - 5€',
           'Simple - 8€',
           'Chargé - 12€',
           'Mariée - 20€',
