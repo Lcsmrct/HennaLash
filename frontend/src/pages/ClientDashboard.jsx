@@ -60,26 +60,8 @@ const ClientDashboard = () => {
     }
   };
 
-  const bookAppointment = async (slotId) => {
-    try {
-      await axios.post(`${API_BASE_URL}/api/appointments`, {
-        slot_id: slotId
-      });
-      
-      toast({
-        title: "Succès",
-        description: "Rendez-vous réservé avec succès !"
-      });
-      
-      fetchData(); // Refresh data
-    } catch (error) {
-      console.error('Error booking appointment:', error);
-      toast({
-        title: "Erreur",
-        description: error.response?.data?.detail || "Impossible de réserver le rendez-vous",
-        variant: "destructive"
-      });
-    }
+  const goToBookingDetails = (slotId) => {
+    navigate(`/reserver/${slotId}`);
   };
 
   const submitReview = async (e) => {
