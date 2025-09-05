@@ -68,7 +68,7 @@ const ClientDashboard = () => {
   const submitReview = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE_URL}/api/reviews`, reviewForm);
+      await apiService.post('/api/reviews', reviewForm);
       
       toast({
         title: "Succès",
