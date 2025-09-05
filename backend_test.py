@@ -127,10 +127,10 @@ class SalonBookingTester:
         else:
             self.log_test("Client User Registration", False, "Client registration failed", result)
         
-        # Register admin user
+        # Register admin user (should already exist)
         admin_data = {
             "email": "admin@salon.com",
-            "password": "AdminPass123!",
+            "password": "Admin123!",
             "first_name": "Admin",
             "last_name": "User",
             "phone": "+1-555-0100"
