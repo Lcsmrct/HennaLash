@@ -59,7 +59,7 @@ const PricingPage = () => {
           </div>
 
           {/* Pricing Cards */}
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
+          <div className="grid md:grid-cols-4 gap-6 max-w-7xl mx-auto mb-16">
             {pricing.plans.map((plan, index) => (
               <Card 
                 key={index}
