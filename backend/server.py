@@ -319,6 +319,21 @@ async def create_review(
     
     await db.reviews.insert_one(review.dict())
     
+    # Send email notification to admin
+    try:
+        # Get admin users
+        admin_users = await db.users.find({"role": "admin"}).to_list(10)
+        for admin in admin_users:
+            user_name = f"{current_user.first_name} {current_user.last_name}"
+            await email_service.send_review_notification(
+                admin_email=admin["email"],
+                user_name=user_name,
+                rating=review_data.rating,
+                comment=review_data.comment
+            )
+    except Exception as e:
+        logger.warning(f"Failed to send review notification: {str(e)}")
+    
     response = ReviewResponse(**review.dict())
     response.user_name = f"{current_user.first_name} {current_user.last_name}"
     
