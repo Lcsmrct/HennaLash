@@ -536,6 +536,7 @@ class SalonBookingTester:
         
         # Run tests in sequence
         await self.test_api_health_check()
+        await self.test_ping_endpoint()
         await self.test_user_registration()
         await self.test_user_login()
         await self.test_auth_me_endpoint()
