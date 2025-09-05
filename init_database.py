@@ -54,8 +54,8 @@ class DatabaseInitializer:
         print("🔧 Creating admin user...")
         
         admin_data = {
-            "email": "admin@hennalash.fr",
-            "password": "HennaAdmin2025!",
+            "email": "admin@salon.com",
+            "password": "Admin123!",
             "first_name": "Alicia",
             "last_name": "Admin",
             "phone": "+33 6 12 34 56 78"
