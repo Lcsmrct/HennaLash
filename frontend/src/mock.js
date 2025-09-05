@@ -59,13 +59,13 @@ export const mockData = {
     plans: [
       {
         icon: "heart",
-        name: "Henné Simple",
-        price: "25€",
-        duration: "Durée: 30-45 min",
-        description: "Motifs simples et élégants pour une occasion spéciale",
+        name: "Mains Très Simple",
+        price: "5€",
+        duration: "Durée: 15-20 min",
+        description: "Motifs très simples et délicats pour débuter",
         features: [
-          "Design simple sur une main",
-          "Motifs traditionnels",
+          "Design minimaliste",
+          "Motifs basiques",
           "Henné 100% naturel",
           "Conseils d'entretien"
         ],
@@ -74,34 +74,46 @@ export const mockData = {
       },
       {
         icon: "star",
-        name: "Henné Traditionnel",
-        price: "45€",
-        duration: "Durée: 1h - 1h30",
-        description: "Créations détaillées inspirées des traditions ancestrales",
+        name: "Simple",
+        price: "8€",
+        duration: "Durée: 20-30 min",
+        description: "Designs simples et élégants pour toute occasion",
         features: [
-          "Design sur les deux mains",
-          "Motifs traditionnels complexes",
+          "Design simple sur une main",
+          "Motifs traditionnels",
           "Henné premium",
-          "Photos professionnelles",
-          "Kit d'entretien offert"
+          "Conseils personnalisés"
         ],
         buttonText: "Réserver",
         popular: true
       },
       {
+        icon: "star",
+        name: "Chargé",
+        price: "12€",
+        duration: "Durée: 45min - 1h",
+        description: "Créations détaillées et ornementées",
+        features: [
+          "Design sur les deux mains",
+          "Motifs complexes",
+          "Henné premium",
+          "Photos incluses"
+        ],
+        buttonText: "Réserver",
+        popular: false
+      },
+      {
         icon: "crown",
-        name: "Henné Mariée",
-        price: "120€",
-        duration: "Durée: 3h - 4h",
-        description: "Service complet pour votre jour J avec des motifs exceptionnels",
+        name: "Mariée",
+        price: "20€",
+        duration: "Durée: 1h - 1h30",
+        description: "Service spécial mariée avec motifs exceptionnels",
         features: [
           "Mains et avant-bras",
-          "Pieds et chevilles",
           "Designs personnalisés",
           "Henné de luxe",
-          "Service à domicile",
-          "Séance photo incluse",
-          "Retouches le lendemain"
+          "Service privilégié",
+          "Séance photo incluse"
         ],
         buttonText: "Réserver",
         popular: false
