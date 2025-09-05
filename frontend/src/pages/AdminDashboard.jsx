@@ -84,9 +84,9 @@ const AdminDashboard = () => {
         date: '',
         start_time: '',
         end_time: '',
-        service_name: '',
+        service_name: 'Henné Artisanal',
         service_duration: 60,
-        price: 50
+        price: 12
       });
       
       fetchData();
