@@ -49,14 +49,11 @@ const ClientDashboard = () => {
 
   const fetchData = async () => {
     try {
-      setLoading(true);
-      const [appointmentsRes, slotsRes] = await Promise.all([
-        apiService.get('/api/appointments'),
-        apiService.get('/api/slots?available_only=true')
-      ]);
-      
-      setAppointments(appointmentsRes.data);
-      setAvailableSlots(slotsRes.data);
+      await refreshData();
+      toast({
+        title: "Succès",
+        description: "Données actualisées",
+      });
     } catch (error) {
       console.error('Error fetching data:', error);
       toast({
@@ -64,8 +61,6 @@ const ClientDashboard = () => {
         description: "Impossible de charger les données",
         variant: "destructive"
       });
-    } finally {
-      setLoading(false);
     }
   };
 
