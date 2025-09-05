@@ -229,7 +229,7 @@ const ClientDashboard = () => {
                     {availableSlots.map((slot) => (
                       <Card key={slot.id} className="cursor-pointer hover:shadow-md transition-shadow">
                         <CardContent className="p-4">
-                          <h3 className="font-semibold mb-2">{slot.service_name}</h3>
+                          <h3 className="font-semibold mb-2">Créneau Disponible</h3>
                           <div className="space-y-2 text-sm text-gray-600">
                             <div className="flex items-center">
                               <Calendar className="mr-1 h-4 w-4" />
@@ -239,8 +239,8 @@ const ClientDashboard = () => {
                               <Clock className="mr-1 h-4 w-4" />
                               {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
                             </div>
-                            <p className="text-lg font-semibold text-primary">
-                              {slot.price}€
+                            <p className="text-sm text-gray-500">
+                              Service à choisir lors de la réservation
                             </p>
                           </div>
                           <Button 
