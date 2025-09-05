@@ -139,7 +139,7 @@ const AdminDashboard = () => {
 
   const updateReviewStatus = async (reviewId, status) => {
     try {
-      await axios.put(`${API_BASE_URL}/api/reviews/${reviewId}`, {
+      await apiService.put(`/api/reviews/${reviewId}`, {
         status: status
       });
       
