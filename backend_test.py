@@ -313,7 +313,7 @@ class SalonBookingTester:
             self.log_test("Admin Endpoint Access Control", False, "Access control failed", result)
     
     async def test_appointments_system(self):
-        """Test 6: Appointments System"""
+        """Test 7: Appointments System"""
         if not self.client_token or not self.created_slot_id:
             self.log_test("Appointments System", False, "Missing client token or slot ID")
             return
