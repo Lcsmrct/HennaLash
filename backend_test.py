@@ -473,7 +473,7 @@ class SalonBookingTester:
                 self.log_test("Update Review Status", False, "Update review failed", result)
     
     async def test_database_operations(self):
-        """Test 8: Database Operations & Data Persistence"""
+        """Test 9: Database Operations & Data Persistence"""
         # Test data persistence by retrieving created data
         persistence_tests = []
         
