@@ -37,6 +37,34 @@ const AdminDashboard = () => {
     return <Navigate to="/mon-espace" replace />;
   }
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const [appointmentsRes, slotsRes, reviewsRes] = await Promise.all([
+        apiService.getAppointments(),
+        apiService.getSlots(),
+        apiService.getAllReviews()
+      ]);
+      
+      setAppointments(appointmentsRes);
+      setSlots(slotsRes);
+      setReviews(reviewsRes);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de charger les données",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const createSlot = async (e) => {
     e.preventDefault();
     try {
