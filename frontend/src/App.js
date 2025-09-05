@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ContactPage from "./pages/ContactPage";
 import GalleryPage from "./pages/GalleryPage";
+import PricingPage from "./pages/PricingPage";
+import ReviewsPage from "./pages/ReviewsPage";
 import { Toaster } from "./components/ui/toaster";
 
 function App() {
@@ -14,8 +16,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/reserver" element={<ContactPage />} />
           <Route path="/galerie" element={<GalleryPage />} />
-          <Route path="/tarifs" element={<HomePage />} />
-          <Route path="/avis" element={<HomePage />} />
+          <Route path="/tarifs" element={<PricingPage />} />
+          <Route path="/avis" element={<ReviewsPage />} />
           <Route path="/mon-espace" element={<HomePage />} />
           <Route path="/deconnexion" element={<HomePage />} />
         </Routes>
