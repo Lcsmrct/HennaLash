@@ -320,6 +320,42 @@ frontend:
         agent: "main"
         comment: "Clients can submit reviews via 'Laisser un Avis' tab with rating and comment"
 
+  - task: "Frontend Service Selection UI"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/pages/BookingDetailsPage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Added service selection UI with 4 services (Très simple 5€, Simple 8€, Chargé 12€, Mariée 20€). Updated appointment creation to include service choice."
+
+  - task: "Frontend Admin Slot Creation Simplified"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/pages/AdminDashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true  
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Simplified slot creation form: removed start_time/end_time fields, added single time field + duration selector. Updated form state management."
+
+  - task: "Frontend Appointment Display Updates"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/pages/ClientDashboard.jsx, /app/frontend/src/pages/AdminDashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Updated appointment displays to show service_name and service_price instead of slot info. Modified both client and admin dashboards."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
