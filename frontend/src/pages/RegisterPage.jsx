@@ -74,23 +74,36 @@ const RegisterPage = () => {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 to-indigo-100 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="space-y-1">
-            <div className="flex justify-center mb-4">
-              <CheckCircle className="h-12 w-12 text-green-500" />
+      <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
+        <Navigation />
+        
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80')`,
+            }}
+          >
+            <div className="absolute inset-0 bg-black/60"></div>
+          </div>
+
+          <div className="relative z-10 w-full max-w-md mx-auto px-6">
+            <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 text-center">
+              <div className="flex justify-center mb-6">
+                <CheckCircle className="h-16 w-16 text-green-500" />
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">Inscription réussie !</h1>
+              <p className="text-gray-600 mb-8">
+                Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.
+              </p>
+              <Link to="/connexion" className="w-full block">
+                <Button className="w-full h-12 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  Se connecter maintenant
+                </Button>
+              </Link>
             </div>
-            <CardTitle className="text-2xl font-bold text-center">Inscription réussie !</CardTitle>
-            <CardDescription className="text-center">
-              Votre compte a été créé avec succès.
-            </CardDescription>
-          </CardHeader>
-          <CardFooter>
-            <Link to="/connexion" className="w-full">
-              <Button className="w-full">Se connecter</Button>
-            </Link>
-          </CardFooter>
-        </Card>
+          </div>
+        </section>
       </div>
     );
   }
