@@ -107,7 +107,7 @@ const AdminDashboard = () => {
         description: "Rendez-vous supprimé !"
       });
       
-      fetchData();
+      refreshData();
     } catch (error) {
       console.error('Error deleting appointment:', error);
       toast({
