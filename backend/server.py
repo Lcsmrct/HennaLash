@@ -346,6 +346,13 @@ async def get_reviews(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)
 ):
     """Get reviews (approved only for public, all for admin)."""
+    current_user = None
+    if credentials:
+        try:
+            current_user = await get_current_user(credentials, db)
+        except:
+            pass
+    
     query = {}
     if approved_only and (not current_user or current_user.role != UserRole.ADMIN):
         query["status"] = ReviewStatus.APPROVED
