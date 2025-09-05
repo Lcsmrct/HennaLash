@@ -569,6 +569,7 @@ class SalonBookingTester:
         
         print("🎯 KEY FUNCTIONALITY TESTED:")
         print("  ✓ API Health Check")
+        print("  ✓ Ping Endpoint (GET & HEAD methods)")
         print("  ✓ User Registration (Client & Admin)")
         print("  ✓ JWT Authentication & Login")
         print("  ✓ Protected Endpoints (/auth/me)")
