@@ -76,10 +76,7 @@ export const mockData = {
         duration: "Durée: 20-30 min",
         description: "Designs simples et élégants pour toute occasion",
         features: [
-          "Design simple sur une main",
-          "Motifs traditionnels",
-          "Henné premium",
-          "Conseils personnalisés"
+          "Design simple sur une main"
         ],
         buttonText: "Réserver",
         popular: true
