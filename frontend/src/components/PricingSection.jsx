@@ -26,7 +26,7 @@ const PricingSection = () => {
   const handleReservation = (planName) => {
     // Store selected plan in localStorage for the contact form
     localStorage.setItem('selectedPlan', planName);
-    window.location.href = '/reserver';
+    window.location.href = '/mon-espace';
   };
 
   return (
