@@ -88,9 +88,7 @@ export const mockData = {
         duration: "Durée: 45min - 1h",
         description: "Créations détaillées et ornementées",
         features: [
-          "Design sur les deux mains",
-          "Motifs complexes",
-          "Photos incluses"
+          "Design sur les deux mains"
         ],
         buttonText: "Réserver",
         popular: false
