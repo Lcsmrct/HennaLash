@@ -108,10 +108,10 @@ class SalonBookingTester:
         """Test 2: User Registration"""
         # Register client user
         client_data = {
-            "email": "test@client.com",
+            "email": "sarah.johnson@email.com",
             "password": "Test123!",
-            "first_name": "Test",
-            "last_name": "Client",
+            "first_name": "Sarah",
+            "last_name": "Johnson",
             "phone": "+1-555-0123"
         }
         
