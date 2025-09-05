@@ -378,24 +378,32 @@ const AdminDashboard = () => {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <Label htmlFor="start_time">Heure début</Label>
+                            <Label htmlFor="time">Heure</Label>
                             <Input
-                              id="start_time"
+                              id="time"
                               type="time"
-                              value={slotForm.start_time}
-                              onChange={(e) => setSlotForm({...slotForm, start_time: e.target.value})}
+                              value={slotForm.time}
+                              onChange={(e) => setSlotForm({...slotForm, time: e.target.value})}
                               required
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label htmlFor="end_time">Heure fin</Label>
-                            <Input
-                              id="end_time"
-                              type="time"
-                              value={slotForm.end_time}
-                              onChange={(e) => setSlotForm({...slotForm, end_time: e.target.value})}
-                              required
-                            />
+                            <Label htmlFor="service_duration">Durée (minutes)</Label>
+                            <Select 
+                              value={slotForm.service_duration.toString()} 
+                              onValueChange={(value) => setSlotForm({...slotForm, service_duration: parseInt(value)})}
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="15">15 minutes</SelectItem>
+                                <SelectItem value="30">30 minutes</SelectItem>
+                                <SelectItem value="45">45 minutes</SelectItem>
+                                <SelectItem value="60">60 minutes</SelectItem>
+                                <SelectItem value="90">90 minutes</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </div>
                         </div>
                         <DialogFooter>
