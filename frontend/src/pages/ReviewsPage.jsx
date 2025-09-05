@@ -28,40 +28,10 @@ const ReviewsPage = () => {
     ));
   };
 
-  const additionalReviews = [
-    {
-      id: 7,
-      name: "Yasmine T.",
-      timeAgo: "Il y a 1 semaine",
-      rating: 5,
-      avatar: "YT",
-      review: "Absolument parfait ! J'ai pris la formule traditionnelle pour mon anniversaire et le résultat était magnifique. L'artiste a su créer exactement ce que j'imaginais. Les motifs sont fins et détaillés, vraiment du travail d'artiste.",
-      service: "Henné Traditionnel"
-    },
-    {
-      id: 8,
-      name: "Khadija B.",
-      timeAgo: "Il y a 2 semaines",
-      rating: 5,
-      avatar: "KB",
-      review: "Service exceptionnel du début à la fin ! Pour mon mariage, j'ai eu droit à un service complet avec des motifs traditionnels magnifiques. L'équipe est professionnelle et l'ambiance très relaxante. Mes invitées n'arrêtaient pas de complimenter !",
-      service: "Henné Mariée"
-    },
-    {
-      id: 9,
-      name: "Sophie L.",
-      timeAgo: "Il y a 3 semaines",
-      rating: 5,
-      avatar: "SL",
-      review: "Première expérience avec le henné et je suis conquise ! Le design simple était parfait pour débuter. L'artiste m'a bien expliqué les soins à apporter et le henné a duré plus de 2 semaines. Je reviendrai certainement !",
-      service: "Henné Simple"
-    }
-  ];
-
-  const allReviews = [...testimonials.reviews, ...additionalReviews];
+  // Only show first 3 reviews
   const displayReviews = selectedService === 'Tous' 
-    ? allReviews 
-    : allReviews.filter(review => review.service.includes(selectedService));
+    ? testimonials.reviews.slice(0, 3)
+    : testimonials.reviews.filter(review => review.service.includes(selectedService)).slice(0, 3);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
