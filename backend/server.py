@@ -360,7 +360,7 @@ async def create_review(
 async def get_reviews(
     approved_only: bool = True,
     db = Depends(get_db),
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False))
 ):
     """Get reviews (approved only for public, all for admin)."""
     current_user = None
