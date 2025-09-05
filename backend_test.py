@@ -152,8 +152,8 @@ class SalonBookingTester:
         """Test 3: User Login & JWT Tokens"""
         # Login client user
         client_login = {
-            "email": "sarah.johnson@email.com",
-            "password": "SecurePass123!"
+            "email": "test@client.com",
+            "password": "Test123!"
         }
         
         result = await self.make_request("POST", "/auth/login", client_login, expect_status=200)
