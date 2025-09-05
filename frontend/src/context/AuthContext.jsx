@@ -81,6 +81,12 @@ export const AuthProvider = ({ children }) => {
       });
       
       setUser(userResponse.data);
+      
+      // Mettre en cache les données utilisateur après login
+      const now = Date.now();
+      localStorage.setItem('cached_user', JSON.stringify(userResponse.data));
+      localStorage.setItem('user_cache_timestamp', now.toString());
+      
       return { success: true, user: userResponse.data };
     } catch (error) {
       console.error('Login failed:', error);
