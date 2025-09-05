@@ -149,7 +149,7 @@ const ReviewsPage = () => {
             ))}
             <div className="group bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all duration-300">
               <div className="text-5xl md:text-6xl font-bold text-orange-600 mb-2 group-hover:scale-110 transition-transform duration-300">
-                9+
+                3
               </div>
               <p className="text-lg text-gray-600 font-medium">
                 Avis récents
