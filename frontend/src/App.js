@@ -29,6 +29,7 @@ function App() {
             <Route path="/inscription" element={<RegisterPage />} />
             <Route path="/mon-espace" element={<ClientDashboard />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/reserver/:slotId" element={<BookingDetailsPage />} />
             {/* Keep legacy route for backward compatibility */}
             <Route path="/deconnexion" element={<HomePage />} />
           </Routes>
