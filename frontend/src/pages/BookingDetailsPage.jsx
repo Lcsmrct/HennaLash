@@ -101,10 +101,6 @@ const BookingDetailsPage = () => {
         notesArray.push(`ℹ️ Informations supplémentaires:\n${bookingForm.informations_supplementaires}`);
       }
       
-      if (bookingForm.notes) {
-        notesArray.push(`📝 Notes:\n${bookingForm.notes}`);
-      }
-      
       const notes = notesArray.join('\n\n');
 
       await axios.post(`${API_BASE_URL}/api/appointments`, {
