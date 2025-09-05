@@ -165,7 +165,41 @@ backend:
         agent: "testing"
         comment: "Reviews system tested successfully - public endpoint works without auth for approved reviews, admin can manage all reviews, complete workflow verified"
 
-  - task: "Logout Redirection Bug Fix"
+  - task: "Database Performance Optimization"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py, /app/backend/database.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Optimized reviews API with MongoDB aggregation pipeline to reduce N+1 queries. Added compound indexes for faster filtering. Limited results to 50 items per page."
+
+  - task: "Frontend Caching System"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/ReviewsPage.jsx, /app/frontend/src/context/AuthContext.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Added client-side caching for reviews (5min cache) and user data (10min cache). Created optimized LoadingSpinner component."
+
+  - task: "Backend /ping Health Check Route"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "Added /api/ping route supporting both GET and HEAD methods, returns {status: 'Ok'}"
     implemented: true
     working: true
     file: "/app/frontend/src/context/AuthContext.jsx"
