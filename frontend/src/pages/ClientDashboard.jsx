@@ -245,7 +245,7 @@ const ClientDashboard = () => {
                           </div>
                           <Button 
                             className="w-full mt-4" 
-                            onClick={() => bookAppointment(slot.id)}
+                            onClick={() => goToBookingDetails(slot.id)}
                           >
                             Réserver
                           </Button>
