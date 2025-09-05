@@ -263,7 +263,7 @@ const ContactPage = () => {
                   </div>
                   <div className="flex items-center gap-3 text-gray-700">
                     <Mail className="w-5 h-5 text-orange-600" />
-                    <span>contact@henne-artisanal.fr</span>
+                    <span>contact@hennalash.fr</span>
                   </div>
                   <div className="flex items-start gap-3 text-gray-700">
                     <MapPin className="w-5 h-5 text-orange-600 mt-1" />
