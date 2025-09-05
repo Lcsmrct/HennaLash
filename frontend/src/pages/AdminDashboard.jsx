@@ -303,6 +303,17 @@ const AdminDashboard = () => {
                                 `${formatTime(appointment.slot_info.start_time)} - ${formatTime(appointment.slot_info.end_time)}` 
                                 : 'Heure non spécifiée'}
                             </div>
+                            {appointment.notes && (
+                              <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                                <h4 className="font-medium text-blue-900 mb-2 flex items-center">
+                                  <MessageSquare className="mr-1 h-4 w-4" />
+                                  Informations Client
+                                </h4>
+                                <div className="text-sm text-blue-800 whitespace-pre-line">
+                                  {appointment.notes}
+                                </div>
+                              </div>
+                            )}
                           </div>
                           <div className="text-right space-y-2">
                             {getStatusBadge(appointment.status)}
