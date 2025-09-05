@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { User, LogOut } from 'lucide-react';
+import { User, LogOut, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { mockData } from '../mock';
 
 const Navigation = () => {
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const getIcon = (iconName) => {
     switch (iconName) {
