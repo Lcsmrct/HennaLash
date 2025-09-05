@@ -27,7 +27,6 @@ const AdminDashboard = () => {
     time: '' // Une seule heure (durée fixe 1h)
   });
 
-  const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
 
   // Redirect if not authenticated or not admin
   if (!isAuthenticated) {
