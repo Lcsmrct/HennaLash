@@ -104,7 +104,6 @@ export const mockData = {
         features: [
           "Mains et avant-bras",
           "Designs personnalisés",
-          "Henné de luxe",
           "Service privilégié",
           "Séance photo incluse"
         ],
