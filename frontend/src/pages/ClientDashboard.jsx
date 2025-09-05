@@ -172,7 +172,7 @@ const ClientDashboard = () => {
                         <div className="flex justify-between items-start">
                           <div className="space-y-2">
                             <h3 className="font-semibold">
-                              {appointment.slot_info?.service_name || 'Service non spécifié'}
+                              {appointment.service_name || 'Service non spécifié'}
                             </h3>
                             <div className="flex items-center text-sm text-gray-600">
                               <Calendar className="mr-1 h-4 w-4" />
