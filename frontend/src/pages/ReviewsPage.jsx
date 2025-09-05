@@ -11,7 +11,7 @@ const ReviewsPage = () => {
   const { testimonials } = mockData;
   const [selectedService, setSelectedService] = useState('Tous');
 
-  const services = ['Tous', 'Henné Simple', 'Henné Traditionnel', 'Henné Mariée', 'Atelier Groupe'];
+  const services = ['Tous', 'Henné Simple', 'Henné Traditionnel', 'Henné Mariée'];
 
   const filteredReviews = selectedService === 'Tous' 
     ? testimonials.reviews 
