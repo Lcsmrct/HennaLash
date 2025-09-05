@@ -106,8 +106,22 @@ async def create_time_slot(
     db = Depends(get_db)
 ):
     """Create a new time slot (Admin only)."""
+    # Calculer end_time basé sur start_time + durée
+    from datetime import datetime, timedelta
+    try:
+        start_time_obj = datetime.strptime(slot_data.time, "%H:%M")
+        end_time_obj = start_time_obj + timedelta(minutes=slot_data.service_duration)
+        end_time_str = end_time_obj.strftime("%H:%M")
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Format d'heure invalide. Utilisez HH:MM")
+    
     time_slot = TimeSlot(
-        **slot_data.dict(),
+        date=slot_data.date,
+        start_time=slot_data.time,
+        end_time=end_time_str,
+        service_name="Disponible",  # Nom générique car le service sera choisi par le client
+        service_duration=slot_data.service_duration,
+        price=0.0,  # Prix sera défini par le client lors de la réservation
         created_by=current_user.id
     )
     await db.time_slots.insert_one(time_slot.dict())
