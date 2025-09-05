@@ -95,7 +95,7 @@ const AdminDashboard = () => {
 
   const updateAppointmentStatus = async (appointmentId, status) => {
     try {
-      await axios.put(`${API_BASE_URL}/api/appointments/${appointmentId}`, {
+      await apiService.put(`/api/appointments/${appointmentId}`, {
         status: status
       });
       
