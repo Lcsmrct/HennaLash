@@ -3,10 +3,10 @@ import { useAuth } from '../context/AuthContext';
 import { Navigate, Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
 import { Label } from '../components/ui/label';
-import { AlertCircle, Loader2, CheckCircle } from 'lucide-react';
+import { AlertCircle, Loader2, CheckCircle, ArrowLeft } from 'lucide-react';
 import { Alert, AlertDescription } from '../components/ui/alert';
+import Navigation from '../components/Navigation';
 
 const RegisterPage = () => {
   const { register, isAuthenticated, user } = useAuth();
