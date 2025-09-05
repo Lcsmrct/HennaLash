@@ -18,10 +18,20 @@ import Navigation from '../components/Navigation';
 const ClientDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  const [appointments, setAppointments] = useState([]);
-  const [availableSlots, setAvailableSlots] = useState([]);
+  // Utilisation du cache pour les données
+  const {
+    data: dashboardData,
+    loading,
+    refresh: refreshData
+  } = useCache(
+    'client-dashboard-data',
+    () => apiService.getDashboardData('client'),
+    3 * 60 * 1000 // Cache pendant 3 minutes
+  );
+
+  const appointments = dashboardData?.appointments || [];
+  const availableSlots = dashboardData?.slots || [];
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
 
   // Redirect if not authenticated or is admin
