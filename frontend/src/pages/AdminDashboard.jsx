@@ -23,8 +23,7 @@ const AdminDashboard = () => {
   const [showSlotDialog, setShowSlotDialog] = useState(false);
   const [slotForm, setSlotForm] = useState({
     date: '',
-    time: '', // Une seule heure
-    service_duration: 60 // Durée par défaut
+    time: '' // Une seule heure (durée fixe 1h)
   });
 
   const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
