@@ -206,6 +206,8 @@ async def create_appointment(
     appointment = Appointment(
         user_id=current_user.id,
         slot_id=appointment_data.slot_id,
+        service_name=appointment_data.service_name,
+        service_price=appointment_data.service_price,
         notes=appointment_data.notes
     )
     
