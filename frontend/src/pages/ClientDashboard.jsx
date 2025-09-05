@@ -16,6 +16,7 @@ import Navigation from '../components/Navigation';
 
 const ClientDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [reviews, setReviews] = useState([]);
