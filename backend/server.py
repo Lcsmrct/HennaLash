@@ -374,18 +374,49 @@ async def get_reviews(
     if approved_only and (not current_user or current_user.role != UserRole.ADMIN):
         query["status"] = ReviewStatus.APPROVED
     
-    reviews = await db.reviews.find(query).sort("created_at", -1).to_list(1000)
+    # Optimized: Use aggregation pipeline to join reviews with users in one query
+    pipeline = [
+        {"$match": query},
+        {"$sort": {"created_at": -1}},
+        {"$limit": 50},  # Limit to improve performance
+        {
+            "$lookup": {
+                "from": "users",
+                "localField": "user_id",
+                "foreignField": "id",
+                "as": "user_info"
+            }
+        },
+        {
+            "$addFields": {
+                "user_name": {
+                    "$cond": {
+                        "if": {"$gt": [{"$size": "$user_info"}, 0]},
+                        "then": {
+                            "$concat": [
+                                {"$arrayElemAt": ["$user_info.first_name", 0]},
+                                " ",
+                                {"$arrayElemAt": ["$user_info.last_name", 0]}
+                            ]
+                        },
+                        "else": "Utilisateur Anonyme"
+                    }
+                }
+            }
+        },
+        {
+            "$project": {
+                "user_info": 0  # Remove the joined user_info array from results
+            }
+        }
+    ]
     
-    # Populate with user info
+    reviews_with_users = await db.reviews.aggregate(pipeline).to_list(50)
+    
+    # Convert to response objects
     result = []
-    for review in reviews:
+    for review in reviews_with_users:
         review_response = ReviewResponse(**review)
-        
-        # Get user info
-        user = await db.users.find_one({"id": review["user_id"]})
-        if user:
-            review_response.user_name = f"{user['first_name']} {user['last_name']}"
-        
         result.append(review_response)
     
     return result
