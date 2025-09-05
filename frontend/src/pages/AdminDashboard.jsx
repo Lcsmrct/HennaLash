@@ -17,20 +17,10 @@ import Navigation from '../components/Navigation';
 
 const AdminDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
-  // Utilisation du cache pour les données
-  const {
-    data: dashboardData,
-    loading,
-    refresh: refreshData
-  } = useCache(
-    'admin-dashboard-data',
-    () => apiService.getDashboardData('admin'),
-    3 * 60 * 1000 // Cache pendant 3 minutes
-  );
-
-  const appointments = dashboardData?.appointments || [];
-  const slots = dashboardData?.slots || [];
-  const reviews = dashboardData?.reviews || [];
+  const [appointments, setAppointments] = useState([]);
+  const [slots, setSlots] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showSlotDialog, setShowSlotDialog] = useState(false);
   const [slotForm, setSlotForm] = useState({
     date: '',
