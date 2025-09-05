@@ -119,7 +119,7 @@ const AdminDashboard = () => {
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce rendez-vous ?')) return;
     
     try {
-      await axios.delete(`${API_BASE_URL}/api/appointments/${appointmentId}`);
+      await apiService.delete(`/api/appointments/${appointmentId}`);
       
       toast({
         title: "Succès",
