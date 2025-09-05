@@ -208,4 +208,4 @@ test_plan:
 
 agent_communication:
   - agent: "main"
-    message: "Fixed DB_NAME configuration and identified that all requested features already exist. Need to test the complete flow: admin creates slots → client books slots → client submits reviews → admin approves reviews"
+    message: "Fixed DB_NAME configuration and identified that all requested features already exist. Fixed 3 user-reported issues: 1) Page blanche après logout (ajouté redirection), 2) Avis validés ne s'affichent pas (corrigé ReviewsPage pour utiliser vraie API), 3) Créneaux restent disponibles après réservation (ajouté vérifications robustes backend). Need to test these fixes."
