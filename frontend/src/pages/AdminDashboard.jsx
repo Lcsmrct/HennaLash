@@ -163,7 +163,7 @@ const AdminDashboard = () => {
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce créneau ?')) return;
     
     try {
-      await axios.delete(`${API_BASE_URL}/api/slots/${slotId}`);
+      await apiService.delete(`/api/slots/${slotId}`);
       
       toast({
         title: "Succès",
