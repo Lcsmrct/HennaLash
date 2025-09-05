@@ -43,8 +43,8 @@ const ClientDashboard = () => {
     try {
       setLoading(true);
       const [appointmentsRes, slotsRes] = await Promise.all([
-        axios.get(`${API_BASE_URL}/api/appointments`),
-        axios.get(`${API_BASE_URL}/api/slots?available_only=true`)
+        apiService.get('/api/appointments'),
+        apiService.get('/api/slots?available_only=true')
       ]);
       
       setAppointments(appointmentsRes.data);
