@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { setupKeepAlive } from '../hooks/useCache';
 
 const AuthContext = createContext();
 
@@ -26,6 +27,12 @@ export const AuthProvider = ({ children }) => {
       delete axios.defaults.headers.common['Authorization'];
     }
   }, [token]);
+
+  // Keep-alive pour éviter la mise en veille du backend
+  useEffect(() => {
+    const cleanupKeepAlive = setupKeepAlive(45000); // Ping toutes les 45 secondes
+    return cleanupKeepAlive;
+  }, []);
 
   // Check if user is authenticated on app load
   useEffect(() => {
