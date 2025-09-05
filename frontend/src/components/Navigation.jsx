@@ -32,27 +32,7 @@ const Navigation = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {mockData.navigation.map((item, index) => {
-                const isActive = location.pathname === item.href || 
-                  (item.href === '/tarifs' && location.hash === '#pricing') ||
-                  (item.href === '/avis' && location.hash === '#testimonials');
-                
-                // For tarifs and avis, use button instead of Link
-                if (item.href === '/tarifs' || item.href === '/avis') {
-                  return (
-                    <button
-                      key={index}
-                      onClick={() => handleNavClick(item, index)}
-                      className={`flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors duration-200 ${
-                        isActive
-                          ? 'text-orange-600 border-b-2 border-orange-600'
-                          : 'text-gray-700 hover:text-orange-600 hover:border-b-2 hover:border-orange-300'
-                      }`}
-                    >
-                      {item.icon && getIcon(item.icon)}
-                      {item.label}
-                    </button>
-                  );
-                }
+                const isActive = location.pathname === item.href;
                 
                 return (
                   <Link
