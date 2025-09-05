@@ -13,7 +13,7 @@ from typing import Dict, Any, Optional
 import sys
 
 # Get backend URL from environment
-BACKEND_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://salon-booking-app-7.preview.emergentagent.com')
+BACKEND_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://admin-client-portal-2.preview.emergentagent.com')
 API_BASE_URL = f"{BACKEND_URL}/api"
 
 class SalonBookingTester:
