@@ -90,6 +90,8 @@ class Appointment(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     user_id: str
     slot_id: str
+    service_name: str  # Service choisi par le client
+    service_price: float  # Prix du service choisi
     status: AppointmentStatus = AppointmentStatus.PENDING
     notes: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
@@ -97,6 +99,8 @@ class Appointment(BaseModel):
 
 class AppointmentCreate(BaseModel):
     slot_id: str
+    service_name: str  # Service choisi par le client
+    service_price: float  # Prix du service choisi
     notes: Optional[str] = None
 
 class AppointmentUpdate(BaseModel):
@@ -107,6 +111,8 @@ class AppointmentResponse(BaseModel):
     id: str
     user_id: str
     slot_id: str
+    service_name: str
+    service_price: float
     status: AppointmentStatus
     notes: Optional[str] = None
     created_at: datetime
