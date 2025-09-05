@@ -42,4 +42,4 @@ async def create_indexes():
     await db.reviews.create_index("status")
     await db.reviews.create_index("id", unique=True)
     await db.reviews.create_index([("status", 1), ("created_at", -1)])  # Compound index for approved reviews sorted by date
-    await db.reviews.create_index("created_at", direction=-1)  # For sorting by most recent
+    await db.reviews.create_index([("created_at", -1)])  # For sorting by most recent
