@@ -195,6 +195,27 @@ async def create_appointment(
         {"$set": {"is_available": False}}
     )
     
+    # Send email notification to admin
+    try:
+        # Get admin users
+        admin_users = await db.users.find({"role": "admin"}).to_list(10)
+        for admin in admin_users:
+            user_name = f"{current_user.first_name} {current_user.last_name}"
+            slot_obj = TimeSlot(**slot)
+            appointment_date = slot_obj.date.strftime("%d/%m/%Y")
+            appointment_time = f"{slot_obj.start_time} - {slot_obj.end_time}"
+            
+            await email_service.send_appointment_notification(
+                admin_email=admin["email"],
+                user_name=user_name,
+                user_email=current_user.email,
+                service_name=slot_obj.service_name,
+                appointment_date=appointment_date,
+                appointment_time=appointment_time
+            )
+    except Exception as e:
+        logger.warning(f"Failed to send appointment notification: {str(e)}")
+    
     return AppointmentResponse(**appointment.dict())
 
 @api_router.get("/appointments", response_model=List[AppointmentResponse])
