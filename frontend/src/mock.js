@@ -6,7 +6,7 @@ export const mockData = {
     { label: 'Galerie', href: '/galerie' },
     { label: 'Tarifs', href: '/tarifs' },
     { label: 'Avis', href: '/avis' },
-    { label: 'Réserver', href: '/reserver' },
+
     { label: 'Mon Espace', href: '/mon-espace', icon: 'user' },
     { label: 'Déconnexion', href: '/deconnexion', icon: 'log-out' }
   ],
