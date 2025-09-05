@@ -44,7 +44,7 @@ const ClientDashboard = () => {
   }
 
   useEffect(() => {
-    fetchData();
+    // Les données sont automatiquement chargées par le hook useCache
   }, []);
 
   const fetchData = async () => {
