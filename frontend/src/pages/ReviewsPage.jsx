@@ -152,79 +152,34 @@ const ReviewsPage = () => {
           )}
 
           {/* Stats Section */}
-          <div className="grid md:grid-cols-4 gap-8 mb-16 text-center">
-            {testimonials.stats.map((stat, index) => (
-              <div key={index} className="group bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all duration-300">
+          {reviews.length > 0 && (
+            <div className="grid md:grid-cols-3 gap-8 mb-16 text-center">
+              <div className="group bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all duration-300">
                 <div className="text-5xl md:text-6xl font-bold text-orange-600 mb-2 group-hover:scale-110 transition-transform duration-300">
-                  {stat.number}
+                  {reviews.length}
                 </div>
                 <p className="text-lg text-gray-600 font-medium">
-                  {stat.label}
+                  Avis approuvés
                 </p>
               </div>
-            ))}
-            <div className="group bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all duration-300">
-              <div className="text-5xl md:text-6xl font-bold text-orange-600 mb-2 group-hover:scale-110 transition-transform duration-300">
-                3
+              <div className="group bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all duration-300">
+                <div className="text-5xl md:text-6xl font-bold text-orange-600 mb-2 group-hover:scale-110 transition-transform duration-300">
+                  {(reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length).toFixed(1)}
+                </div>
+                <p className="text-lg text-gray-600 font-medium">
+                  Note moyenne
+                </p>
               </div>
-              <p className="text-lg text-gray-600 font-medium">
-                Avis récents
-              </p>
-            </div>
-          </div>
-
-          {/* Detailed Ratings */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 mb-16">
-            <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">Détail des Évaluations</h3>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <span className="text-sm font-medium text-gray-700 w-20">Qualité</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div className="bg-orange-600 h-2 rounded-full" style={{width: '98%'}}></div>
-                  </div>
-                  <span className="text-sm font-medium text-gray-700">4.9/5</span>
+              <div className="group bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all duration-300">
+                <div className="text-5xl md:text-6xl font-bold text-orange-600 mb-2 group-hover:scale-110 transition-transform duration-300">
+                  {reviews.filter(r => r.rating === 5).length}
                 </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-sm font-medium text-gray-700 w-20">Service</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div className="bg-orange-600 h-2 rounded-full" style={{width: '96%'}}></div>
-                  </div>
-                  <span className="text-sm font-medium text-gray-700">4.8/5</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-sm font-medium text-gray-700 w-20">Durabilité</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div className="bg-orange-600 h-2 rounded-full" style={{width: '94%'}}></div>
-                  </div>
-                  <span className="text-sm font-medium text-gray-700">4.7/5</span>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <span className="text-sm font-medium text-gray-700 w-20">Créativité</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div className="bg-orange-600 h-2 rounded-full" style={{width: '100%'}}></div>
-                  </div>
-                  <span className="text-sm font-medium text-gray-700">5.0/5</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-sm font-medium text-gray-700 w-20">Propreté</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div className="bg-orange-600 h-2 rounded-full" style={{width: '100%'}}></div>
-                  </div>
-                  <span className="text-sm font-medium text-gray-700">5.0/5</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-sm font-medium text-gray-700 w-20">Rapport qualité/prix</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div className="bg-orange-600 h-2 rounded-full" style={{width: '92%'}}></div>
-                  </div>
-                  <span className="text-sm font-medium text-gray-700">4.6/5</span>
-                </div>
+                <p className="text-lg text-gray-600 font-medium">
+                  Avis 5 étoiles
+                </p>
               </div>
             </div>
-          </div>
+          )}
 
           {/* CTA Section */}
           <div className="text-center bg-gradient-to-r from-orange-600 to-orange-700 rounded-2xl shadow-xl p-12 text-white">
