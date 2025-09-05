@@ -242,7 +242,7 @@ async def create_appointment(
                 admin_email=admin["email"],
                 user_name=user_name,
                 user_email=current_user.email,
-                service_name=slot_obj.service_name,
+                service_name=appointment_data.service_name,  # Service choisi par le client
                 appointment_date=appointment_date,
                 appointment_time=appointment_time
             )
