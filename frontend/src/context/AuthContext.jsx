@@ -114,6 +114,8 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setToken(null);
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('cached_user');
+    localStorage.removeItem('user_cache_timestamp');
     delete axios.defaults.headers.common['Authorization'];
     // Redirect to home page after logout
     window.location.href = '/';
