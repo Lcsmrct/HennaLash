@@ -24,8 +24,7 @@ const BookingDetailsPage = () => {
     instagram: '',
     lieu: '',
     nombre_personnes: '1',
-    informations_supplementaires: '',
-    notes: ''
+    informations_supplementaires: ''
   });
 
   // Services disponibles
