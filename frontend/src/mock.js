@@ -64,10 +64,7 @@ export const mockData = {
         duration: "Durée: 10-15 min",
         description: "Design sur un doigt",
         features: [
-          "Design simple sur un doigt",
-          "Motifs traditionnels",
-          "Henné premium",
-          "Conseils personnalisés"
+          "Design simple sur un doigt"
         ],
         buttonText: "Réserver",
         popular: false
