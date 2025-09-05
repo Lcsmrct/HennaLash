@@ -187,13 +187,22 @@ async def create_appointment(
         notes=appointment_data.notes
     )
     
-    await db.appointments.insert_one(appointment.dict())
+    # Insert appointment
+    result = await db.appointments.insert_one(appointment.dict())
+    if not result.inserted_id:
+        raise HTTPException(status_code=500, detail="Failed to create appointment")
     
     # Mark slot as unavailable
-    await db.time_slots.update_one(
+    update_result = await db.time_slots.update_one(
         {"id": appointment_data.slot_id},
         {"$set": {"is_available": False}}
     )
+    
+    if update_result.modified_count == 0:
+        logger.warning(f"Failed to mark slot {appointment_data.slot_id} as unavailable")
+        # Clean up the appointment if slot update failed
+        await db.appointments.delete_one({"id": appointment.id})
+        raise HTTPException(status_code=500, detail="Failed to reserve slot - please try again")
     
     # Send email notification to admin
     try:
