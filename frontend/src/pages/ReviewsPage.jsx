@@ -73,10 +73,7 @@ const ReviewsPage = () => {
         <Navigation />
         <div className="pt-20 pb-16">
           <div className="max-w-7xl mx-auto px-6 py-16">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-orange-500 mx-auto"></div>
-              <p className="mt-4">Chargement des avis...</p>
-            </div>
+            <LoadingSpinner size="large" message="Chargement des avis clients..." />
           </div>
         </div>
       </div>
