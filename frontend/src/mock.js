@@ -90,7 +90,6 @@ export const mockData = {
         features: [
           "Design sur les deux mains",
           "Motifs complexes",
-          "Henné premium",
           "Photos incluses"
         ],
         buttonText: "Réserver",
