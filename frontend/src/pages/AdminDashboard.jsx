@@ -311,11 +311,9 @@ const AdminDashboard = () => {
                           </div>
                           <div className="text-right space-y-2">
                             {getStatusBadge(appointment.status)}
-                            {appointment.slot_info && (
-                              <p className="text-lg font-semibold">
-                                {appointment.slot_info.price}€
-                              </p>
-                            )}
+                            <p className="text-lg font-semibold">
+                              {appointment.service_price || 0}€
+                            </p>
                             <div className="flex gap-2">
                               {appointment.status === 'pending' && (
                                 <Button 
