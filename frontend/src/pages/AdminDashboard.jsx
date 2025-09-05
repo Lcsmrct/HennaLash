@@ -151,7 +151,7 @@ const AdminDashboard = () => {
         description: "Créneau supprimé !"
       });
       
-      fetchData();
+      refreshData();
     } catch (error) {
       console.error('Error deleting slot:', error);
       toast({
