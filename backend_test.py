@@ -152,7 +152,7 @@ class SalonBookingTester:
         """Test 3: User Login & JWT Tokens"""
         # Login client user
         client_login = {
-            "email": "test@client.com",
+            "email": "sarah.johnson@email.com",
             "password": "Test123!"
         }
         
