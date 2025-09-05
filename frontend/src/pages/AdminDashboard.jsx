@@ -46,9 +46,9 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       const [appointmentsRes, slotsRes, reviewsRes] = await Promise.all([
-        axios.get(`${API_BASE_URL}/api/appointments`),
-        axios.get(`${API_BASE_URL}/api/slots`),
-        axios.get(`${API_BASE_URL}/api/reviews?approved_only=false`)
+        apiService.get('/api/appointments'),
+        apiService.get('/api/slots'),
+        apiService.get('/api/reviews?approved_only=false')
       ]);
       
       setAppointments(appointmentsRes.data);
