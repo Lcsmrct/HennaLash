@@ -134,15 +134,16 @@ const RegisterPage = () => {
             </Link>
           </div>
 
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Inscription</h1>
-              <p className="text-gray-600">
-                Créez votre compte pour réserver en ligne
-              </p>
-            </div>
+          <Card className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl">
+            <CardContent className="p-8">
+              <div className="text-center mb-8">
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">Inscription</h1>
+                <p className="text-gray-600">
+                  Créez votre compte pour réserver en ligne
+                </p>
+              </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
