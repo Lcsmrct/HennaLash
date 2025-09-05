@@ -193,11 +193,9 @@ const ClientDashboard = () => {
                           </div>
                           <div className="text-right">
                             {getStatusBadge(appointment.status)}
-                            {appointment.slot_info && (
-                              <p className="text-lg font-semibold mt-2">
-                                {appointment.slot_info.price}€
-                              </p>
-                            )}
+                            <p className="text-lg font-semibold mt-2">
+                              {appointment.service_price || 0}€
+                            </p>
                           </div>
                         </div>
                       </div>
