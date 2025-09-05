@@ -364,7 +364,13 @@ metadata:
 
 test_plan:
   current_focus:
-    - "All backend testing completed successfully"
+    - "Email Configuration with User Credentials"
+    - "Service Selection in Booking"
+    - "Client Email Confirmation"
+    - "Simplified Admin Slot Creation"
+    - "Frontend Service Selection UI"
+    - "Frontend Admin Slot Creation Simplified"
+    - "Frontend Appointment Display Updates"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
