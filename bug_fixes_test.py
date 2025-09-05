@@ -16,7 +16,7 @@ from typing import Dict, Any, Optional
 import sys
 
 # Get backend URL from environment
-BACKEND_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://image-service-hub.preview.emergentagent.com')
+BACKEND_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://appt-system.preview.emergentagent.com')
 API_BASE_URL = f"{BACKEND_URL}/api"
 
 class BugFixesTester:

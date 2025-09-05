@@ -10,7 +10,7 @@ import json
 from datetime import datetime, time, timedelta
 
 # Backend API URL
-API_BASE_URL = "https://image-service-hub.preview.emergentagent.com/api"
+API_BASE_URL = "https://appt-system.preview.emergentagent.com/api"
 
 class DatabaseInitializer:
     def __init__(self):
@@ -265,7 +265,7 @@ class DatabaseInitializer:
             print("   Password: Client123!")
             print()
             print("🌐 Access your admin dashboard at:")
-            print("   https://image-service-hub.preview.emergentagent.com/connexion")
+            print("   https://appt-system.preview.emergentagent.com/connexion")
         else:
             print("❌ Database initialization failed!")
         
