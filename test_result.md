@@ -189,6 +189,54 @@ backend:
         agent: "main"
         comment: "Added client-side caching for reviews (5min cache) and user data (10min cache). Created optimized LoadingSpinner component."
 
+  - task: "Email Configuration with User Credentials"
+    implemented: true
+    working: false
+    file: "/app/backend/.env, /app/backend/email_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Configured GMAIL_USERNAME and GMAIL_PASSWORD in .env file. Email service should now work for sending notifications."
+
+  - task: "Service Selection in Booking"
+    implemented: true
+    working: false
+    file: "/app/backend/models.py, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Modified Appointment model to include service_name and service_price fields. Updated API to handle service selection during booking."
+
+  - task: "Client Email Confirmation"
+    implemented: true
+    working: false
+    file: "/app/backend/email_service.py, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Added send_appointment_confirmation_to_client method. Email sent when admin confirms appointment status."
+
+  - task: "Simplified Admin Slot Creation"
+    implemented: true
+    working: false
+    file: "/app/backend/models.py, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high" 
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Modified TimeSlotCreate to use single time field + duration. Backend automatically calculates end_time."
+
   - task: "Backend /ping Health Check Route"
     implemented: true
     working: true
