@@ -31,12 +31,6 @@ const ReviewsPage = () => {
     }
   };
 
-  const services = ['Tous', 'Henné Simple', 'Henné Traditionnel', 'Henné Mariée'];
-
-  const filteredReviews = selectedService === 'Tous' 
-    ? testimonials.reviews 
-    : testimonials.reviews.filter(review => review.service.includes(selectedService));
-
   const renderStars = (rating) => {
     return Array.from({ length: 5 }).map((_, index) => (
       <Star 
@@ -48,10 +42,21 @@ const ReviewsPage = () => {
     ));
   };
 
-  // Only show first 3 reviews
-  const displayReviews = selectedService === 'Tous' 
-    ? testimonials.reviews.slice(0, 3)
-    : testimonials.reviews.filter(review => review.service.includes(selectedService)).slice(0, 3);
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
+        <Navigation />
+        <div className="pt-20 pb-16">
+          <div className="max-w-7xl mx-auto px-6 py-16">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-orange-500 mx-auto"></div>
+              <p className="mt-4">Chargement des avis...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
