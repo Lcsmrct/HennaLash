@@ -69,7 +69,7 @@ const AdminDashboard = () => {
   const createSlot = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE_URL}/api/slots`, slotForm);
+      await apiService.post('/api/slots', slotForm);
       
       toast({
         title: "Succès",
