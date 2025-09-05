@@ -19,12 +19,22 @@ const BookingDetailsPage = () => {
   const [slot, setSlot] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookingForm, setBookingForm] = useState({
+    service_name: 'Simple', // Service par défaut
+    service_price: 8, // Prix par défaut
     instagram: '',
     lieu: '',
     nombre_personnes: '1',
     informations_supplementaires: '',
     notes: ''
   });
+
+  // Services disponibles
+  const services = [
+    { name: 'Très simple', price: 5, duration: '10-15 min', description: 'Design sur un doigt' },
+    { name: 'Simple', price: 8, duration: '20-30 min', description: 'Design simple sur une main' },
+    { name: 'Chargé', price: 12, duration: '45min - 1h', description: 'Design sur les deux mains' },
+    { name: 'Mariée', price: 20, duration: '1h - 1h30', description: 'Mains et avant-bras' }
+  ];
 
   const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
 
