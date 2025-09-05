@@ -17,6 +17,32 @@ const Navigation = () => {
     }
   };
 
+  const handleNavClick = (item, index) => {
+    // Handle special navigation for sections on homepage
+    if (item.href === '/tarifs' && location.pathname === '/') {
+      // Scroll to pricing section on homepage
+      document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    
+    if (item.href === '/avis' && location.pathname === '/') {
+      // Scroll to testimonials section on homepage  
+      document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    // For tarifs and avis, if not on homepage, go to homepage first then scroll
+    if (item.href === '/tarifs' && location.pathname !== '/') {
+      window.location.href = '/#pricing';
+      return;
+    }
+    
+    if (item.href === '/avis' && location.pathname !== '/') {
+      window.location.href = '/#testimonials';
+      return;
+    }
+  };
+
   return (
     <nav className="bg-white/95 backdrop-blur-sm shadow-sm fixed top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,7 +56,27 @@ const Navigation = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {mockData.navigation.map((item, index) => {
-                const isActive = location.pathname === item.href;
+                const isActive = location.pathname === item.href || 
+                  (item.href === '/tarifs' && location.hash === '#pricing') ||
+                  (item.href === '/avis' && location.hash === '#testimonials');
+                
+                // For tarifs and avis, use button instead of Link
+                if (item.href === '/tarifs' || item.href === '/avis') {
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handleNavClick(item, index)}
+                      className={`flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+                        isActive
+                          ? 'text-orange-600 border-b-2 border-orange-600'
+                          : 'text-gray-700 hover:text-orange-600 hover:border-b-2 hover:border-orange-300'
+                      }`}
+                    >
+                      {item.icon && getIcon(item.icon)}
+                      {item.label}
+                    </button>
+                  );
+                }
                 
                 return (
                   <Link
