@@ -29,7 +29,6 @@ const ContactPage = () => {
     const selectedPlan = localStorage.getItem('selectedPlan');
     if (selectedPlan) {
       const serviceMap = {
-        'Mains Très Simple': 'Mains Très Simple - 5€',
         'Simple': 'Simple - 8€',
         'Chargé': 'Chargé - 12€',
         'Mariée': 'Mariée - 20€'
