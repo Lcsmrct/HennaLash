@@ -32,8 +32,26 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       if (token) {
         try {
+          // Vérifier d'abord le cache utilisateur
+          const cachedUser = localStorage.getItem('cached_user');
+          const cacheTimestamp = localStorage.getItem('user_cache_timestamp');
+          const now = Date.now();
+          
+          // Si on a un cache valide (moins de 10 minutes), l'utiliser
+          if (cachedUser && cacheTimestamp && (now - parseInt(cacheTimestamp)) < 10 * 60 * 1000) {
+            setUser(JSON.parse(cachedUser));
+            setLoading(false);
+            return;
+          }
+          
           const response = await axios.get(`${API_BASE_URL}/api/auth/me`);
-          setUser(response.data);
+          const userData = response.data;
+          setUser(userData);
+          
+          // Mettre en cache les données utilisateur
+          localStorage.setItem('cached_user', JSON.stringify(userData));
+          localStorage.setItem('user_cache_timestamp', now.toString());
+          
         } catch (error) {
           console.error('Auth check failed:', error);
           // Token might be expired
