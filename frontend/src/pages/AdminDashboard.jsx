@@ -79,11 +79,8 @@ const AdminDashboard = () => {
       setShowSlotDialog(false);
       setSlotForm({
         date: '',
-        start_time: '',
-        end_time: '',
-        service_name: 'Henné Artisanal',
-        service_duration: 60,
-        price: 12
+        time: '',
+        service_duration: 60
       });
       
       fetchData();
