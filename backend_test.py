@@ -128,7 +128,7 @@ class SalonBookingTester:
             self.log_test("Ping Endpoint (HEAD)", False, "HEAD /api/ping request failed", {"error": str(e)})
     
     async def test_user_registration(self):
-        """Test 2: User Registration"""
+        """Test 3: User Registration"""
         # Register client user
         client_data = {
             "email": "sarah.johnson@email.com",
