@@ -210,10 +210,10 @@ export const mockData = {
         { name: 'phone', label: 'Téléphone', type: 'tel', required: true, placeholder: '06 12 34 56 78' },
         { name: 'service', label: 'Service souhaité', type: 'select', required: true, options: [
           'Choisissez votre service',
-          'Henné Simple - 25€',
-          'Henné Traditionnel - 45€',
-          'Henné Mariée - 120€',
-          'Atelier Groupe',
+          'Mains Très Simple - 5€',
+          'Simple - 8€',
+          'Chargé - 12€',
+          'Mariée - 20€',
           'Autre demande'
         ]},
         { name: 'date', label: 'Date souhaitée', type: 'date', required: true },
