@@ -100,10 +100,7 @@ export const mockData = {
         duration: "Durée: 1h - 1h30",
         description: "Service spécial mariée avec motifs exceptionnels",
         features: [
-          "Mains et avant-bras",
-          "Designs personnalisés",
-          "Service privilégié",
-          "Séance photo incluse"
+          "Mains et avant-bras"
         ],
         buttonText: "Réserver",
         popular: false
