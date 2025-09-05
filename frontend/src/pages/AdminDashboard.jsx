@@ -25,9 +25,9 @@ const AdminDashboard = () => {
     date: '',
     start_time: '',
     end_time: '',
-    service_name: '',
-    service_duration: 60,
-    price: 50
+    service_name: 'Henné Artisanal', // Valeur par défaut
+    service_duration: 60, // Valeur par défaut
+    price: 12 // Valeur par défaut
   });
 
   const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
