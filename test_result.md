@@ -212,15 +212,18 @@ backend:
 
   - task: "Service Selection in Booking"
     implemented: true
-    working: false
+    working: true
     file: "/app/backend/models.py, /app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "main"
         comment: "Modified Appointment model to include service_name and service_price fields. Updated API to handle service selection during booking."
+      - working: true
+        agent: "testing"
+        comment: "✅ SERVICE SELECTION VERIFIED WORKING - All 4 services work correctly: Très simple (5€), Simple (8€), Chargé (12€), Mariée (20€). Appointment model properly stores service_name and service_price fields. API correctly handles service selection during booking process. Tested complete booking workflow for all service types."
 
   - task: "Client Email Confirmation"
     implemented: true
