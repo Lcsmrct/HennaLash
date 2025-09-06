@@ -162,7 +162,7 @@ const AdminDashboard = () => {
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce créneau ?')) return;
     
     try {
-      await apiService.delete(`/api/slots/${slotId}`);
+      await apiService.deleteSlot(slotId);
       
       toast({
         title: "Succès",
