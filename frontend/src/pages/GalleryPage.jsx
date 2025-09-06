@@ -13,10 +13,10 @@ const GalleryPage = () => {
     {
       id: 1,
       url: "https://i.ibb.co/CpjCdZ8B/Capture-d-cran-2025-08-31-143559.png",
-      title: "Design Floral Élégant",
-      category: "Traditionnel",
-      description: "Création raffinée avec motifs floraux délicats et détails précis",
-      likes: 125
+      title: "Bouquet Henné & Fleurs",
+      category: "Mariée",
+      description: "Création artistique mêlant henné traditionnel et arrangement floral",
+      likes: 245
     },
     {
       id: 2,
@@ -29,17 +29,17 @@ const GalleryPage = () => {
     {
       id: 3,
       url: "https://i.ibb.co/Myx1Nftm/IMG-6648.jpg",
-      title: "Henné Géométrique",
+      title: "Henné Géométrique Moderne",
       category: "Moderne",
-      description: "Design moderne aux lignes géométriques épurées",
+      description: "Design contemporain aux lignes géométriques épurées",
       likes: 143
     },
     {
       id: 4,
       url: "https://i.ibb.co/4rVfCDW/IMG-6649.jpg",
       title: "Création Artistique Détaillée",
-      category: "Mariée",
-      description: "Œuvre d'art complexe parfaite pour occasions spéciales",
+      category: "Traditionnel",
+      description: "Œuvre d'art complexe avec motifs fins et précis",
       likes: 267
     },
     {
