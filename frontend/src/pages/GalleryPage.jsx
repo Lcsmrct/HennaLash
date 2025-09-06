@@ -12,67 +12,43 @@ const GalleryPage = () => {
   const galleryImages = [
     {
       id: 1,
-      url: "https://images.unsplash.com/photo-1629332791128-58f00882964d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwxfHxoZW5uYSUyMGFydHxlbnwwfHx8fDE3NTcwNzE1NTd8MA&ixlib=rb-4.1.0&q=85",
-      title: "Henné Traditionnel Marocain",
+      url: "https://i.ibb.co/CpjCdZ8B/Capture-d-cran-2025-08-31-143559.png",
+      title: "Design Floral Élégant",
       category: "Traditionnel",
-      description: "Motifs traditionnels inspirés de l'art ancestral marocain",
-      likes: 42
+      description: "Création raffinée avec motifs floraux délicats et détails précis",
+      likes: 125
     },
     {
       id: 2,
-      url: "https://images.unsplash.com/photo-1629332791370-77208e6cbb67?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwzfHxoZW5uYSUyMGFydHxlbnwwfHx8fDE3NTcwNzE1NTd8MA&ixlib=rb-4.1.0&q=85",
-      title: "Henné de Mariée",
-      category: "Mariée",
-      description: "Design élaboré pour le jour J avec détails exceptionnels",
-      likes: 89
+      url: "https://i.ibb.co/q3WdDscn/IMG-6647.jpg",
+      title: "Art Henné Main Complète",
+      category: "Traditionnel",
+      description: "Motifs traditionnels complexes couvrant toute la main",
+      likes: 198
     },
     {
       id: 3,
-      url: "https://images.unsplash.com/photo-1583878544826-8f8c418033ed?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwyfHxtZWhuZGklMjBkZXNpZ25zfGVufDB8fHx8MTc1NzA3MTU2M3ww&ixlib=rb-4.1.0&q=85",
-      title: "Henné Bridal Complet",
-      category: "Mariée",
-      description: "Création complète mains et avant-bras pour mariée",
-      likes: 76
+      url: "https://i.ibb.co/Myx1Nftm/IMG-6648.jpg",
+      title: "Henné Géométrique",
+      category: "Moderne",
+      description: "Design moderne aux lignes géométriques épurées",
+      likes: 143
     },
     {
       id: 4,
-      url: "https://images.unsplash.com/photo-1674884060571-96a46a9a7a72?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxtZWhuZGklMjBkZXNpZ25zfGVufDB8fHx8MTc1NzA3MTU2M3ww&ixlib=rb-4.1.0&q=85",
-      title: "Design Contemporain",
-      category: "Moderne",
-      description: "Motif moderne et épuré pour un style contemporain",
-      likes: 34
+      url: "https://i.ibb.co/4rVfCDW/IMG-6649.jpg",
+      title: "Création Artistique Détaillée",
+      category: "Mariée",
+      description: "Œuvre d'art complexe parfaite pour occasions spéciales",
+      likes: 267
     },
     {
       id: 5,
-      url: "https://images.unsplash.com/photo-1556614697-e4e00b2233f6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHw0fHxoZW5uYSUyMGFydHxlbnwwfHx8fDE3NTcwNzE1NTd8MA&ixlib=rb-4.1.0&q=85",
-      title: "Henné Simple Élégant",
+      url: "https://i.ibb.co/GfDt5V0M/IMG-6650.jpg",
+      title: "Henné Raffiné et Délicat",
       category: "Simple",
-      description: "Design simple et raffiné pour toute occasion",
-      likes: 28
-    },
-    {
-      id: 6,
-      url: "https://images.unsplash.com/photo-1623217509141-6f735087b50c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwyfHxoZW5uYSUyMGFydHxlbnwwfHx8fDE3NTcwNzE1NTd8MA&ixlib=rb-4.1.0&q=85",
-      title: "Art Henné Détaillé",
-      category: "Traditionnel",
-      description: "Création artistique avec détails fins et précis",
-      likes: 55
-    },
-    {
-      id: 7,
-      url: "https://images.unsplash.com/photo-1530082625928-db66d39c5a21?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHw0fHxtZWhuZGklMjBkZXNpZ25zfGVufDB8fHx8MTc1NzA3MTU2M3ww&ixlib=rb-4.1.0&q=85",
-      title: "Henné Main Complète",
-      category: "Traditionnel",
-      description: "Couverture complète avec motifs traditionnels",
-      likes: 67
-    },
-    {
-      id: 8,
-      url: "https://images.pexels.com/photos/33774874/pexels-photo-33774874.jpeg",
-      title: "Création Artistique",
-      category: "Moderne",
-      description: "Approche artistique contemporaine du henné",
-      likes: 43
+      description: "Design épuré alliant simplicité et élégance",
+      likes: 156
     }
   ];
 
