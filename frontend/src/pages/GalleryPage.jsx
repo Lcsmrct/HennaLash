@@ -75,14 +75,14 @@ const GalleryPage = () => {
             </Link>
           </div>
 
-          {/* Title */}
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Notre Galerie
+          {/* Title - Design Épuré */}
+          <div className="text-center mb-20">
+            <h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-8 tracking-tight">
+              Galerie
             </h1>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Découvrez nos créations uniques au henné, des designs traditionnels aux créations modernes. 
-              Chaque œuvre reflète notre passion pour cet art ancestral.
+            <div className="w-24 h-1 bg-orange-600 mx-auto mb-8"></div>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed font-light">
+              Découvrez l'art du henné à travers nos créations authentiques
             </p>
           </div>
 
