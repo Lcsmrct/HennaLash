@@ -118,7 +118,7 @@ const AdminDashboard = () => {
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce rendez-vous ?')) return;
     
     try {
-      await apiService.delete(`/api/appointments/${appointmentId}`);
+      await apiService.deleteAppointment(appointmentId);
       
       toast({
         title: "Succès",
