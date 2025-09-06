@@ -307,15 +307,18 @@ frontend:
 
   - task: "Client Dashboard - Available Slots Booking"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/pages/ClientDashboard.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "Clients can view and book available slots via 'Réserver' tab"
+      - working: false
+        agent: "testing"
+        comment: "❌ BLOCKED BY API CONNECTION - Frontend UI implemented correctly but authentication system fails. Login form works (accepts input, shows validation) but API calls to https://henna-lash.onrender.com return 401/404 errors. Cannot access client dashboard without successful authentication."
 
   - task: "Client Dashboard - Reviews Submission"
     implemented: true
