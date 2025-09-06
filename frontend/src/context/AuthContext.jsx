@@ -97,9 +97,27 @@ export const AuthProvider = ({ children }) => {
       return { success: true, user: userResponse.data };
     } catch (error) {
       console.error('Login failed:', error);
+      let errorMessage = 'Erreur de connexion';
+      
+      if (error.response) {
+        // Erreur de réponse du serveur
+        if (error.response.data?.detail) {
+          errorMessage = error.response.data.detail;
+        } else if (error.response.data?.message) {
+          errorMessage = error.response.data.message;
+        } else if (error.response.status === 401) {
+          errorMessage = 'Email ou mot de passe incorrect';
+        } else if (error.response.status >= 500) {
+          errorMessage = 'Erreur serveur, veuillez réessayer';
+        }
+      } else if (error.request) {
+        // Problème de réseau
+        errorMessage = 'Impossible de contacter le serveur';
+      }
+      
       return { 
         success: false, 
-        error: error.response?.data?.detail || 'Login failed' 
+        error: errorMessage 
       };
     }
   };
