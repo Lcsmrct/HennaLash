@@ -292,15 +292,18 @@ backend:
 frontend:
   - task: "Admin Dashboard - Time Slots Management"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/pages/AdminDashboard.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "Admin can create time slots via 'Créneaux' tab with full form interface"
+      - working: false
+        agent: "testing"
+        comment: "❌ BLOCKED BY API CONNECTION - Frontend UI components working (slot creation dialog opens, form fields present) but authentication fails due to external API URL (https://henna-lash.onrender.com) returning 404. Cannot test admin functionality without API access."
 
   - task: "Client Dashboard - Available Slots Booking"
     implemented: true
