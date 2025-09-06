@@ -322,15 +322,18 @@ frontend:
 
   - task: "Client Dashboard - Reviews Submission"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/pages/ClientDashboard.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "Clients can submit reviews via 'Laisser un Avis' tab with rating and comment"
+      - working: false
+        agent: "testing"
+        comment: "❌ BLOCKED BY API CONNECTION - Cannot test review submission functionality as authentication is required to access client dashboard. Login system fails due to external API URL issues. Frontend review form implementation appears correct based on code review."
 
   - task: "Frontend Service Selection UI"
     implemented: true
