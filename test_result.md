@@ -242,15 +242,18 @@ backend:
 
   - task: "Simplified Admin Slot Creation"
     implemented: true
-    working: false
+    working: true
     file: "/app/backend/models.py, /app/backend/server.py"
     stuck_count: 0
     priority: "high" 
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "main"
         comment: "Modified TimeSlotCreate to use single time field + duration. Backend automatically calculates end_time."
+      - working: true
+        agent: "testing"
+        comment: "✅ SIMPLIFIED SLOT CREATION VERIFIED WORKING - TimeSlotCreate model correctly uses single 'time' field (e.g., '10:30'). Backend automatically calculates end_time by adding 1 hour (10:30 → 11:30). Fixed duration of 60 minutes applied correctly. API endpoint /api/slots accepts simplified format and performs accurate time calculations."
 
   - task: "Backend /ping Health Check Route"
     implemented: true
