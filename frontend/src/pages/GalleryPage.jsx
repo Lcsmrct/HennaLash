@@ -175,19 +175,19 @@ const GalleryPage = () => {
             ))}
           </div>
 
-          {/* CTA Section */}
-          <div className="text-center mt-16 bg-white rounded-2xl shadow-lg p-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Vous aimez nos créations ?
+          {/* CTA Section - Design Épuré */}
+          <div className="text-center mt-20 py-16 border-t border-gray-100">
+            <h2 className="text-4xl font-light text-gray-900 mb-6 tracking-tight">
+              Prête pour votre création ?
             </h2>
-            <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              Réservez votre séance dès maintenant pour obtenir votre propre création unique au henné 100% naturel.
+            <p className="text-lg text-gray-600 mb-10 max-w-xl mx-auto font-light leading-relaxed">
+              Transformez vos mains en œuvre d'art avec nos créations sur mesure
             </p>
             <Link
               to="/reserver"
-              className="inline-flex items-center gap-2 bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="inline-block bg-orange-600 text-white px-12 py-4 font-light tracking-wider text-sm hover:bg-orange-700 transition-all duration-300 border border-orange-600 hover:shadow-lg"
             >
-              Réserver ma Séance
+              RÉSERVER MAINTENANT
             </Link>
           </div>
         </div>
