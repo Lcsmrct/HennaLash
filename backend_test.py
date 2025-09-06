@@ -799,6 +799,180 @@ Cliente régulière, allergie aux produits parfumés"""
         self.log_test("Database Operations & Persistence", success, 
                      f"Persistence tests: {', '.join(persistence_tests)}")
     
+    async def test_email_configuration(self):
+        """Test 11: Email Configuration with User Credentials"""
+        # Test if email service is configured
+        if not self.client_token:
+            self.log_test("Email Configuration Test", False, "No client token available")
+            return
+        
+        # Create a test appointment to trigger email notification
+        tomorrow = datetime.now() + timedelta(days=1)
+        slot_data = {
+            "date": tomorrow.strftime("%Y-%m-%dT00:00:00Z"),
+            "time": "16:00"
+        }
+        
+        # Create slot as admin
+        if self.admin_token:
+            slot_result = await self.make_request("POST", "/slots", slot_data, token=self.admin_token)
+            if slot_result["success"]:
+                slot_id = slot_result["data"].get("id")
+                
+                # Create appointment to test email notification
+                appointment_data = {
+                    "slot_id": slot_id,
+                    "service_name": "Test Email Service",
+                    "service_price": 15.0,
+                    "notes": "Test appointment for email functionality"
+                }
+                
+                result = await self.make_request("POST", "/appointments", appointment_data, token=self.client_token)
+                
+                if result["success"]:
+                    self.log_test("Email Configuration - Appointment Creation", True, 
+                                 "Appointment created successfully (email notification should be sent to admin)")
+                    
+                    # Test admin confirmation email to client
+                    appointment_id = result["data"].get("id")
+                    if appointment_id and self.admin_token:
+                        update_data = {
+                            "status": "confirmed",
+                            "notes": "Appointment confirmed - testing client email"
+                        }
+                        
+                        confirm_result = await self.make_request("PUT", f"/appointments/{appointment_id}", 
+                                                               update_data, token=self.admin_token)
+                        
+                        if confirm_result["success"]:
+                            self.log_test("Email Configuration - Client Confirmation", True, 
+                                         "Appointment confirmed (confirmation email should be sent to client)")
+                        else:
+                            self.log_test("Email Configuration - Client Confirmation", False, 
+                                         "Failed to confirm appointment", confirm_result)
+                else:
+                    self.log_test("Email Configuration - Appointment Creation", False, 
+                                 "Failed to create test appointment", result)
+            else:
+                self.log_test("Email Configuration Test", False, "Failed to create test slot", slot_result)
+        else:
+            self.log_test("Email Configuration Test", False, "No admin token available")
+
+    async def test_service_selection_in_booking(self):
+        """Test 12: Service Selection in Booking (4 Services)"""
+        if not self.client_token or not self.admin_token:
+            self.log_test("Service Selection Test", False, "Missing client or admin token")
+            return
+        
+        # Test all 4 services as specified in the requirements
+        services = [
+            {"name": "Très simple", "price": 5.0},
+            {"name": "Simple", "price": 8.0},
+            {"name": "Chargé", "price": 12.0},
+            {"name": "Mariée", "price": 20.0}
+        ]
+        
+        successful_bookings = 0
+        
+        for i, service in enumerate(services):
+            # Create a slot for each service test
+            tomorrow = datetime.now() + timedelta(days=2 + i)
+            slot_data = {
+                "date": tomorrow.strftime("%Y-%m-%dT00:00:00Z"),
+                "time": f"{9 + i}:00"
+            }
+            
+            slot_result = await self.make_request("POST", "/slots", slot_data, token=self.admin_token)
+            if not slot_result["success"]:
+                continue
+                
+            slot_id = slot_result["data"].get("id")
+            
+            # Test booking with service selection
+            appointment_data = {
+                "slot_id": slot_id,
+                "service_name": service["name"],
+                "service_price": service["price"],
+                "notes": f"Réservation pour service {service['name']} à {service['price']}€"
+            }
+            
+            result = await self.make_request("POST", "/appointments", appointment_data, token=self.client_token)
+            
+            if result["success"]:
+                appointment = result["data"]
+                if (appointment.get("service_name") == service["name"] and 
+                    appointment.get("service_price") == service["price"]):
+                    successful_bookings += 1
+                    self.log_test(f"Service Selection - {service['name']} ({service['price']}€)", True, 
+                                 "Service correctly stored in appointment")
+                else:
+                    self.log_test(f"Service Selection - {service['name']}", False, 
+                                 "Service data not correctly stored", appointment)
+            else:
+                self.log_test(f"Service Selection - {service['name']}", False, 
+                             "Failed to create appointment with service", result)
+        
+        # Overall service selection test
+        if successful_bookings == len(services):
+            self.log_test("Service Selection System", True, 
+                         f"All {len(services)} services work correctly in booking system")
+        else:
+            self.log_test("Service Selection System", False, 
+                         f"Only {successful_bookings}/{len(services)} services work correctly")
+
+    async def test_simplified_admin_slot_creation_new(self):
+        """Test 13: Simplified Admin Slot Creation (New Implementation)"""
+        if not self.admin_token:
+            self.log_test("Simplified Slot Creation", False, "No admin token available")
+            return
+        
+        # Test the new simplified slot creation format
+        tomorrow = datetime.now() + timedelta(days=3)
+        slot_data = {
+            "date": tomorrow.strftime("%Y-%m-%dT00:00:00Z"),
+            "time": "10:30"  # Only time field, no duration - should auto-calculate
+        }
+        
+        result = await self.make_request("POST", "/slots", slot_data, token=self.admin_token)
+        
+        if result["success"]:
+            slot = result["data"]
+            start_time = slot.get("start_time")
+            end_time = slot.get("end_time")
+            duration = slot.get("service_duration")
+            
+            # Verify auto-calculation: 10:30 + 1 hour = 11:30
+            if (start_time == "10:30" and 
+                end_time == "11:30" and 
+                duration == 60):
+                self.log_test("Simplified Slot Creation - Auto Calculation", True, 
+                             f"Correctly calculated end_time (11:30) from start_time (10:30) + 1h duration")
+            else:
+                self.log_test("Simplified Slot Creation - Auto Calculation", False, 
+                             f"Auto-calculation failed: start={start_time}, end={end_time}, duration={duration}")
+            
+            # Test different time formats
+            slot_data2 = {
+                "date": (tomorrow + timedelta(hours=2)).strftime("%Y-%m-%dT00:00:00Z"),
+                "time": "14:00"
+            }
+            
+            result2 = await self.make_request("POST", "/slots", slot_data2, token=self.admin_token)
+            
+            if result2["success"]:
+                slot2 = result2["data"]
+                if slot2.get("start_time") == "14:00" and slot2.get("end_time") == "15:00":
+                    self.log_test("Simplified Slot Creation - Multiple Times", True, 
+                                 "Multiple simplified slots created successfully")
+                else:
+                    self.log_test("Simplified Slot Creation - Multiple Times", False, 
+                                 "Second slot auto-calculation failed", slot2)
+            else:
+                self.log_test("Simplified Slot Creation - Multiple Times", False, 
+                             "Failed to create second simplified slot", result2)
+        else:
+            self.log_test("Simplified Slot Creation", False, "Failed to create simplified slot", result)
+
     async def run_all_tests(self):
         """Run all backend tests"""
         print("🧪 Starting Comprehensive Backend Test Suite for Salon Booking System")
@@ -819,6 +993,11 @@ Cliente régulière, allergie aux produits parfumés"""
         await self.test_appointments_system()
         await self.test_reviews_system()
         await self.test_database_operations()
+        
+        # NEW TESTS FOR RETESTING REQUIREMENTS
+        await self.test_email_configuration()
+        await self.test_service_selection_in_booking()
+        await self.test_simplified_admin_slot_creation_new()
         
         # Summary
         print("=" * 80)
