@@ -380,6 +380,18 @@ frontend:
         agent: "testing"
         comment: "✅ APPOINTMENT DISPLAY UPDATES VERIFIED - Code review shows both ClientDashboard.jsx and AdminDashboard.jsx properly display service_name and service_price fields. Appointment cards show service details, pricing, and user information correctly. UI implementation complete but full testing blocked by API connection."
 
+  - task: "External URL Deployment Issue"
+    implemented: false
+    working: false
+    file: "/app/frontend/.env"
+    stuck_count: 1
+    priority: "critical"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL INFRASTRUCTURE ISSUE - External URL https://henna-lash.onrender.com returns 404. Frontend configured to use external API but service not accessible. Local backend running on localhost:8001 but frontend configured for external URL. This blocks all authentication and API-dependent functionality."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
