@@ -128,9 +128,27 @@ export const AuthProvider = ({ children }) => {
       return { success: true, user: response.data };
     } catch (error) {
       console.error('Registration failed:', error);
+      let errorMessage = 'Erreur lors de l\'inscription';
+      
+      if (error.response) {
+        if (error.response.data?.detail) {
+          errorMessage = error.response.data.detail;
+        } else if (error.response.data?.message) {
+          errorMessage = error.response.data.message;
+        } else if (error.response.status === 422) {
+          errorMessage = 'Données invalides, vérifiez les champs';
+        } else if (error.response.status === 409) {
+          errorMessage = 'Cet email est déjà utilisé';
+        } else if (error.response.status >= 500) {
+          errorMessage = 'Erreur serveur, veuillez réessayer';
+        }
+      } else if (error.request) {
+        errorMessage = 'Impossible de contacter le serveur';
+      }
+      
       return { 
         success: false, 
-        error: error.response?.data?.detail || 'Registration failed' 
+        error: errorMessage 
       };
     }
   };
