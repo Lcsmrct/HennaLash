@@ -86,19 +86,19 @@ const GalleryPage = () => {
             </p>
           </div>
 
-          {/* Category Filters */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          {/* Category Filters - Style Minimaliste */}
+          <div className="flex flex-wrap justify-center gap-2 mb-16">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
+                className={`px-8 py-3 font-light text-sm tracking-wider transition-all duration-300 border-b-2 ${
                   selectedCategory === category
-                    ? 'bg-orange-600 text-white transform scale-105'
-                    : 'bg-white text-gray-700 hover:bg-orange-100 hover:text-orange-600 shadow-md'
+                    ? 'border-orange-600 text-orange-600 font-medium'
+                    : 'border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300'
                 }`}
               >
-                {category}
+                {category.toUpperCase()}
               </button>
             ))}
           </div>
