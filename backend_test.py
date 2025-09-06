@@ -12,8 +12,8 @@ from datetime import datetime, time, timedelta
 from typing import Dict, Any, Optional
 import sys
 
-# Get backend URL from environment
-BACKEND_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://henna-lash.onrender.com')
+# Get backend URL from environment - use localhost for local testing
+BACKEND_URL = "http://localhost:8001"
 API_BASE_URL = f"{BACKEND_URL}/api"
 
 class SalonBookingTester:
