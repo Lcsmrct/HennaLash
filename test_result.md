@@ -413,10 +413,6 @@ metadata:
 test_plan:
   current_focus:
     - "External URL Deployment Issue"
-    - "Email Configuration with User Credentials"
-    - "Service Selection in Booking"
-    - "Client Email Confirmation"
-    - "Simplified Admin Slot Creation"
   stuck_tasks:
     - "External URL Deployment Issue"
   test_all: false
