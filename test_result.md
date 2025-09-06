@@ -341,11 +341,14 @@ frontend:
     file: "/app/frontend/src/pages/BookingDetailsPage.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "main"
         comment: "Added service selection UI with 4 services (Très simple 5€, Simple 8€, Chargé 12€, Mariée 20€). Updated appointment creation to include service choice."
+      - working: false
+        agent: "testing"
+        comment: "❌ BLOCKED BY API CONNECTION - Service selection UI implemented correctly in BookingDetailsPage.jsx with 4 services and proper pricing. Cannot test booking flow as it requires authentication and API access. Frontend code shows proper service selection interface with click handlers and form state management."
 
   - task: "Frontend Admin Slot Creation Simplified"
     implemented: true
