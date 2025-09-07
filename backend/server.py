@@ -407,8 +407,8 @@ async def get_reviews(
     approved_only: bool = False,
     limit: int = 50,  # Optimisation: pagination
     skip: int = 0,
-    current_user: Optional[User] = Depends(get_current_user_with_db) if not approved_only else None,
-    db = Depends(get_db)
+    db = Depends(get_db),
+    current_user: Optional[User] = Depends(lambda: None) if approved_only else Depends(get_current_user_with_db)
 ):
     """Get reviews. If approved_only=true, no authentication required."""
     
