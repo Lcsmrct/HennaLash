@@ -5,7 +5,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Toggle } from './ui/toggle';
 import { Settings, AlertTriangle, Wrench } from 'lucide-react';
-import { useToast } from './ui/use-toast';
+import { useToast } from '../hooks/use-toast';
 import apiService from '../services/apiService';
 
 const MaintenanceModal = ({ isAdmin = false }) => {
