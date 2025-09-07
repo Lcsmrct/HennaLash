@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
             return;
           }
           
-          const response = await axios.get(`${API_BASE_URL}/api/auth/me`);
+          const response = await axios.get(`${API_BASE_URL}/api/me`);
           const userData = response.data;
           setUser(userData);
           
