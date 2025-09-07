@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('auth_token', access_token);
 
       // Get user info
-      const userResponse = await axios.get(`${API_BASE_URL}/api/auth/me`, {
+      const userResponse = await axios.get(`${API_BASE_URL}/api/me`, {
         headers: { Authorization: `Bearer ${access_token}` }
       });
       
