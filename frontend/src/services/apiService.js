@@ -6,7 +6,7 @@ const API_BASE_URL = process.env.REACT_APP_BACKEND_URL ||
 // Instance axios optimisée
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000, // 10 secondes timeout
+  timeout: 30000, // 30 secondes timeout pour Render
   headers: {
     'Content-Type': 'application/json',
   }
