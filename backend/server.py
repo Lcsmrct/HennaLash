@@ -558,6 +558,7 @@ async def save_maintenance_to_db(maintenance_state):
 @api_router.get("/maintenance", response_model=MaintenanceStatus)
 async def get_maintenance_status():
     """Get current maintenance status - public endpoint."""
+    maintenance_state = await get_maintenance_from_db()
     return MaintenanceStatus(**maintenance_state)
 
 @api_router.post("/maintenance", response_model=MaintenanceStatus)
