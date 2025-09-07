@@ -434,8 +434,7 @@ metadata:
 test_plan:
   current_focus:
     - "External URL Deployment Issue"
-  stuck_tasks:
-    - "External URL Deployment Issue"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
