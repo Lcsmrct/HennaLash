@@ -147,7 +147,7 @@ const AdminDashboard = () => {
         description: `Avis ${status === 'approved' ? 'approuvé' : 'rejeté'} !`
       });
       
-      refreshData();
+      fetchData();
     } catch (error) {
       console.error('Error updating review:', error);
       toast({
