@@ -111,6 +111,20 @@ export const apiService = {
         slots: slots.data
       };
     }
+  },
+
+  // Maintenance Management
+  getMaintenanceStatus: async () => {
+    const response = await apiClient.get('/api/maintenance');
+    return response.data;
+  },
+
+  toggleMaintenance: async (isMaintenanceMode, message = null) => {
+    const response = await apiClient.post('/api/maintenance', {
+      is_maintenance: isMaintenanceMode,
+      message: message
+    });
+    return response.data;
   }
 };
 
