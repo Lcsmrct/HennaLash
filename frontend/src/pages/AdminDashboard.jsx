@@ -94,9 +94,7 @@ const AdminDashboard = () => {
 
   const updateAppointmentStatus = async (appointmentId, status) => {
     try {
-      await apiService.put(`/api/appointments/${appointmentId}`, {
-        status: status
-      });
+      await apiService.updateAppointmentStatus(appointmentId, status);
       
       toast({
         title: "Succès",
