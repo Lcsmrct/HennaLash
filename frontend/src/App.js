@@ -13,6 +13,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import BookingDetailsPage from "./pages/BookingDetailsPage";
 import { AuthProvider } from "./context/AuthContext";
 import { Toaster } from "./components/ui/toaster";
+import MaintenancePage from "./components/MaintenancePage";
+import { useMaintenance } from "./hooks/useMaintenance";
 
 function App() {
   return (
