@@ -161,3 +161,14 @@ class StatusCheck(BaseModel):
 
 class StatusCheckCreate(BaseModel):
     client_name: str
+
+# Maintenance Mode
+class MaintenanceStatus(BaseModel):
+    is_maintenance: bool = False
+    message: str = "Site en maintenance. Veuillez réessayer plus tard."
+    enabled_at: Optional[datetime] = None
+    enabled_by: Optional[str] = None  # admin user ID
+
+class MaintenanceToggle(BaseModel):
+    is_maintenance: bool
+    message: Optional[str] = "Site en maintenance. Veuillez réessayer plus tard."
