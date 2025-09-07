@@ -605,6 +605,8 @@ class BackendTester:
         self.test_appointment_management()
         self.test_reviews_system()
         self.test_email_service()
+        self.test_cors_and_headers()
+        self.test_performance_and_latency()
         self.test_service_selection()
         
         # Print final results
