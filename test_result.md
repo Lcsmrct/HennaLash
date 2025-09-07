@@ -137,6 +137,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "Admin slot creation tested successfully - slots created with proper availability status and admin-only access control verified"
+      - working: true
+        agent: "testing"
+        comment: "✅ RETESTED - POST /api/slots working perfectly with admin authentication. Simplified slot creation (single time field + auto-calculated end_time) functional. Admin-only access control verified. Slot deletion (DELETE /api/slots/{id}) also working."
 
   - task: "Client Available Slots Retrieval API"
     implemented: true
