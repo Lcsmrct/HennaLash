@@ -535,9 +535,98 @@ class BackendTester:
                     print_error(f"Performance poor - Average response time: {avg_time:.3f}s")
                     self.results['failed'] += 1
 
+    def test_maintenance_mode(self):
+        """Test maintenance mode functionality"""
+        print_header("10. MAINTENANCE MODE TESTS")
+        
+        # Test 1: Get maintenance status (public endpoint)
+        response = self.make_request("GET", "/maintenance")
+        if response and response.status_code == 200:
+            data = response.json()
+            print_success(f"GET /api/maintenance working - Status: {data.get('is_maintenance')}")
+            print_info(f"Message: {data.get('message')}")
+            self.results['passed'] += 1
+        else:
+            print_error("GET /api/maintenance failed")
+            self.results['failed'] += 1
+        
+        if not self.admin_token:
+            print_error("Cannot test maintenance toggle - no admin token")
+            self.results['failed'] += 3
+            return
+        
+        # Test 2: Enable maintenance mode (admin only)
+        maintenance_data = {
+            "is_maintenance": True,
+            "message": "Site en maintenance pour tests. Veuillez réessayer plus tard."
+        }
+        
+        response = self.make_request("POST", "/maintenance", maintenance_data, auth_token=self.admin_token)
+        if response and response.status_code == 200:
+            data = response.json()
+            print_success(f"✅ Maintenance mode ENABLED - Message: {data.get('message')}")
+            self.results['passed'] += 1
+            
+            # Test 3: Verify normal endpoints return 503 for non-admin users
+            response = self.make_request("GET", "/slots")  # No auth token
+            if response and response.status_code == 503:
+                print_success("✅ Maintenance middleware working - Normal endpoints return 503 for non-admin")
+                self.results['passed'] += 1
+            else:
+                print_error(f"❌ Maintenance middleware failed - Expected 503, got {response.status_code if response else 'Connection failed'}")
+                self.results['failed'] += 1
+            
+            # Test 4: Verify allowed endpoints still work during maintenance
+            allowed_endpoints = ["/maintenance", "/login", "/ping"]
+            for endpoint in allowed_endpoints:
+                response = self.make_request("GET", endpoint)
+                if response and response.status_code == 200:
+                    print_success(f"✅ Allowed endpoint {endpoint} works during maintenance")
+                    self.results['passed'] += 1
+                else:
+                    print_error(f"❌ Allowed endpoint {endpoint} failed during maintenance")
+                    self.results['failed'] += 1
+            
+            # Test 5: Verify admin can bypass maintenance
+            response = self.make_request("GET", "/slots", auth_token=self.admin_token)
+            if response and response.status_code == 200:
+                print_success("✅ Admin can bypass maintenance mode")
+                self.results['passed'] += 1
+            else:
+                print_error("❌ Admin cannot bypass maintenance mode")
+                self.results['failed'] += 1
+            
+        else:
+            print_error(f"❌ Enable maintenance mode failed: {response.status_code if response else 'Connection failed'}")
+            self.results['failed'] += 1
+        
+        # Test 6: Disable maintenance mode
+        maintenance_data = {
+            "is_maintenance": False,
+            "message": "Site opérationnel"
+        }
+        
+        response = self.make_request("POST", "/maintenance", maintenance_data, auth_token=self.admin_token)
+        if response and response.status_code == 200:
+            data = response.json()
+            print_success(f"✅ Maintenance mode DISABLED - Status: {data.get('is_maintenance')}")
+            self.results['passed'] += 1
+            
+            # Verify normal endpoints work again
+            response = self.make_request("GET", "/slots")
+            if response and response.status_code == 200:
+                print_success("✅ Normal endpoints working after disabling maintenance")
+                self.results['passed'] += 1
+            else:
+                print_error("❌ Normal endpoints still blocked after disabling maintenance")
+                self.results['failed'] += 1
+        else:
+            print_error("❌ Disable maintenance mode failed")
+            self.results['failed'] += 1
+
     def test_service_selection(self):
         """Test the 4 service types in booking system"""
-        print_header("10. SERVICE SELECTION TEST")
+        print_header("11. SERVICE SELECTION TEST")
         
         services = [
             {"name": "Très simple", "price": 5.0},
