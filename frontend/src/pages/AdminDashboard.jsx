@@ -68,7 +68,7 @@ const AdminDashboard = () => {
   const createSlot = async (e) => {
     e.preventDefault();
     try {
-      await apiService.post('/api/slots', slotForm);
+      await apiService.createSlot(slotForm);
       
       toast({
         title: "Succès",
