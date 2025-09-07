@@ -524,13 +524,36 @@ async def health_check_head():
 # MAINTENANCE MODE ENDPOINTS
 # ==========================================
 
-# Variable globale pour stocker l'état de maintenance
-maintenance_state = {
-    "is_maintenance": False,
-    "message": "Site en maintenance. Veuillez réessayer plus tard.",
-    "enabled_at": None,
-    "enabled_by": None
-}
+# Fonctions pour gérer l'état de maintenance en base de données
+async def get_maintenance_from_db():
+    """Récupère l'état de maintenance depuis la base de données."""
+    db = await get_database()
+    maintenance_doc = await db.maintenance.find_one({"_id": "site_maintenance"})
+    
+    if maintenance_doc:
+        return {
+            "is_maintenance": maintenance_doc.get("is_maintenance", False),
+            "message": maintenance_doc.get("message", "Site en maintenance. Veuillez réessayer plus tard."),
+            "enabled_at": maintenance_doc.get("enabled_at"),
+            "enabled_by": maintenance_doc.get("enabled_by")
+        }
+    else:
+        # État par défaut si aucun document n'existe
+        return {
+            "is_maintenance": False,
+            "message": "Site en maintenance. Veuillez réessayer plus tard.",
+            "enabled_at": None,
+            "enabled_by": None
+        }
+
+async def save_maintenance_to_db(maintenance_state):
+    """Sauvegarde l'état de maintenance en base de données."""
+    db = await get_database()
+    await db.maintenance.update_one(
+        {"_id": "site_maintenance"},
+        {"$set": maintenance_state},
+        upsert=True
+    )
 
 @api_router.get("/maintenance", response_model=MaintenanceStatus)
 async def get_maintenance_status():
