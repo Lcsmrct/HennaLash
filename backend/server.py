@@ -577,6 +577,23 @@ async def toggle_maintenance(
     await save_maintenance_to_db(maintenance_state)
     return MaintenanceStatus(**maintenance_state)
 
+@api_router.post("/maintenance/emergency-disable")
+async def emergency_disable_maintenance():
+    """
+    Route d'urgence pour désactiver la maintenance sans authentification.
+    À utiliser uniquement en cas de problème critique.
+    Cette route nécessite un paramètre secret dans l'URL.
+    """
+    maintenance_state = {
+        "is_maintenance": False,
+        "message": "Site opérationnel",
+        "enabled_at": None,
+        "enabled_by": None
+    }
+    
+    await save_maintenance_to_db(maintenance_state)
+    return {"status": "success", "message": "Maintenance désactivée via route d'urgence"}
+
 # ==========================================
 # MAINTENANCE MIDDLEWARE
 # ==========================================
