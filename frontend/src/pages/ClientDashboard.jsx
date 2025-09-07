@@ -57,10 +57,6 @@ const ClientDashboard = () => {
     return <Navigate to="/admin" replace />;
   }
 
-  useEffect(() => {
-    // Les données sont automatiquement chargées par le hook useCache
-  }, []);
-
   const fetchData = async () => {
     try {
       await loadDashboardData();
