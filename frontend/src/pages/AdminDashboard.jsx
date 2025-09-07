@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
 import { toast } from '../hooks/use-toast';
 import Navigation from '../components/Navigation';
+import MaintenanceModal from '../components/MaintenanceModal';
 
 const AdminDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
