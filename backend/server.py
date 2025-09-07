@@ -521,6 +521,40 @@ async def health_check_head():
     return {"status": "Ok"}
 
 # ==========================================
+# MAINTENANCE MODE ENDPOINTS
+# ==========================================
+
+# Variable globale pour stocker l'état de maintenance
+maintenance_state = {
+    "is_maintenance": False,
+    "message": "Site en maintenance. Veuillez réessayer plus tard.",
+    "enabled_at": None,
+    "enabled_by": None
+}
+
+@api_router.get("/maintenance", response_model=MaintenanceStatus)
+async def get_maintenance_status():
+    """Get current maintenance status - public endpoint."""
+    return MaintenanceStatus(**maintenance_state)
+
+@api_router.post("/maintenance", response_model=MaintenanceStatus)
+async def toggle_maintenance(
+    maintenance_data: MaintenanceToggle,
+    current_user: User = Depends(get_current_admin_user_with_db)
+):
+    """Toggle maintenance mode (Admin only)."""
+    global maintenance_state
+    
+    maintenance_state.update({
+        "is_maintenance": maintenance_data.is_maintenance,
+        "message": maintenance_data.message or "Site en maintenance. Veuillez réessayer plus tard.",
+        "enabled_at": datetime.utcnow() if maintenance_data.is_maintenance else None,
+        "enabled_by": current_user.id if maintenance_data.is_maintenance else None
+    })
+    
+    return MaintenanceStatus(**maintenance_state)
+
+# ==========================================
 # CORS Configuration
 # ==========================================
 
