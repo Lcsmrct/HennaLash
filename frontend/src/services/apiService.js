@@ -41,7 +41,7 @@ export const apiService = {
   },
 
   updateAppointmentStatus: async (appointmentId, status) => {
-    const response = await apiClient.put(`/api/appointments/${appointmentId}`, { status });
+    const response = await apiClient.put(`/api/appointments/${appointmentId}/status`, { status });
     return response.data;
   },
 
