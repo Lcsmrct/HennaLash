@@ -526,9 +526,9 @@ async def health_check_head():
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://henna-lash.onrender.com", "https://henna-lash-frontend.onrender.com"],
+    allow_origins=["http://localhost:3000", "https://hennalash.fr", "https://www.hennalash.fr", "https://henna-lash.onrender.com"],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
     allow_headers=["*"],
 )
 
