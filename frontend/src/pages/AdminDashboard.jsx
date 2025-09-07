@@ -39,7 +39,89 @@ const AdminDashboard = () => {
   }
 
   useEffect(() => {
-    fetchData();
+    let isMounted = true;
+    
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        
+        // Appels API individuels avec gestion d'erreur robuste
+        const [appointmentsRes, slotsRes, reviewsRes] = await Promise.allSettled([
+          apiService.getAppointments(),
+          apiService.getSlots(),
+          apiService.getAllReviews()
+        ]);
+        
+        // Vérifier si le composant est toujours monté avant setState
+        if (!isMounted) return;
+        
+        // Gestion des résultats avec fallback
+        if (appointmentsRes.status === 'fulfilled') {
+          setAppointments(appointmentsRes.value || []);
+        } else {
+          console.error('Error fetching appointments:', appointmentsRes.reason);
+          setAppointments([]);
+        }
+        
+        if (slotsRes.status === 'fulfilled') {
+          setSlots(slotsRes.value || []);
+        } else {
+          console.error('Error fetching slots:', slotsRes.reason);
+          setSlots([]);
+        }
+        
+        if (reviewsRes.status === 'fulfilled') {
+          setReviews(reviewsRes.value || []);
+        } else {
+          console.error('Error fetching reviews:', reviewsRes.reason);
+          setReviews([]);
+        }
+        
+        // Afficher toast seulement si tous les appels ont échoué et composant monté
+        if (isMounted) {
+          const failedCount = [appointmentsRes, slotsRes, reviewsRes].filter(res => res.status === 'rejected').length;
+          if (failedCount === 3) {
+            toast({
+              title: "Erreur",
+              description: "Impossible de charger les données",
+              variant: "destructive"
+            });
+          } else if (failedCount > 0) {
+            toast({
+              title: "Attention",
+              description: `Certaines données n'ont pas pu être chargées (${failedCount}/3)`,
+              variant: "warning"
+            });
+          }
+        }
+        
+      } catch (error) {
+        console.error('Error in loadData:', error);
+        if (isMounted) {
+          // Initialiser avec des valeurs vides pour éviter les erreurs
+          setAppointments([]);
+          setSlots([]);
+          setReviews([]);
+          
+          toast({
+            title: "Erreur",
+            description: "Erreur inattendue lors du chargement",
+            variant: "destructive"
+          });
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+    
+    loadData();
+    
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const fetchData = async () => {
