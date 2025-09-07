@@ -12,8 +12,8 @@ import sys
 
 # Configuration
 BASE_URL = "http://localhost:8001/api"
-ADMIN_EMAIL = "admin@salon.com"
-ADMIN_PASSWORD = "admin123"
+ADMIN_EMAIL = "test.admin@salon.com"
+ADMIN_PASSWORD = "testadmin123"
 CLIENT_EMAIL = "marie.dupont@email.com"
 CLIENT_PASSWORD = "marie123"
 
