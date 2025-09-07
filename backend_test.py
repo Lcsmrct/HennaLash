@@ -453,9 +453,91 @@ class BackendTester:
         print_success("Email service configuration verified")
         self.results['passed'] += 1
 
+    def test_cors_and_headers(self):
+        """Test CORS configuration and headers"""
+        print_header("8. CORS AND HEADERS TEST")
+        
+        # Test CORS preflight request
+        headers = {
+            "Origin": "http://localhost:3000",
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "Content-Type,Authorization"
+        }
+        
+        try:
+            response = requests.options(f"{BASE_URL}/ping", headers=headers, timeout=10)
+            if response.status_code in [200, 204]:
+                cors_headers = response.headers
+                if "Access-Control-Allow-Origin" in cors_headers:
+                    print_success(f"CORS preflight successful - Origin allowed: {cors_headers.get('Access-Control-Allow-Origin')}")
+                    self.results['passed'] += 1
+                else:
+                    print_warning("CORS preflight response missing Access-Control-Allow-Origin header")
+                    self.results['warnings'] += 1
+            else:
+                print_error(f"CORS preflight failed - Status: {response.status_code}")
+                self.results['failed'] += 1
+        except Exception as e:
+            print_error(f"CORS test failed: {str(e)}")
+            self.results['failed'] += 1
+        
+        # Test basic headers on a simple request
+        response = self.make_request("GET", "/ping")
+        if response:
+            headers = response.headers
+            print_info(f"Response headers: Content-Type: {headers.get('content-type', 'Not set')}")
+            print_info(f"Server: {headers.get('server', 'Not set')}")
+            if "application/json" in headers.get('content-type', ''):
+                print_success("Content-Type header correctly set to JSON")
+                self.results['passed'] += 1
+            else:
+                print_warning("Content-Type header not set to JSON")
+                self.results['warnings'] += 1
+
+    def test_performance_and_latency(self):
+        """Test API performance and latency"""
+        print_header("9. PERFORMANCE AND LATENCY TEST")
+        
+        endpoints_to_test = [
+            ("/ping", "GET", None, None),
+            ("/reviews?approved_only=true", "GET", None, None),
+            ("/slots?available_only=true", "GET", None, None)
+        ]
+        
+        for endpoint, method, data, token in endpoints_to_test:
+            times = []
+            for i in range(3):  # Test 3 times for average
+                start_time = time.time()
+                response = self.make_request(method, endpoint, data, auth_token=token)
+                end_time = time.time()
+                
+                if response and response.status_code == 200:
+                    times.append(end_time - start_time)
+                else:
+                    print_warning(f"Performance test failed for {endpoint}")
+                    break
+            
+            if times:
+                avg_time = sum(times) / len(times)
+                min_time = min(times)
+                max_time = max(times)
+                
+                print_info(f"{method} {endpoint}:")
+                print_info(f"  Average: {avg_time:.3f}s, Min: {min_time:.3f}s, Max: {max_time:.3f}s")
+                
+                if avg_time < 2.0:  # Less than 2 seconds is good
+                    print_success(f"Performance OK - Average response time: {avg_time:.3f}s")
+                    self.results['passed'] += 1
+                elif avg_time < 5.0:  # Less than 5 seconds is acceptable
+                    print_warning(f"Performance acceptable - Average response time: {avg_time:.3f}s")
+                    self.results['warnings'] += 1
+                else:
+                    print_error(f"Performance poor - Average response time: {avg_time:.3f}s")
+                    self.results['failed'] += 1
+
     def test_service_selection(self):
         """Test the 4 service types in booking system"""
-        print_header("8. SERVICE SELECTION TEST")
+        print_header("10. SERVICE SELECTION TEST")
         
         services = [
             {"name": "Très simple", "price": 5.0},
