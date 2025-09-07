@@ -45,20 +45,62 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [appointmentsRes, slotsRes, reviewsRes] = await Promise.all([
+      
+      // Appels API individuels avec gestion d'erreur robuste
+      const [appointmentsRes, slotsRes, reviewsRes] = await Promise.allSettled([
         apiService.getAppointments(),
         apiService.getSlots(),
         apiService.getAllReviews()
       ]);
       
-      setAppointments(appointmentsRes);
-      setSlots(slotsRes);
-      setReviews(reviewsRes);
+      // Gestion des résultats avec fallback
+      if (appointmentsRes.status === 'fulfilled') {
+        setAppointments(appointmentsRes.value || []);
+      } else {
+        console.error('Error fetching appointments:', appointmentsRes.reason);
+        setAppointments([]);
+      }
+      
+      if (slotsRes.status === 'fulfilled') {
+        setSlots(slotsRes.value || []);
+      } else {
+        console.error('Error fetching slots:', slotsRes.reason);
+        setSlots([]);
+      }
+      
+      if (reviewsRes.status === 'fulfilled') {
+        setReviews(reviewsRes.value || []);
+      } else {
+        console.error('Error fetching reviews:', reviewsRes.reason);
+        setReviews([]);
+      }
+      
+      // Afficher toast seulement si tous les appels ont échoué
+      const failedCount = [appointmentsRes, slotsRes, reviewsRes].filter(res => res.status === 'rejected').length;
+      if (failedCount === 3) {
+        toast({
+          title: "Erreur",
+          description: "Impossible de charger les données",
+          variant: "destructive"
+        });
+      } else if (failedCount > 0) {
+        toast({
+          title: "Attention",
+          description: `Certaines données n'ont pas pu être chargées (${failedCount}/3)`,
+          variant: "warning"
+        });
+      }
+      
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error in fetchData:', error);
+      // Initialiser avec des valeurs vides pour éviter les erreurs
+      setAppointments([]);
+      setSlots([]);
+      setReviews([]);
+      
       toast({
         title: "Erreur",
-        description: "Impossible de charger les données",
+        description: "Erreur inattendue lors du chargement",
         variant: "destructive"
       });
     } finally {
