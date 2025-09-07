@@ -587,38 +587,18 @@ from fastapi.responses import JSONResponse
 @app.middleware("http")
 async def maintenance_middleware(request: Request, call_next):
     """Middleware to handle maintenance mode."""
-    global maintenance_state
+    # Récupérer l'état de maintenance depuis la BD
+    maintenance_state = await get_maintenance_from_db()
     
-    # Allow maintenance endpoints and admin login always
-    allowed_paths = ["/api/maintenance", "/api/login", "/api/ping", "/docs", "/openapi.json"]
+    # Always allow these endpoints even during maintenance
+    allowed_paths = ["/api/maintenance", "/api/login", "/api/register", "/api/ping", "/docs", "/openapi.json"]
     
     if maintenance_state["is_maintenance"] and request.url.path not in allowed_paths:
         # Allow admin users to bypass maintenance
         auth_header = request.headers.get("authorization")
-        if auth_header:
-            try:
-                # Simple check - in production you'd want proper token validation
-                if "Bearer " in auth_header:
-                    # Let the request through - admin authentication will be validated later
-                    pass
-                else:
-                    return JSONResponse(
-                        status_code=503,
-                        content={
-                            "detail": maintenance_state["message"],
-                            "maintenance": True,
-                            "enabled_at": maintenance_state["enabled_at"].isoformat() if maintenance_state["enabled_at"] else None
-                        }
-                    )
-            except:
-                return JSONResponse(
-                    status_code=503,
-                    content={
-                        "detail": maintenance_state["message"],
-                        "maintenance": True,
-                        "enabled_at": maintenance_state["enabled_at"].isoformat() if maintenance_state["enabled_at"] else None
-                    }
-                )
+        if auth_header and "Bearer " in auth_header:
+            # Let the request through - admin authentication will be validated later
+            pass
         else:
             return JSONResponse(
                 status_code=503,
