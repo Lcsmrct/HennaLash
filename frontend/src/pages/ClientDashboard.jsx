@@ -19,22 +19,35 @@ const ClientDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   
-  // IMPORTANT: Toujours appeler tous les hooks avant toute condition de retour
-  // Utilisation du cache pour les données
-  const {
-    data: dashboardData,
-    loading,
-    refresh: refreshData
-  } = useCache(
-    'client-dashboard-data',
-    () => isAuthenticated ? apiService.getDashboardData('client') : Promise.resolve(null),
-    3 * 60 * 1000 // Cache pendant 3 minutes
-  );
-
-  const appointments = dashboardData?.appointments || [];
-  const availableSlots = dashboardData?.slots || [];
+  // États locaux au lieu du hook useCache pour éviter les erreurs d'ordre des hooks
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [appointments, setAppointments] = useState([]);
+  const [availableSlots, setAvailableSlots] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
+
+  // Fonction pour charger les données
+  const loadDashboardData = useCallback(async () => {
+    if (!isAuthenticated) return;
+    
+    try {
+      setLoading(true);
+      const data = await apiService.getDashboardData('client');
+      setDashboardData(data);
+      setAppointments(data?.appointments || []);
+      setAvailableSlots(data?.slots || []);
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [isAuthenticated]);
+
+  // Effet pour charger les données au montage
+  useEffect(() => {
+    loadDashboardData();
+  }, [loadDashboardData]);
 
   // Redirect if not authenticated or is admin - APRÈS tous les hooks
   if (!isAuthenticated) {
