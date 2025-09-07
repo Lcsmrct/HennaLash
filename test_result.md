@@ -215,6 +215,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ EMAIL SYSTEM VERIFIED WORKING - Gmail credentials (l20245303@gmail.com) configured correctly. Admin notification emails sent when appointments created. Client confirmation emails sent when admin confirms appointments. Backend logs show successful email delivery to both admin@salon.com and client addresses."
+      - working: true
+        agent: "testing"
+        comment: "✅ RETESTED - Email service fully functional. Backend logs show successful email delivery: 'Email sent successfully to admin@salon.com' and 'Email sent successfully to marie.dupont@email.com'. Gmail credentials working perfectly for appointment notifications and confirmations."
 
   - task: "Service Selection in Booking"
     implemented: true
