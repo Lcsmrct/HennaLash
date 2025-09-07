@@ -608,7 +608,7 @@ async def maintenance_middleware(request: Request, call_next):
     maintenance_state = await get_maintenance_from_db()
     
     # Always allow these endpoints even during maintenance
-    allowed_paths = ["/api/maintenance", "/api/login", "/api/register", "/api/ping", "/docs", "/openapi.json"]
+    allowed_paths = ["/api/maintenance", "/api/maintenance/emergency-disable", "/api/login", "/api/register", "/api/ping", "/docs", "/openapi.json"]
     
     if maintenance_state["is_maintenance"] and request.url.path not in allowed_paths:
         # Allow admin users to bypass maintenance
