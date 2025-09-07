@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { Switch } from './ui/switch';
+import { Toggle } from './ui/toggle';
 import { Settings, AlertTriangle, Wrench } from 'lucide-react';
 import { useToast } from './ui/use-toast';
 import apiService from '../services/apiService';
