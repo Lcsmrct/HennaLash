@@ -64,7 +64,7 @@ const ClientDashboard = () => {
 
   const fetchData = async () => {
     try {
-      await refreshData();
+      await loadDashboardData();
       toast({
         title: "Succès",
         description: "Données actualisées",
