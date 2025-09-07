@@ -136,9 +136,7 @@ const AdminDashboard = () => {
 
   const updateReviewStatus = async (reviewId, status) => {
     try {
-      await apiService.put(`/api/reviews/${reviewId}`, {
-        status: status
-      });
+      await apiService.updateReviewStatus(reviewId, status);
       
       toast({
         title: "Succès",
