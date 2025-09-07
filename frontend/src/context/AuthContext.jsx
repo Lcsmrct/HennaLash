@@ -79,15 +79,16 @@ export const AuthProvider = ({ children }) => {
       });
 
       const { access_token } = response.data;
-      setToken(access_token);
-      localStorage.setItem('auth_token', access_token);
-
-      // Get user info
+      
+      // Get user info before setting any state
       const userResponse = await axios.get(`${API_BASE_URL}/api/me`, {
         headers: { Authorization: `Bearer ${access_token}` }
       });
       
+      // Set all auth state atomically to avoid race conditions
+      setToken(access_token);
       setUser(userResponse.data);
+      localStorage.setItem('auth_token', access_token);
       
       // Mettre en cache les données utilisateur après login
       const now = Date.now();
