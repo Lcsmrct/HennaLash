@@ -34,7 +34,22 @@ const AdminDashboard = () => {
     return <Navigate to="/connexion" replace />;
   }
 
-  if (user?.role !== 'admin') {
+  // Wait for user data to be loaded before checking role
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
+        <Navigation />
+        <div className="flex items-center justify-center h-96">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600 mx-auto"></div>
+            <p className="mt-2 text-gray-600">Chargement...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (user.role !== 'admin') {
     return <Navigate to="/mon-espace" replace />;
   }
 
