@@ -567,15 +567,14 @@ async def toggle_maintenance(
     current_user: User = Depends(get_current_admin_user_with_db)
 ):
     """Toggle maintenance mode (Admin only)."""
-    global maintenance_state
-    
-    maintenance_state.update({
+    maintenance_state = {
         "is_maintenance": maintenance_data.is_maintenance,
         "message": maintenance_data.message or "Site en maintenance. Veuillez réessayer plus tard.",
         "enabled_at": datetime.utcnow() if maintenance_data.is_maintenance else None,
         "enabled_by": current_user.id if maintenance_data.is_maintenance else None
-    })
+    }
     
+    await save_maintenance_to_db(maintenance_state)
     return MaintenanceStatus(**maintenance_state)
 
 # ==========================================
