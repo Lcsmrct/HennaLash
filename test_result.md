@@ -266,6 +266,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "Added /api/ping route supporting both GET and HEAD methods, returns {status: 'Ok'}"
+      - working: true
+        agent: "testing"
+        comment: "✅ RETESTED - Health check endpoints working perfectly on localhost:8001. Both GET and HEAD /api/ping return status 200 with {status: 'Ok'} response."
     implemented: true
     working: true
     file: "/app/frontend/src/context/AuthContext.jsx"
