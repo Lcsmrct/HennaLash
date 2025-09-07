@@ -49,54 +49,60 @@ async def get_current_admin_user_with_db(
 # AUTHENTICATION ROUTES
 # ==========================================
 
-@api_router.post("/auth/register", response_model=UserResponse)
-async def register_user(user_data: UserCreate, db = Depends(get_db)):
-    """Register a new user."""
-    # Check if user already exists
-    existing_user = await get_user_by_email(db, user_data.email)
+@api_router.post("/register", response_model=UserResponse)
+async def register(user_data: UserCreate, db = Depends(get_db)):
+    """Create a new user account."""
+    # Check if user with this email already exists
+    existing_user = await db.users.find_one({"email": user_data.email})
     if existing_user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Email already registered"
         )
     
-    # Create new user
-    hashed_password = get_password_hash(user_data.password)
+    # Hash password and create user
+    password_hash = get_password_hash(user_data.password)
     user = User(
         email=user_data.email,
-        password_hash=hashed_password,
+        password_hash=password_hash,
         first_name=user_data.first_name,
         last_name=user_data.last_name,
-        phone=user_data.phone,
-        role=UserRole.ADMIN if user_data.email == "admin@salon.com" else UserRole.CLIENT
+        phone=user_data.phone
     )
     
-    await db.users.insert_one(user.dict())
-    return UserResponse(**user.dict())
+    # Insert user into database
+    user_dict = user.model_dump()
+    await db.users.insert_one(user_dict)
+    
+    return UserResponse(**user_dict)
 
-@api_router.post("/auth/login", response_model=Token)
-async def login_user(user_credentials: UserLogin, db = Depends(get_db)):
-    """Authenticate user and return JWT token."""
-    user = await authenticate_user(db, user_credentials.email, user_credentials.password)
-    if not user:
+@api_router.post("/login", response_model=Token)
+async def login(user_credentials: UserLogin, db = Depends(get_db)):
+    """Authenticate user and return access token."""
+    # Find user by email
+    user_data = await db.users.find_one({"email": user_credentials.email})
+    if not user_data:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password",
-            headers={"WWW-Authenticate": "Bearer"},
+            detail="Invalid email or password"
         )
+    
+    # Verify password
+    if not verify_password(user_credentials.password, user_data["password_hash"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password"
+        )
+    
+    # Create access token
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
+        data={"sub": user_data["email"]}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
-@api_router.get("/auth/me", response_model=UserResponse)
-async def get_current_user_info(current_user: User = Depends(get_current_active_user_with_db)):
-    """Get current user information."""
-    return UserResponse(**current_user.dict())
-
 # ==========================================
-# TIME SLOTS ROUTES (Admin only)
+# TIME SLOT ROUTES (Admin Only)
 # ==========================================
 
 @api_router.post("/slots", response_model=TimeSlotResponse)
@@ -106,57 +112,48 @@ async def create_time_slot(
     db = Depends(get_db)
 ):
     """Create a new time slot (Admin only)."""
+    
     # Calculer end_time basé sur start_time + 1 heure fixe
-    from datetime import datetime, timedelta
     try:
+        from datetime import datetime, timedelta
         start_time_obj = datetime.strptime(slot_data.time, "%H:%M")
         end_time_obj = start_time_obj + timedelta(hours=1)  # Durée fixe 1 heure
         end_time_str = end_time_obj.strftime("%H:%M")
     except ValueError:
-        raise HTTPException(status_code=400, detail="Format d'heure invalide. Utilisez HH:MM")
+        raise HTTPException(status_code=400, detail="Invalid time format. Use HH:MM")
     
-    time_slot = TimeSlot(
+    slot = TimeSlot(
         date=slot_data.date,
         start_time=slot_data.time,
         end_time=end_time_str,
-        service_name="Disponible",  # Nom générique car le service sera choisi par le client
-        service_duration=60,  # Durée fixe 1 heure
-        price=0.0,  # Prix sera défini par le client lors de la réservation
+        service_name="Henné Artisanal",  # Service par défaut
+        service_duration=60,  # 1 heure
+        price=15.0,  # Prix par défaut
         created_by=current_user.id
     )
-    await db.time_slots.insert_one(time_slot.dict())
-    return TimeSlotResponse(**time_slot.dict())
+    
+    slot_dict = slot.model_dump()
+    await db.time_slots.insert_one(slot_dict)
+    
+    return TimeSlotResponse(**slot_dict)
 
 @api_router.get("/slots", response_model=List[TimeSlotResponse])
 async def get_time_slots(
     available_only: bool = False,
+    limit: int = 50,  # Optimisation: limite par défaut
+    skip: int = 0,    # Optimisation: pagination
     db = Depends(get_db)
 ):
-    """Get all time slots."""
+    """Get time slots with pagination and filtering."""
     query = {}
     if available_only:
         query["is_available"] = True
     
-    slots = await db.time_slots.find(query).sort("date", 1).to_list(1000)
-    return [TimeSlotResponse(**slot) for slot in slots]
-
-@api_router.put("/slots/{slot_id}", response_model=TimeSlotResponse)
-async def update_time_slot_availability(
-    slot_id: str,
-    is_available: bool,
-    current_user: User = Depends(get_current_admin_user_with_db),
-    db = Depends(get_db)
-):
-    """Update time slot availability (Admin only)."""
-    result = await db.time_slots.update_one(
-        {"id": slot_id},
-        {"$set": {"is_available": is_available}}
-    )
-    if result.modified_count == 0:
-        raise HTTPException(status_code=404, detail="Time slot not found")
+    # Optimisation: utiliser projection et limit
+    cursor = db.time_slots.find(query).sort("date", 1).skip(skip).limit(limit)
+    slots = await cursor.to_list(length=limit)
     
-    slot = await db.time_slots.find_one({"id": slot_id})
-    return TimeSlotResponse(**slot)
+    return [TimeSlotResponse(**slot) for slot in slots]
 
 @api_router.delete("/slots/{slot_id}")
 async def delete_time_slot(
@@ -165,13 +162,18 @@ async def delete_time_slot(
     db = Depends(get_db)
 ):
     """Delete a time slot (Admin only)."""
-    result = await db.time_slots.delete_one({"id": slot_id})
-    if result.deleted_count == 0:
+    # Check if slot exists
+    slot = await db.time_slots.find_one({"id": slot_id})
+    if not slot:
         raise HTTPException(status_code=404, detail="Time slot not found")
+    
+    # Delete the slot
+    await db.time_slots.delete_one({"id": slot_id})
+    
     return {"message": "Time slot deleted successfully"}
 
 # ==========================================
-# APPOINTMENTS ROUTES
+# APPOINTMENT ROUTES
 # ==========================================
 
 @api_router.post("/appointments", response_model=AppointmentResponse)
@@ -181,28 +183,16 @@ async def create_appointment(
     db = Depends(get_db)
 ):
     """Create a new appointment."""
-    # Check if slot exists and is available
+    
+    # Check if slot exists and is still available
     slot = await db.time_slots.find_one({"id": appointment_data.slot_id, "is_available": True})
     if not slot:
-        raise HTTPException(status_code=404, detail="Time slot not found or not available")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Time slot not available"
+        )
     
-    # Check if user already has appointment for this slot
-    existing = await db.appointments.find_one({
-        "user_id": current_user.id,
-        "slot_id": appointment_data.slot_id,
-        "status": {"$in": ["pending", "confirmed"]}
-    })
-    if existing:
-        raise HTTPException(status_code=400, detail="You already have an appointment for this slot")
-    
-    # Check if anyone else already booked this slot
-    any_existing = await db.appointments.find_one({
-        "slot_id": appointment_data.slot_id,
-        "status": {"$in": ["pending", "confirmed"]}
-    })
-    if any_existing:
-        raise HTTPException(status_code=400, detail="This slot has already been booked by another client")
-    
+    # Create appointment
     appointment = Appointment(
         user_id=current_user.id,
         slot_id=appointment_data.slot_id,
@@ -211,22 +201,14 @@ async def create_appointment(
         notes=appointment_data.notes
     )
     
-    # Insert appointment
-    result = await db.appointments.insert_one(appointment.dict())
-    if not result.inserted_id:
-        raise HTTPException(status_code=500, detail="Failed to create appointment")
+    appointment_dict = appointment.model_dump()
+    await db.appointments.insert_one(appointment_dict)
     
     # Mark slot as unavailable
-    update_result = await db.time_slots.update_one(
+    await db.time_slots.update_one(
         {"id": appointment_data.slot_id},
         {"$set": {"is_available": False}}
     )
-    
-    if update_result.modified_count == 0:
-        logger.warning(f"Failed to mark slot {appointment_data.slot_id} as unavailable")
-        # Clean up the appointment if slot update failed
-        await db.appointments.delete_one({"id": appointment.id})
-        raise HTTPException(status_code=500, detail="Failed to reserve slot - please try again")
     
     # Send email notification to admin
     try:
@@ -249,74 +231,93 @@ async def create_appointment(
     except Exception as e:
         logger.warning(f"Failed to send appointment notification: {str(e)}")
     
-    return AppointmentResponse(**appointment.dict())
+    # Return appointment with populated fields
+    return AppointmentResponse(**appointment_dict)
 
 @api_router.get("/appointments", response_model=List[AppointmentResponse])
 async def get_appointments(
     current_user: User = Depends(get_current_active_user_with_db),
+    limit: int = 50,  # Optimisation: pagination
+    skip: int = 0,
     db = Depends(get_db)
 ):
-    """Get appointments (all for admin, own for clients)."""
+    """Get appointments for current user or all appointments if admin."""
+    
     if current_user.role == UserRole.ADMIN:
-        appointments = await db.appointments.find().sort("created_at", -1).to_list(1000)
+        # Admin can see all appointments with user info - Optimisation: agregation pipeline
+        pipeline = [
+            {"$sort": {"created_at": -1}},
+            {"$skip": skip},
+            {"$limit": limit},
+            {
+                "$lookup": {
+                    "from": "users",
+                    "localField": "user_id",
+                    "foreignField": "id",
+                    "as": "user_info"
+                }
+            },
+            {
+                "$lookup": {
+                    "from": "time_slots",
+                    "localField": "slot_id",
+                    "foreignField": "id",
+                    "as": "slot_info"
+                }
+            },
+            {
+                "$addFields": {
+                    "user_name": {
+                        "$concat": [
+                            {"$arrayElemAt": ["$user_info.first_name", 0]},
+                            " ",
+                            {"$arrayElemAt": ["$user_info.last_name", 0]}
+                        ]
+                    },
+                    "user_email": {"$arrayElemAt": ["$user_info.email", 0]},
+                    "slot_info": {"$arrayElemAt": ["$slot_info", 0]}
+                }
+            },
+            {
+                "$project": {
+                    "user_info": 0  # Remove user_info array
+                }
+            }
+        ]
+        
+        appointments = await db.appointments.aggregate(pipeline).to_list(length=limit)
     else:
-        appointments = await db.appointments.find({"user_id": current_user.id}).sort("created_at", -1).to_list(1000)
+        # Regular user can only see their own appointments
+        appointments = await db.appointments.find(
+            {"user_id": current_user.id}
+        ).sort("created_at", -1).skip(skip).limit(limit).to_list(length=limit)
     
-    # Populate with user and slot info
-    result = []
-    for apt in appointments:
-        # Gérer la rétrocompatibilité pour les appointments existants
-        if 'service_name' not in apt:
-            apt['service_name'] = None
-        if 'service_price' not in apt:
-            apt['service_price'] = None
-            
-        apt_response = AppointmentResponse(**apt)
-        
-        # Get user info
-        user = await db.users.find_one({"id": apt["user_id"]})
-        if user:
-            apt_response.user_name = f"{user['first_name']} {user['last_name']}"
-            apt_response.user_email = user['email']
-        
-        # Get slot info
-        slot = await db.time_slots.find_one({"id": apt["slot_id"]})
-        if slot:
-            apt_response.slot_info = TimeSlotResponse(**slot)
-        
-        result.append(apt_response)
-    
-    return result
+    return [AppointmentResponse(**appointment) for appointment in appointments]
 
-@api_router.put("/appointments/{appointment_id}", response_model=AppointmentResponse)
+@api_router.put("/appointments/{appointment_id}/status", response_model=AppointmentResponse)
 async def update_appointment_status(
     appointment_id: str,
-    update_data: AppointmentUpdate,
+    appointment_update: AppointmentUpdate,
     current_user: User = Depends(get_current_admin_user_with_db),
     db = Depends(get_db)
 ):
     """Update appointment status (Admin only)."""
+    
+    # Check if appointment exists
     appointment = await db.appointments.find_one({"id": appointment_id})
     if not appointment:
         raise HTTPException(status_code=404, detail="Appointment not found")
     
-    update_dict = {"status": update_data.status, "updated_at": datetime.utcnow()}
-    if update_data.notes is not None:
-        update_dict["notes"] = update_data.notes
+    # Update appointment
+    await db.appointments.update_one(
+        {"id": appointment_id},
+        {"$set": {"status": appointment_update.status, "notes": appointment_update.notes, "updated_at": datetime.utcnow()}}
+    )
     
-    await db.appointments.update_one({"id": appointment_id}, {"$set": update_dict})
-    
-    # If cancelled, make slot available again
-    if update_data.status == AppointmentStatus.CANCELLED:
-        await db.time_slots.update_one(
-            {"id": appointment["slot_id"]},
-            {"$set": {"is_available": True}}
-        )
-    
-    # Send confirmation email to client when admin confirms appointment
-    if update_data.status == AppointmentStatus.CONFIRMED:
+    # Send confirmation email to client if status is confirmed
+    if appointment_update.status == AppointmentStatus.CONFIRMED:
         try:
-            # Get user and slot details
+            # Get user and slot info
             user = await db.users.find_one({"id": appointment["user_id"]})
             slot = await db.time_slots.find_one({"id": appointment["slot_id"]})
             
@@ -347,24 +348,25 @@ async def delete_appointment(
     db = Depends(get_db)
 ):
     """Delete an appointment (Admin only)."""
+    
+    # Check if appointment exists
     appointment = await db.appointments.find_one({"id": appointment_id})
     if not appointment:
         raise HTTPException(status_code=404, detail="Appointment not found")
     
-    # Make slot available again
+    # Make the slot available again
     await db.time_slots.update_one(
         {"id": appointment["slot_id"]},
         {"$set": {"is_available": True}}
     )
     
-    result = await db.appointments.delete_one({"id": appointment_id})
-    if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Appointment not found")
+    # Delete appointment
+    await db.appointments.delete_one({"id": appointment_id})
     
     return {"message": "Appointment deleted successfully"}
 
 # ==========================================
-# REVIEWS ROUTES
+# REVIEW ROUTES
 # ==========================================
 
 @api_router.post("/reviews", response_model=ReviewResponse)
@@ -374,17 +376,18 @@ async def create_review(
     db = Depends(get_db)
 ):
     """Create a new review."""
+    
     review = Review(
         user_id=current_user.id,
         rating=review_data.rating,
         comment=review_data.comment
     )
     
-    await db.reviews.insert_one(review.dict())
+    review_dict = review.model_dump()
+    await db.reviews.insert_one(review_dict)
     
-    # Send email notification to admin
+    # Send notification to admin
     try:
-        # Get admin users
         admin_users = await db.users.find({"role": "admin"}).to_list(10)
         for admin in admin_users:
             user_name = f"{current_user.first_name} {current_user.last_name}"
@@ -397,153 +400,136 @@ async def create_review(
     except Exception as e:
         logger.warning(f"Failed to send review notification: {str(e)}")
     
-    response = ReviewResponse(**review.dict())
-    response.user_name = f"{current_user.first_name} {current_user.last_name}"
-    
-    return response
+    return ReviewResponse(**review_dict)
 
 @api_router.get("/reviews", response_model=List[ReviewResponse])
 async def get_reviews(
-    approved_only: bool = True,
-    db = Depends(get_db),
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False))
+    approved_only: bool = False,
+    limit: int = 50,  # Optimisation: pagination
+    skip: int = 0,
+    current_user: Optional[User] = Depends(get_current_user_with_db) if not approved_only else None,
+    db = Depends(get_db)
 ):
-    """Get reviews (approved only for public, all for admin)."""
-    current_user = None
-    if credentials:
-        try:
-            current_user = await get_current_user(credentials, db)
-        except:
-            pass
+    """Get reviews. If approved_only=true, no authentication required."""
     
-    query = {}
-    if approved_only and (not current_user or current_user.role != UserRole.ADMIN):
-        query["status"] = ReviewStatus.APPROVED
-    
-    # Optimized: Use aggregation pipeline to join reviews with users in one query
-    pipeline = [
-        {"$match": query},
-        {"$sort": {"created_at": -1}},
-        {"$limit": 50},  # Limit to improve performance
-        {
-            "$lookup": {
-                "from": "users",
-                "localField": "user_id",
-                "foreignField": "id",
-                "as": "user_info"
-            }
-        },
-        {
-            "$addFields": {
-                "user_name": {
-                    "$cond": {
-                        "if": {"$gt": [{"$size": "$user_info"}, 0]},
-                        "then": {
-                            "$concat": [
-                                {"$arrayElemAt": ["$user_info.first_name", 0]},
-                                " ",
-                                {"$arrayElemAt": ["$user_info.last_name", 0]}
-                            ]
-                        },
-                        "else": "Utilisateur Anonyme"
+    if approved_only:
+        # Public endpoint - optimized with compound index
+        reviews = await db.reviews.find(
+            {"status": "approved"}
+        ).sort("created_at", -1).skip(skip).limit(limit).to_list(length=limit)
+    else:
+        # Admin endpoint - need authentication
+        if not current_user or current_user.role != UserRole.ADMIN:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Admin access required"
+            )
+        
+        # Optimised aggregation pipeline for admin reviews
+        pipeline = [
+            {"$sort": {"created_at": -1}},
+            {"$skip": skip},
+            {"$limit": limit},
+            {
+                "$lookup": {
+                    "from": "users",
+                    "localField": "user_id",
+                    "foreignField": "id",
+                    "as": "user_info"
+                }
+            },
+            {
+                "$addFields": {
+                    "user_name": {
+                        "$concat": [
+                            {"$arrayElemAt": ["$user_info.first_name", 0]},
+                            " ",
+                            {"$arrayElemAt": ["$user_info.last_name", 0]}
+                        ]
                     }
                 }
+            },
+            {
+                "$project": {
+                    "user_info": 0
+                }
             }
-        },
-        {
-            "$project": {
-                "user_info": 0  # Remove the joined user_info array from results
-            }
-        }
-    ]
+        ]
+        
+        reviews = await db.reviews.aggregate(pipeline).to_list(length=limit)
     
-    reviews_with_users = await db.reviews.aggregate(pipeline).to_list(50)
-    
-    # Convert to response objects
-    result = []
-    for review in reviews_with_users:
-        review_response = ReviewResponse(**review)
-        result.append(review_response)
-    
-    return result
+    return [ReviewResponse(**review) for review in reviews]
 
 @api_router.put("/reviews/{review_id}", response_model=ReviewResponse)
 async def update_review_status(
     review_id: str,
-    update_data: ReviewUpdate,
+    review_update: ReviewUpdate,
     current_user: User = Depends(get_current_admin_user_with_db),
     db = Depends(get_db)
 ):
     """Update review status (Admin only)."""
-    result = await db.reviews.update_one(
-        {"id": review_id},
-        {"$set": {"status": update_data.status, "updated_at": datetime.utcnow()}}
-    )
-    if result.modified_count == 0:
+    
+    # Check if review exists
+    review = await db.reviews.find_one({"id": review_id})
+    if not review:
         raise HTTPException(status_code=404, detail="Review not found")
     
-    review = await db.reviews.find_one({"id": review_id})
-    response = ReviewResponse(**review)
+    # Update review
+    await db.reviews.update_one(
+        {"id": review_id},
+        {"$set": {"status": review_update.status, "updated_at": datetime.utcnow()}}
+    )
     
-    # Get user info
-    user = await db.users.find_one({"id": review["user_id"]})
-    if user:
-        response.user_name = f"{user['first_name']} {user['last_name']}"
-    
-    return response
+    updated_review = await db.reviews.find_one({"id": review_id})
+    return ReviewResponse(**updated_review)
 
 # ==========================================
-# LEGACY ROUTES (keeping existing functionality)
+# UTILITY ROUTES
 # ==========================================
-
-@api_router.get("/")
-async def root():
-    return {"message": "Salon Booking API"}
 
 @api_router.get("/ping")
-@api_router.head("/ping")
-async def ping():
-    """Health check endpoint that responds to both GET and HEAD requests."""
+async def health_check():
+    """Health check endpoint."""
     return {"status": "Ok"}
 
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate, db = Depends(get_db)):
-    status_dict = input.dict()
-    status_obj = StatusCheck(**status_dict)
-    _ = await db.status_checks.insert_one(status_obj.dict())
-    return status_obj
+@api_router.head("/ping")
+async def health_check_head():
+    """Health check HEAD endpoint."""
+    return {"status": "Ok"}
 
-@api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks(db = Depends(get_db)):
-    status_checks = await db.status_checks.find().to_list(1000)
-    return [StatusCheck(**status_check) for status_check in status_checks]
-
-# Include the router in the main app
-app.include_router(api_router)
+# ==========================================
+# CORS Configuration
+# ==========================================
 
 app.add_middleware(
     CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+# Mount the API router
+app.include_router(api_router)
+
+# Add logging configuration
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Startup event to create indexes
 @app.on_event("startup")
 async def startup_event():
     """Create database indexes on startup."""
     await create_indexes()
-    logger.info("Database indexes created")
+    logger.info("Database indexes created successfully")
 
+# Shutdown event
 @app.on_event("shutdown")
 async def shutdown_event():
     """Close database connection on shutdown."""
     await close_db_connection()
     logger.info("Database connection closed")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)
