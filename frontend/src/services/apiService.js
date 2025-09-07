@@ -20,6 +20,25 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
+// Intercepteur de réponse pour gérer les erreurs de façon centralisée
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API Error:', error.response?.data || error.message);
+    
+    // Si erreur 401, nettoyer le token
+    if (error.response?.status === 401) {
+      localStorage.removeItem('auth_token');
+      // Éviter une redirection infinie
+      if (window.location.pathname !== '/connexion') {
+        window.location.href = '/connexion';
+      }
+    }
+    
+    return Promise.reject(error);
+  }
+);
+
 // Service API optimisé avec mise en cache
 export const apiService = {
   // Slots
