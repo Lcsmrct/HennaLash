@@ -34,13 +34,22 @@ const LoginPage = () => {
     setLoading(true);
     setError('');
 
-    const result = await login(formData.email, formData.password);
-    
-    if (!result.success) {
-      setError(result.error);
+    try {
+      const result = await login(formData.email, formData.password);
+      
+      if (result.success) {
+        // Redirection manuelle après login réussi pour éviter les race conditions
+        const targetPath = result.user?.role === 'admin' ? '/admin' : '/mon-espace';
+        window.location.href = targetPath;
+      } else {
+        setError(result.error);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setError('Erreur inattendue lors de la connexion');
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   return (
