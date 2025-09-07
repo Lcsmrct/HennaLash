@@ -236,7 +236,7 @@ async def create_appointment(
             user_name = f"{current_user.first_name} {current_user.last_name}"
             slot_obj = TimeSlot(**slot)
             appointment_date = slot_obj.date.strftime("%d/%m/%Y")
-            appointment_time = f"{slot_obj.start_time} - {slot_obj.end_time}"
+            appointment_time = slot_obj.start_time
             
             await email_service.send_appointment_notification(
                 admin_email=admin["email"],
