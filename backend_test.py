@@ -11,7 +11,7 @@ import time
 import sys
 
 # Configuration
-BASE_URL = "http://localhost:8001/api"
+BASE_URL = "https://henna-lash.onrender.com/api"
 ADMIN_EMAIL = "admin@salon.com"
 ADMIN_PASSWORD = "testadmin123"  # We'll update this password
 CLIENT_EMAIL = "marie.dupont@email.com"
