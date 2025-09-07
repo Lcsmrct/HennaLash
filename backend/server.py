@@ -45,6 +45,22 @@ async def get_current_admin_user_with_db(
 ) -> User:
     return await get_current_admin_user(current_user)
 
+# Dependency to get current user optionally (no auth required)
+async def get_current_user_with_db_optional(
+    authorization: Optional[str] = Header(None),
+    db = Depends(get_db)
+) -> Optional[User]:
+    if not authorization or not authorization.startswith("Bearer "):
+        return None
+    try:
+        credentials = HTTPAuthorizationCredentials(
+            scheme="bearer",
+            credentials=authorization.split(" ")[1]
+        )
+        return await get_current_user(credentials, db)
+    except:
+        return None
+
 # ==========================================
 # AUTHENTICATION ROUTES
 # ==========================================
