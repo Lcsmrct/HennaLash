@@ -18,18 +18,8 @@ import MaintenanceModal from '../components/MaintenanceModal';
 
 const AdminDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
-  const [appointments, setAppointments] = useState([]);
-  const [slots, setSlots] = useState([]);
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [showSlotDialog, setShowSlotDialog] = useState(false);
-  const [slotForm, setSlotForm] = useState({
-    date: '',
-    time: '' // Une seule heure (durée fixe 1h)
-  });
 
-
-  // Redirect if not authenticated or not admin
+  // Redirect if not authenticated or not admin - BEFORE other hooks
   if (!isAuthenticated) {
     return <Navigate to="/connexion" replace />;
   }
@@ -52,6 +42,17 @@ const AdminDashboard = () => {
   if (user.role !== 'admin') {
     return <Navigate to="/mon-espace" replace />;
   }
+
+  // All other hooks AFTER the conditional returns
+  const [appointments, setAppointments] = useState([]);
+  const [slots, setSlots] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showSlotDialog, setShowSlotDialog] = useState(false);
+  const [slotForm, setSlotForm] = useState({
+    date: '',
+    time: '' // Une seule heure (durée fixe 1h)
+  });
 
   useEffect(() => {
     let isMounted = true;
