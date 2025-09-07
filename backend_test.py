@@ -696,6 +696,7 @@ class BackendTester:
         self.test_email_service()
         self.test_cors_and_headers()
         self.test_performance_and_latency()
+        self.test_maintenance_mode()  # NEW: Test maintenance functionality
         self.test_service_selection()
         
         # Print final results
