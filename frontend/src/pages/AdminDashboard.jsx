@@ -30,6 +30,73 @@ const AdminDashboard = () => {
     time: '' // Une seule heure (durée fixe 1h)
   });
 
+  useEffect(() => {
+    let isMounted = true;
+    
+    const loadData = async () => {
+      // Skip data loading if not authenticated or not admin
+      if (!isAuthenticated || !user || user.role !== 'admin') {
+        return;
+      }
+      
+      try {
+        setLoading(true);
+        
+        // Appels API individuels avec gestion d'erreur robuste
+        const [appointmentsRes, slotsRes, reviewsRes] = await Promise.allSettled([
+          apiService.getAppointments(),
+          apiService.getSlots(),
+          apiService.getAllReviews()
+        ]);
+        
+        // Vérifier si le composant est toujours monté avant setState
+        if (!isMounted) return;
+        
+        // Gestion des résultats avec fallback
+        if (appointmentsRes.status === 'fulfilled') {
+          setAppointments(appointmentsRes.value || []);
+        } else {
+          console.error('Error fetching appointments:', appointmentsRes.reason);
+          setAppointments([]);
+        }
+        
+        if (slotsRes.status === 'fulfilled') {
+          setSlots(slotsRes.value || []);
+        } else {
+          console.error('Error fetching slots:', slotsRes.reason);
+          setSlots([]);
+        }
+        
+        if (reviewsRes.status === 'fulfilled') {
+          setReviews(reviewsRes.value || []);
+        } else {
+          console.error('Error fetching reviews:', reviewsRes.reason);
+          setReviews([]);
+        }
+        
+      } catch (error) {
+        console.error('Error in loadData:', error);
+        if (isMounted) {
+          // Initialiser avec des valeurs vides pour éviter les erreurs
+          setAppointments([]);
+          setSlots([]);
+          setReviews([]);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+    
+    loadData();
+    
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
+  }, [isAuthenticated, user]);
+
   // Redirect logic AFTER all hooks are declared
   if (!isAuthenticated) {
     return <Navigate to="/connexion" replace />;
