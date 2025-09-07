@@ -71,7 +71,7 @@ const ClientDashboard = () => {
   const submitReview = async (e) => {
     e.preventDefault();
     try {
-      await apiService.post('/api/reviews', reviewForm);
+      await apiService.createReview(reviewForm);
       
       toast({
         title: "Succès",
