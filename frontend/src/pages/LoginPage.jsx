@@ -17,8 +17,8 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Redirect if already authenticated
-  if (isAuthenticated) {
+  // Redirect if already authenticated - with safety check
+  if (isAuthenticated && user) {
     return <Navigate to={user?.role === 'admin' ? '/admin' : '/mon-espace'} replace />;
   }
 
