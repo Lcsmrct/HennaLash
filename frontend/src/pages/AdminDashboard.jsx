@@ -239,10 +239,13 @@ const AdminDashboard = () => {
             </h1>
             <p className="text-gray-600">Gérez les créneaux, rendez-vous et avis</p>
           </div>
-          <Button onClick={logout} variant="outline">
-            <LogOut className="mr-2 h-4 w-4" />
-            Déconnexion
-          </Button>
+          <div className="flex gap-2">
+            <MaintenanceModal isAdmin={true} />
+            <Button onClick={logout} variant="outline">
+              <LogOut className="mr-2 h-4 w-4" />
+              Déconnexion
+            </Button>
+          </div>
         </div>
 
         <Tabs defaultValue="appointments" className="space-y-6">
