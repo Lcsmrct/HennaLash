@@ -350,20 +350,20 @@ class BackendTester:
             print_error("Client get appointments failed")
             self.results['failed'] += 1
         
-        # Test appointment status update (admin only)
+        # Test appointment status update (admin only) - FIXED URL ISSUE
         if self.test_appointment_id:
             update_data = {
                 "status": "confirmed",
                 "notes": "Rendez-vous confirmé par l'admin"
             }
             
-            response = self.make_request("PUT", f"/appointments/{self.test_appointment_id}", update_data, auth_token=self.admin_token)
+            response = self.make_request("PUT", f"/appointments/{self.test_appointment_id}/status", update_data, auth_token=self.admin_token)
             if response and response.status_code == 200:
-                print_success("Appointment status update successful")
+                print_success("✅ FIXED - Appointment status update successful (PUT /api/appointments/{id}/status)")
                 print_info("Client confirmation email should be sent")
                 self.results['passed'] += 1
             else:
-                print_error("Appointment status update failed")
+                print_error(f"❌ Appointment status update failed: {response.status_code if response else 'Connection failed'} - {response.text if response else ''}")
                 self.results['failed'] += 1
         
         # Test appointment deletion (admin only)
