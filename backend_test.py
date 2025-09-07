@@ -216,7 +216,7 @@ class BackendTester:
             "password": CLIENT_PASSWORD
         }
         
-        response = self.make_request("POST", "/auth/login", client_login)
+        response = self.make_request("POST", "/login", client_login)
         if response and response.status_code == 200:
             data = response.json()
             if "access_token" in data:
