@@ -81,7 +81,7 @@ const AdminDashboard = () => {
         time: ''
       });
       
-      refreshData();
+      fetchData();
     } catch (error) {
       console.error('Error creating slot:', error);
       toast({
