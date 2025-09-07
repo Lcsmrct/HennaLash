@@ -117,6 +117,13 @@ async def login(user_credentials: UserLogin, db = Depends(get_db)):
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
+@api_router.get("/me", response_model=UserResponse)
+async def get_current_user_info(
+    current_user: User = Depends(get_current_user_with_db)
+):
+    """Get current user information."""
+    return current_user
+
 # ==========================================
 # TIME SLOT ROUTES (Admin Only)
 # ==========================================
