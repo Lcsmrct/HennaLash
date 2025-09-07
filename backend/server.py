@@ -324,7 +324,7 @@ async def update_appointment_status(
                 user_name = f"{user['first_name']} {user['last_name']}"
                 slot_obj = TimeSlot(**slot)
                 appointment_date = slot_obj.date.strftime("%d/%m/%Y")
-                appointment_time = f"{slot_obj.start_time} - {slot_obj.end_time}"
+                appointment_time = slot_obj.start_time
                 
                 await email_service.send_appointment_confirmation_to_client(
                     client_email=user["email"],
