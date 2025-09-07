@@ -150,11 +150,16 @@ const MaintenanceModal = ({ isAdmin = false }) => {
                   }
                 </p>
               </div>
-              <Switch
-                checked={!isMaintenanceMode}
-                onCheckedChange={() => handleToggleMaintenance()}
+              <Toggle
+                pressed={!isMaintenanceMode}
+                onPressedChange={() => handleToggleMaintenance()}
                 disabled={loading}
-              />
+                className={`data-[state=on]:bg-green-500 data-[state=off]:bg-red-500 ${
+                  isMaintenanceMode ? 'bg-red-500' : 'bg-green-500'
+                }`}
+              >
+                {isMaintenanceMode ? 'OFF' : 'ON'}
+              </Toggle>
             </div>
           )}
 
