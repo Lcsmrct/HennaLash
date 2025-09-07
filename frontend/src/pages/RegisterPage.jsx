@@ -82,23 +82,23 @@ const RegisterPage = () => {
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80')`,
+              backgroundImage: `url('https://images.unsplash.com/photo-1629332791128-58f00882964d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHwxfHxoZW5uYSUyMGhhbmRzfGVufDB8fHx8MTc1NzI0ODk0MHww&ixlib=rb-4.1.0&q=85')`,
             }}
           >
             <div className="absolute inset-0 bg-black/60"></div>
           </div>
 
           <div className="relative z-10 w-full max-w-md mx-auto px-6">
-            <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 text-center">
-              <div className="flex justify-center mb-6">
-                <CheckCircle className="h-16 w-16 text-green-500" />
+            <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sm:p-8 text-center">
+              <div className="flex justify-center mb-4 sm:mb-6">
+                <CheckCircle className="h-12 w-12 sm:h-16 sm:w-16 text-green-500" />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">Inscription réussie !</h1>
-              <p className="text-gray-600 mb-8">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Inscription réussie !</h1>
+              <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
                 Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.
               </p>
               <Link to="/connexion" className="w-full block">
-                <Button className="w-full h-12 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                <Button className="w-full h-10 sm:h-12 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg text-sm sm:text-base">
                   Se connecter maintenant
                 </Button>
               </Link>
@@ -114,17 +114,18 @@ const RegisterPage = () => {
       <Navigation />
       
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+        {/* Background Image with Overlay - Image henné appropriée */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80')`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1629332791128-58f00882964d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHwxfHxoZW5uYSUyMGhhbmRzfGVufDB8fHx8MTc1NzI0ODk0MHww&ixlib=rb-4.1.0&q=85')`,
           }}
         >
           <div className="absolute inset-0 bg-black/60"></div>
         </div>
 
         <div className="relative z-10 w-full max-w-md mx-auto px-6">
-          <div className="mb-8">
+          <div className="mb-6 sm:mb-8">
             <Link 
               to="/" 
               className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors group"
@@ -135,25 +136,25 @@ const RegisterPage = () => {
           </div>
 
           <Card className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl">
-            <CardContent className="p-8">
-              <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Inscription</h1>
-                <p className="text-gray-600">
+            <CardContent className="p-6 sm:p-8">
+              <div className="text-center mb-6 sm:mb-8">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Inscription</h1>
+                <p className="text-sm sm:text-base text-gray-600">
                   Créez votre compte pour réserver en ligne
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             {error && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{error}</AlertDescription>
+                <AlertDescription className="text-sm">{error}</AlertDescription>
               </Alert>
             )}
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-2">
-                <Label htmlFor="first_name">Prénom</Label>
+                <Label htmlFor="first_name" className="text-sm font-medium">Prénom</Label>
                 <Input
                   id="first_name"
                   name="first_name"
@@ -162,10 +163,11 @@ const RegisterPage = () => {
                   placeholder="Prénom"
                   required
                   disabled={loading}
+                  className="h-10 text-sm"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="last_name">Nom</Label>
+                <Label htmlFor="last_name" className="text-sm font-medium">Nom</Label>
                 <Input
                   id="last_name"
                   name="last_name"
@@ -174,12 +176,13 @@ const RegisterPage = () => {
                   placeholder="Nom"
                   required
                   disabled={loading}
+                  className="h-10 text-sm"
                 />
               </div>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-sm font-medium">Email</Label>
               <Input
                 id="email"
                 name="email"
@@ -189,11 +192,12 @@ const RegisterPage = () => {
                 placeholder="votre@email.com"
                 required
                 disabled={loading}
+                className="h-10 text-sm"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="phone">Téléphone (optionnel)</Label>
+              <Label htmlFor="phone" className="text-sm font-medium">Téléphone (optionnel)</Label>
               <Input
                 id="phone"
                 name="phone"
@@ -202,11 +206,12 @@ const RegisterPage = () => {
                 onChange={handleChange}
                 placeholder="+33 1 23 45 67 89"
                 disabled={loading}
+                className="h-10 text-sm"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password">Mot de passe</Label>
+              <Label htmlFor="password" className="text-sm font-medium">Mot de passe</Label>
               <Input
                 id="password"
                 name="password"
@@ -216,11 +221,12 @@ const RegisterPage = () => {
                 placeholder="••••••••"
                 required
                 disabled={loading}
+                className="h-10 text-sm"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
+              <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirmer le mot de passe</Label>
               <Input
                 id="confirmPassword"
                 name="confirmPassword"
@@ -230,10 +236,11 @@ const RegisterPage = () => {
                 placeholder="••••••••"
                 required
                 disabled={loading}
+                className="h-10 text-sm"
               />
             </div>
             
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full h-10 sm:h-12 text-sm sm:text-base" disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -245,8 +252,8 @@ const RegisterPage = () => {
             </Button>
               </form>
             </CardContent>
-        <CardFooter className="flex flex-col space-y-2">
-          <p className="text-sm text-muted-foreground text-center">
+        <CardFooter className="flex flex-col space-y-2 px-6 sm:px-8 pb-6 sm:pb-8">
+          <p className="text-xs sm:text-sm text-muted-foreground text-center">
             Déjà un compte ?{' '}
             <Link to="/connexion" className="text-primary hover:underline">
               Se connecter
