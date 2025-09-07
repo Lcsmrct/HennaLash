@@ -18,6 +18,8 @@ import Navigation from '../components/Navigation';
 const ClientDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  
+  // IMPORTANT: Toujours appeler tous les hooks avant toute condition de retour
   // Utilisation du cache pour les données
   const {
     data: dashboardData,
@@ -25,7 +27,7 @@ const ClientDashboard = () => {
     refresh: refreshData
   } = useCache(
     'client-dashboard-data',
-    () => apiService.getDashboardData('client'),
+    () => isAuthenticated ? apiService.getDashboardData('client') : Promise.resolve(null),
     3 * 60 * 1000 // Cache pendant 3 minutes
   );
 
@@ -34,7 +36,7 @@ const ClientDashboard = () => {
   const [reviews, setReviews] = useState([]);
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
 
-  // Redirect if not authenticated or is admin
+  // Redirect if not authenticated or is admin - APRÈS tous les hooks
   if (!isAuthenticated) {
     return <Navigate to="/connexion" replace />;
   }
