@@ -143,7 +143,7 @@ class BackendTester:
             "phone": "0123456789"
         }
         
-        response = self.make_request("POST", "/auth/register", admin_data)
+        response = self.make_request("POST", "/register", admin_data)
         if response:
             if response.status_code == 200:
                 print_success("Admin registration successful")
