@@ -386,11 +386,11 @@ const AdminDashboard = () => {
                             </p>
                             <div className="flex items-center text-sm text-gray-600">
                               <Calendar className="mr-1 h-4 w-4" />
-                              {appointment.slot_info ? formatDate(appointment.slot_info.date) : 'Date non spécifiée'}
+                              {appointment.slot_info && appointment.slot_info.date ? formatDate(appointment.slot_info.date) : 'Date non spécifiée'}
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
                               <Clock className="mr-1 h-4 w-4" />
-                              {appointment.slot_info ? 
+                              {appointment.slot_info && appointment.slot_info.start_time ? 
                                 `${formatTime(appointment.slot_info.start_time)}` 
                                 : 'Heure non spécifiée'}
                             </div>
