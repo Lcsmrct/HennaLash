@@ -391,7 +391,7 @@ const AdminDashboard = () => {
                             <div className="flex items-center text-sm text-gray-600">
                               <Clock className="mr-1 h-4 w-4" />
                               {appointment.slot_info ? 
-                                `${formatTime(appointment.slot_info.start_time)} - ${formatTime(appointment.slot_info.end_time)}` 
+                                `${formatTime(appointment.slot_info.start_time)}` 
                                 : 'Heure non spécifiée'}
                             </div>
                             {appointment.notes && (
