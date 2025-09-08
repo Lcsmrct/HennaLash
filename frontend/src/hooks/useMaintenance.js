@@ -35,10 +35,9 @@ export const useMaintenance = () => {
   useEffect(() => {
     checkMaintenanceStatus();
     
-    // Vérifier le statut toutes les 30 secondes
-    const interval = setInterval(checkMaintenanceStatus, 30000);
-    
-    return () => clearInterval(interval);
+    // Vérification de maintenance désactivée pour éviter l'auto-refresh
+    // const interval = setInterval(checkMaintenanceStatus, 30000);
+    // return () => clearInterval(interval);
   }, []);
 
   return {
