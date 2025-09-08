@@ -331,10 +331,25 @@ async def update_appointment_status(
     if not appointment:
         raise HTTPException(status_code=404, detail="Appointment not found")
     
-    # Update appointment
+    # Update appointment - preserve original client notes if no admin notes provided
+    update_fields = {
+        "status": appointment_update.status, 
+        "updated_at": datetime.utcnow()
+    }
+    
+    # Only update notes if admin provides new notes, otherwise preserve existing ones
+    if appointment_update.notes is not None and appointment_update.notes.strip():
+        # If admin provides notes, append them to existing client notes
+        existing_notes = appointment.get("notes", "")
+        if existing_notes:
+            update_fields["notes"] = f"{existing_notes}\n\n--- Notes Admin ---\n{appointment_update.notes}"
+        else:
+            update_fields["notes"] = appointment_update.notes
+    # If no admin notes provided, keep existing client notes unchanged
+    
     await db.appointments.update_one(
         {"id": appointment_id},
-        {"$set": {"status": appointment_update.status, "notes": appointment_update.notes, "updated_at": datetime.utcnow()}}
+        {"$set": update_fields}
     )
     
     # Send confirmation email to client if status is confirmed
