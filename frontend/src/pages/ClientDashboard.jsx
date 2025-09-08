@@ -314,7 +314,7 @@ const ClientDashboard = () => {
                     />
                   </div>
                   
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="w-full py-3">
                     Soumettre l'avis
                   </Button>
                 </form>
