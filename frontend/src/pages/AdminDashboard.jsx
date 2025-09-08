@@ -375,8 +375,8 @@ const AdminDashboard = () => {
                   <div className="space-y-4">
                     {appointments.map((appointment) => (
                       <div key={appointment.id} className="border rounded-lg p-4">
-                        <div className="flex justify-between items-start">
-                          <div className="space-y-2">
+                        <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                          <div className="space-y-2 flex-1">
                             <h3 className="font-semibold">
                               {appointment.service_name || 'Service non spécifié'}
                             </h3>
@@ -406,24 +406,27 @@ const AdminDashboard = () => {
                               </div>
                             )}
                           </div>
-                          <div className="text-right space-y-2">
+                          <div className="text-right space-y-2 w-full sm:w-auto">
                             {getStatusBadge(appointment.status)}
-
-                            <div className="flex gap-2">
+                            <div className="flex flex-row sm:flex-col gap-2 justify-end">
                               {appointment.status === 'pending' && (
                                 <Button 
                                   size="sm" 
                                   onClick={() => updateAppointmentStatus(appointment.id, 'confirmed')}
+                                  className="flex-1 sm:flex-none"
                                 >
                                   <Check className="h-4 w-4" />
+                                  <span className="ml-1 sm:hidden">Confirmer</span>
                                 </Button>
                               )}
                               <Button 
                                 size="sm" 
                                 variant="destructive"
                                 onClick={() => deleteAppointment(appointment.id)}
+                                className="flex-1 sm:flex-none"
                               >
                                 <Trash2 className="h-4 w-4" />
+                                <span className="ml-1 sm:hidden">Supprimer</span>
                               </Button>
                             </div>
                           </div>
