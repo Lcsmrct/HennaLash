@@ -348,11 +348,11 @@ const AdminDashboard = () => {
         </div>
 
         <Tabs defaultValue="appointments" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="appointments">Rendez-vous</TabsTrigger>
-            <TabsTrigger value="slots">Créneaux</TabsTrigger>
-            <TabsTrigger value="reviews">Avis</TabsTrigger>
-            <TabsTrigger value="stats">Statistiques</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-1">
+            <TabsTrigger value="appointments" className="text-xs sm:text-sm">Rendez-vous</TabsTrigger>
+            <TabsTrigger value="slots" className="text-xs sm:text-sm">Créneaux</TabsTrigger>
+            <TabsTrigger value="reviews" className="text-xs sm:text-sm">Avis</TabsTrigger>
+            <TabsTrigger value="stats" className="text-xs sm:text-sm">Stats</TabsTrigger>
           </TabsList>
 
           <TabsContent value="appointments" className="space-y-4">
