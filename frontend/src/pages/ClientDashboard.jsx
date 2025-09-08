@@ -270,8 +270,6 @@ const ClientDashboard = () => {
                       );
                     })}
                   </div>
-                  </div>
-                  </div>
                 )}
               </CardContent>
             </Card>
