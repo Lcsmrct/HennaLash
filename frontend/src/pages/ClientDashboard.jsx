@@ -157,10 +157,10 @@ const ClientDashboard = () => {
         </div>
 
         <Tabs defaultValue="appointments" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="appointments">Mes Rendez-vous</TabsTrigger>
-            <TabsTrigger value="booking">Réserver</TabsTrigger>
-            <TabsTrigger value="reviews">Laisser un Avis</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 gap-1">
+            <TabsTrigger value="appointments" className="text-sm">Mes Rendez-vous</TabsTrigger>
+            <TabsTrigger value="booking" className="text-sm">Réserver</TabsTrigger>
+            <TabsTrigger value="reviews" className="text-sm">Laisser un Avis</TabsTrigger>
           </TabsList>
 
           <TabsContent value="appointments" className="space-y-4">
