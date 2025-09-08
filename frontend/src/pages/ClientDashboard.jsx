@@ -33,6 +33,8 @@ const ClientDashboard = () => {
     try {
       setLoading(true);
       const data = await apiService.getDashboardData('client');
+      console.log('Dashboard data received:', data);
+      console.log('Available slots:', data?.slots);
       setDashboardData(data);
       setAppointments(data?.appointments || []);
       setAvailableSlots(data?.slots || []);
