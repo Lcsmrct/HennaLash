@@ -28,11 +28,11 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  // Keep-alive pour éviter la mise en veille du backend
-  useEffect(() => {
-    const cleanupKeepAlive = setupKeepAlive(45000); // Ping toutes les 45 secondes
-    return cleanupKeepAlive;
-  }, []);
+  // Keep-alive désactivé pour éviter les appels répétés
+  // useEffect(() => {
+  //   const cleanupKeepAlive = setupKeepAlive(45000); // Ping toutes les 45 secondes
+  //   return cleanupKeepAlive;
+  // }, []);
 
   // Check if user is authenticated on app load
   useEffect(() => {
