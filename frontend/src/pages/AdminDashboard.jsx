@@ -515,7 +515,7 @@ const AdminDashboard = () => {
                             </div>
                             <div className="flex items-center">
                               <Clock className="mr-1 h-4 w-4" />
-                              {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
+                              {formatTime(slot.start_time)}
                             </div>
 
                           </div>
