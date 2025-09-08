@@ -517,9 +517,7 @@ const AdminDashboard = () => {
                               <Clock className="mr-1 h-4 w-4" />
                               {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
                             </div>
-                            <p className="text-lg font-semibold text-primary">
-                              {slot.price}€
-                            </p>
+
                           </div>
                           <Button 
                             variant="destructive" 
