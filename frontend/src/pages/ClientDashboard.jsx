@@ -245,11 +245,11 @@ const ClientDashboard = () => {
                           <div className="space-y-2 text-sm text-gray-600">
                             <div className="flex items-center">
                               <Calendar className="mr-1 h-4 w-4" />
-                              {formatDate(slot.date)}
+                              {slot.date ? formatDate(slot.date) : 'Date non spécifiée'}
                             </div>
                             <div className="flex items-center">
                               <Clock className="mr-1 h-4 w-4" />
-                              {formatTime(slot.start_time)}
+                              {slot.start_time ? formatTime(slot.start_time) : 'Heure non spécifiée'}
                             </div>
                             <p className="text-sm text-gray-500">
                               Service à choisir lors de la réservation
