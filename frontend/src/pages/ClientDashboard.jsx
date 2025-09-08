@@ -249,7 +249,7 @@ const ClientDashboard = () => {
                             </div>
                             <div className="flex items-center">
                               <Clock className="mr-1 h-4 w-4" />
-                              {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
+                              {formatTime(slot.start_time)}
                             </div>
                             <p className="text-sm text-gray-500">
                               Service à choisir lors de la réservation
