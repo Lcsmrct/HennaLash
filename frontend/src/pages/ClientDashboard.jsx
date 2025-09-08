@@ -256,10 +256,10 @@ const ClientDashboard = () => {
                             </p>
                           </div>
                           <Button 
-                            className="w-full mt-4" 
+                            className="w-full mt-4 py-3" 
                             onClick={() => goToBookingDetails(slot.id)}
                           >
-                            Réserver
+                            Réserver ce créneau
                           </Button>
                         </CardContent>
                       </Card>
