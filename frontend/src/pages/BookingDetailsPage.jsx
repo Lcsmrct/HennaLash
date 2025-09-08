@@ -197,7 +197,7 @@ const BookingDetailsPage = () => {
                 </div>
                 <div className="flex items-center text-gray-600">
                   <Clock className="mr-2 h-4 w-4" />
-                  {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
+                  {formatTime(slot.start_time)}
                 </div>
                 <p className="text-2xl font-bold text-orange-600">
                   {bookingForm.service_price}€
