@@ -254,8 +254,51 @@ async def create_appointment(
     except Exception as e:
         logger.warning(f"Failed to send appointment notification: {str(e)}")
     
-    # Return appointment with populated fields
-    return AppointmentResponse(**appointment_dict)
+    # Return appointment with populated fields (user_name, user_email, slot_info)
+    pipeline = [
+        {"$match": {"id": appointment.id}},
+        {
+            "$lookup": {
+                "from": "users",
+                "localField": "user_id",
+                "foreignField": "id",
+                "as": "user_info"
+            }
+        },
+        {
+            "$lookup": {
+                "from": "time_slots",
+                "localField": "slot_id",
+                "foreignField": "id",
+                "as": "slot_info"
+            }
+        },
+        {
+            "$addFields": {
+                "user_name": {
+                    "$concat": [
+                        {"$arrayElemAt": ["$user_info.first_name", 0]},
+                        " ",
+                        {"$arrayElemAt": ["$user_info.last_name", 0]}
+                    ]
+                },
+                "user_email": {"$arrayElemAt": ["$user_info.email", 0]},
+                "slot_info": {"$arrayElemAt": ["$slot_info", 0]}
+            }
+        },
+        {
+            "$project": {
+                "user_info": 0  # Remove user_info array
+            }
+        }
+    ]
+    
+    created_appointment_list = await db.appointments.aggregate(pipeline).to_list(length=1)
+    if not created_appointment_list:
+        # Fallback to basic response if aggregation fails
+        return AppointmentResponse(**appointment_dict)
+    
+    return AppointmentResponse(**created_appointment_list[0])
 
 @api_router.get("/appointments", response_model=List[AppointmentResponse])
 async def get_appointments(
