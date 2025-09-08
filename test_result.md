@@ -278,6 +278,24 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ RETESTED - Health check endpoints working perfectly on localhost:8001. Both GET and HEAD /api/ping return status 200 with {status: 'Ok'} response."
+      - working: true
+        agent: "testing"
+        comment: "✅ FINAL VERIFICATION - /api/ping endpoints fully functional on external URL. GET and HEAD requests working perfectly (6/6 tests passed, 0.4s avg response time). No more 'Fetch failed loading: HEAD /api/ping' errors."
+
+  - task: "Repeated Calls Elimination"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/context/AuthContext.jsx, /app/frontend/src/hooks/useMaintenance.js, /app/frontend/src/hooks/useCache.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Désactivé 3 mécanismes d'appels répétés: 1) setupKeepAlive() dans AuthContext.jsx (ping toutes les 45s), 2) setInterval dans useMaintenance.js (vérification toutes les 30s), 3) keepAlive dans useCache.js (ping HEAD vers /api/ping)"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED - All 3 repeated call mechanisms successfully disabled. Code inspection confirms: AuthContext.jsx lines 32-35 commented out, useMaintenance.js lines 38-40 commented out, useCache.js lines 80-105 disabled with empty function return. Backend logs show no repeated calls. User-reported auto-refresh every 30 seconds eliminated."
     implemented: true
     working: true
     file: "/app/frontend/src/context/AuthContext.jsx"
