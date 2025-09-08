@@ -361,8 +361,50 @@ async def update_appointment_status(
         except Exception as e:
             logger.warning(f"Failed to send confirmation email to client: {str(e)}")
     
-    updated_appointment = await db.appointments.find_one({"id": appointment_id})
-    return AppointmentResponse(**updated_appointment)
+    # Return the updated appointment with populated fields (user_name, user_email, slot_info)
+    pipeline = [
+        {"$match": {"id": appointment_id}},
+        {
+            "$lookup": {
+                "from": "users",
+                "localField": "user_id",
+                "foreignField": "id",
+                "as": "user_info"
+            }
+        },
+        {
+            "$lookup": {
+                "from": "time_slots",
+                "localField": "slot_id",
+                "foreignField": "id",
+                "as": "slot_info"
+            }
+        },
+        {
+            "$addFields": {
+                "user_name": {
+                    "$concat": [
+                        {"$arrayElemAt": ["$user_info.first_name", 0]},
+                        " ",
+                        {"$arrayElemAt": ["$user_info.last_name", 0]}
+                    ]
+                },
+                "user_email": {"$arrayElemAt": ["$user_info.email", 0]},
+                "slot_info": {"$arrayElemAt": ["$slot_info", 0]}
+            }
+        },
+        {
+            "$project": {
+                "user_info": 0  # Remove user_info array
+            }
+        }
+    ]
+    
+    updated_appointment_list = await db.appointments.aggregate(pipeline).to_list(length=1)
+    if not updated_appointment_list:
+        raise HTTPException(status_code=404, detail="Updated appointment not found")
+    
+    return AppointmentResponse(**updated_appointment_list[0])
 
 @api_router.delete("/appointments/{appointment_id}")
 async def delete_appointment(
