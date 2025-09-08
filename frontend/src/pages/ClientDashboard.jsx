@@ -237,7 +237,7 @@ const ClientDashboard = () => {
                     Aucun créneau disponible pour le moment
                   </p>
                 ) : (
-                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {availableSlots.map((slot) => (
                       <Card key={slot.id} className="cursor-pointer hover:shadow-md transition-shadow">
                         <CardContent className="p-4">
