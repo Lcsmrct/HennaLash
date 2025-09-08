@@ -183,8 +183,8 @@ const ClientDashboard = () => {
                   <div className="space-y-4">
                     {appointments.map((appointment) => (
                       <div key={appointment.id} className="border rounded-lg p-4">
-                        <div className="flex justify-between items-start">
-                          <div className="space-y-2">
+                        <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                          <div className="space-y-2 flex-1">
                             <h3 className="font-semibold">
                               {appointment.service_name || 'Service non spécifié'}
                             </h3>
@@ -205,7 +205,7 @@ const ClientDashboard = () => {
                               </p>
                             )}
                           </div>
-                          <div className="text-right">
+                          <div className="text-right w-full sm:w-auto">
                             {getStatusBadge(appointment.status)}
                             <p className="text-lg font-semibold mt-2">
                               {appointment.service_price || 0}€
