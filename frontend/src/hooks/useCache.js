@@ -76,8 +76,13 @@ export const clearAllCache = () => {
   cacheTimestamps.clear();
 };
 
-// Fonction utilitaire pour keep-alive (éviter la mise en veille)
+// Fonction utilitaire pour keep-alive (désactivée pour éviter appels répétés)
 export const setupKeepAlive = (interval = 45000) => { // 45 secondes
+  // Keep-alive désactivé pour éviter les erreurs répétées
+  console.log('Keep-alive désactivé pour éviter les appels répétés vers /api/ping');
+  return () => {}; // Retourner une fonction vide pour éviter les erreurs
+  
+  /* Code original commenté :
   const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 
     (typeof window !== 'undefined' && window.import?.meta?.env?.REACT_APP_BACKEND_URL);
   
@@ -96,4 +101,5 @@ export const setupKeepAlive = (interval = 45000) => { // 45 secondes
   }, interval);
 
   return () => clearInterval(keepAliveInterval);
+  */
 };
