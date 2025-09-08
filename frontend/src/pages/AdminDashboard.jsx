@@ -331,16 +331,16 @@ const AdminDashboard = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
               Panneau d'Administration
             </h1>
             <p className="text-gray-600">Gérez les créneaux, rendez-vous et avis</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <MaintenanceModal isAdmin={true} />
-            <Button onClick={logout} variant="outline">
+            <Button onClick={logout} variant="outline" className="w-full sm:w-auto">
               <LogOut className="mr-2 h-4 w-4" />
               Déconnexion
             </Button>
