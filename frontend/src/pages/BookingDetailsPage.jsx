@@ -229,22 +229,22 @@ const services = [
 
           {/* Booking Form */}
           <Card>
-            <CardHeader>
-              <CardTitle>Informations de Réservation</CardTitle>
-              <CardDescription>
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="text-base sm:text-lg">Informations de Réservation</CardTitle>
+              <CardDescription className="text-sm sm:text-base">
                 Veuillez remplir ces informations pour personnaliser votre rendez-vous
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                 {/* Service Selection */}
                 <div className="space-y-3">
-                  <Label className="text-lg font-semibold">🎨 Choisissez votre service</Label>
-                  <div className="grid gap-3">
+                  <Label className="text-base sm:text-lg font-semibold">🎨 Choisissez votre service</Label>
+                  <div className="grid gap-2 sm:gap-3">
                     {services.map((service) => (
                       <div 
                         key={service.name}
-                        className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                        className={`p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-all ${
                           bookingForm.service_name === service.name 
                             ? 'border-orange-500 bg-orange-50' 
                             : 'border-gray-200 hover:border-orange-300'
@@ -255,14 +255,14 @@ const services = [
                           service_price: service.price
                         })}
                       >
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <h3 className="font-semibold">{service.name}</h3>
-                            <p className="text-sm text-gray-600">{service.description}</p>
+                        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 sm:gap-0">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-sm sm:text-base">{service.name}</h3>
+                            <p className="text-xs sm:text-sm text-gray-600 break-words">{service.description}</p>
                             <p className="text-xs text-gray-500">{service.duration}</p>
                           </div>
-                          <div className="text-right">
-                            <p className="text-xl font-bold text-orange-600">{service.price}</p>
+                          <div className="text-left sm:text-right flex-shrink-0">
+                            <p className="text-lg sm:text-xl font-bold text-orange-600">{service.price}</p>
                           </div>
                         </div>
                       </div>
@@ -271,8 +271,8 @@ const services = [
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="instagram" className="flex items-center">
-                    <Instagram className="mr-2 h-4 w-4" />
+                  <Label htmlFor="instagram" className="flex items-center text-sm sm:text-base">
+                    <Instagram className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                     Instagram (optionnel)
                   </Label>
                   <Input
@@ -280,19 +280,20 @@ const services = [
                     value={bookingForm.instagram}
                     onChange={(e) => setBookingForm({...bookingForm, instagram: e.target.value})}
                     placeholder="@votre_instagram"
+                    className="h-10 sm:h-11 text-sm sm:text-base"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="lieu" className="flex items-center">
-                    <MapPin className="mr-2 h-4 w-4" />
+                  <Label htmlFor="lieu" className="flex items-center text-sm sm:text-base">
+                    <MapPin className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                     Lieu souhaité
                   </Label>
                   <Select 
                     value={bookingForm.lieu} 
                     onValueChange={(value) => setBookingForm({...bookingForm, lieu: value})}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="h-10 sm:h-11">
                       <SelectValue placeholder="Choisissez le lieu" />
                     </SelectTrigger>
                     <SelectContent>
@@ -304,15 +305,15 @@ const services = [
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="nombre_personnes" className="flex items-center">
-                    <Users className="mr-2 h-4 w-4" />
+                  <Label htmlFor="nombre_personnes" className="flex items-center text-sm sm:text-base">
+                    <Users className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                     Nombre de personnes
                   </Label>
                   <Select 
                     value={bookingForm.nombre_personnes} 
                     onValueChange={(value) => setBookingForm({...bookingForm, nombre_personnes: value})}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="h-10 sm:h-11">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -326,7 +327,7 @@ const services = [
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="informations_supplementaires">
+                  <Label htmlFor="informations_supplementaires" className="text-sm sm:text-base">
                     Informations supplémentaires
                   </Label>
                   <Textarea
@@ -334,20 +335,20 @@ const services = [
                     value={bookingForm.informations_supplementaires}
                     onChange={(e) => setBookingForm({...bookingForm, informations_supplementaires: e.target.value})}
                     placeholder="Exemple: Motifs souhaités, allergies, préférences particulières..."
-                    className="min-h-[80px]"
+                    className="min-h-[60px] sm:min-h-[80px] text-sm sm:text-base"
                   />
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
                   <Button 
                     type="button" 
                     variant="outline" 
                     onClick={() => navigate('/mon-espace')}
-                    className="flex-1"
+                    className="flex-1 h-10 sm:h-11 text-sm sm:text-base"
                   >
                     Annuler
                   </Button>
-                  <Button type="submit" className="flex-1 bg-orange-600 hover:bg-orange-700">
+                  <Button type="submit" className="flex-1 h-10 sm:h-11 text-sm sm:text-base bg-orange-600 hover:bg-orange-700">
                     Confirmer la Réservation
                   </Button>
                 </div>
