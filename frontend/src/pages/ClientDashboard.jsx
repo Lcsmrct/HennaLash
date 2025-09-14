@@ -144,25 +144,31 @@ const ClientDashboard = () => {
     <div className="min-h-screen bg-gray-50 pt-16">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+      <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
+          <div className="w-full sm:w-auto">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
               Bonjour, {user?.first_name} !
             </h1>
-            <p className="text-gray-600">Gérez vos rendez-vous et laissez des avis</p>
+            <p className="text-sm sm:text-base text-gray-600 mt-1">Gérez vos rendez-vous et laissez des avis</p>
           </div>
-          <Button onClick={logout} variant="outline" className="w-full sm:w-auto">
+          <Button onClick={logout} variant="outline" className="w-full sm:w-auto min-w-[120px]">
             <LogOut className="mr-2 h-4 w-4" />
             Déconnexion
           </Button>
         </div>
 
-        <Tabs defaultValue="appointments" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 gap-1">
-            <TabsTrigger value="appointments" className="text-sm">Mes Rendez-vous</TabsTrigger>
-            <TabsTrigger value="booking" className="text-sm">Réserver</TabsTrigger>
-            <TabsTrigger value="reviews" className="text-sm">Laisser un Avis</TabsTrigger>
+        <Tabs defaultValue="appointments" className="space-y-4 sm:space-y-6">
+          <TabsList className="grid w-full grid-cols-3 h-auto p-1">
+            <TabsTrigger value="appointments" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
+              Mes Rendez-vous
+            </TabsTrigger>
+            <TabsTrigger value="booking" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
+              Réserver
+            </TabsTrigger>
+            <TabsTrigger value="reviews" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
+              Laisser un Avis
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="appointments" className="space-y-4">
