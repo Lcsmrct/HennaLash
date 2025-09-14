@@ -212,9 +212,9 @@ const ContactPage = () => {
                           <SelectValue placeholder="Choisir le lieu" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="En salon">En salon</SelectItem>
-                          <SelectItem value="À domicile">À domicile</SelectItem>
-                          <SelectItem value="Événement">Événement</SelectItem>
+                          <SelectItem value="En salon">Chez moi</SelectItem>
+                          <SelectItem value="À domicile">Chez vous</SelectItem>
+                          <SelectItem value="Événement">Autres</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

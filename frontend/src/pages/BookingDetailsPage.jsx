@@ -295,10 +295,9 @@ const services = [
                       <SelectValue placeholder="Choisissez le lieu" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="salon">En salon</SelectItem>
-                      <SelectItem value="domicile">À domicile</SelectItem>
-                      <SelectItem value="evenement">Événement</SelectItem>
-                      <SelectItem value="autre">Autre</SelectItem>
+                      <SelectItem value="salon">Chez moi</SelectItem>
+                      <SelectItem value="domicile">Chez vous</SelectItem>
+                      <SelectItem value="evenement">Autre</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
