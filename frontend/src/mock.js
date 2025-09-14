@@ -54,7 +54,7 @@ export const mockData = {
       {
         icon: "heart",
         name: "Très simple",
-        price: "5€",
+        price: "5€ par main",
         duration: "Durée: 10-15 min",
         description: "Design sur un doigt",
         features: ["Design simple sur un doigt"],
@@ -64,7 +64,7 @@ export const mockData = {
       {
         icon: "heart",
         name: "Simple",
-        price: "8€",
+        price: "8€ par main",
         duration: "Durée: 20-30 min",
         description: "Designs simples et élégants pour toute occasion",
         features: ["Design simple sur une main"],
@@ -74,7 +74,7 @@ export const mockData = {
       {
         icon: "star",
         name: "Chargé",
-        price: "12€",
+        price: "12€ par main",
         duration: "Durée: 45min - 1h",
         description: "Créations détaillées et ornementées",
         features: ["Design sur les deux mains"],
@@ -84,7 +84,7 @@ export const mockData = {
       {
         icon: "crown",
         name: "Mariée",
-        price: "20€",
+        price: "20€ par main",
         duration: "Durée: 1h - 1h30",
         description: "Service spécial mariée avec motifs exceptionnels",
         features: ["Mains et avant-bras"],
@@ -195,9 +195,9 @@ export const mockData = {
           required: true,
           options: [
             'Choisissez votre service',
-            'Simple - 8€',
-            'Chargé - 12€',
-            'Mariée - 20€',
+            'Simple - 8€ par main',
+            'Chargé - 12€ par main',
+            'Mariée - 20€ par main',
             'Autre demande'
           ]
         },

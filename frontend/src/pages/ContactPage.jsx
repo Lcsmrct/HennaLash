@@ -29,9 +29,9 @@ const ContactPage = () => {
     const selectedPlan = localStorage.getItem('selectedPlan');
     if (selectedPlan) {
       const serviceMap = {
-        'Simple': 'Simple - 8€',
-        'Chargé': 'Chargé - 12€',
-        'Mariée': 'Mariée - 20€'
+        'Simple': 'Simple - 8€ par main',
+        'Chargé': 'Chargé - 12€ par main',
+        'Mariée': 'Mariée - 20€ par main'
       };
       setFormData(prev => ({ 
         ...prev, 
