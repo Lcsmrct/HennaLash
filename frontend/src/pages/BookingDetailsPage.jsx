@@ -181,22 +181,23 @@ const services = [
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
-          <div className="flex items-center gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
             <Button 
               variant="outline" 
               onClick={() => navigate('/mon-espace')}
+              className="w-auto"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Retour
+              <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+              <span className="text-xs sm:text-sm">Retour</span>
             </Button>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+            <div className="w-full sm:w-auto">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 leading-tight">
                 Finaliser la Réservation
               </h1>
-              <p className="text-gray-600">Ajoutez vos informations personnalisées</p>
+              <p className="text-sm sm:text-base text-gray-600 mt-1">Ajoutez vos informations personnalisées</p>
             </div>
           </div>
 
