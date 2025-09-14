@@ -16,7 +16,29 @@ code {
         monospace;
 }
 
-
+/* Amélioration responsive mobile */
+@layer utilities {
+  .mobile-scroll-fix {
+    /* Améliore le scroll sur mobile */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .mobile-tap-highlight {
+    /* Supprime le highlight bleu sur mobile */
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .mobile-text-size-adjust {
+    /* Empêche le zoom automatique sur focus des inputs */
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  .mobile-safe-area {
+    /* Respecte les zones sûres (encoche iPhone) */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
 
 @layer base {
   :root {
@@ -78,9 +100,25 @@ code {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border mobile-tap-highlight;
     }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground mobile-text-size-adjust mobile-scroll-fix;
     }
+  
+  /* Amélioration des formulaires sur mobile */
+  input, select, textarea {
+    @apply text-base; /* Empêche le zoom sur iOS */
+  }
+  
+  /* Amélioration des boutons sur mobile */
+  button {
+    @apply mobile-tap-highlight;
+    min-height: 44px; /* Taille minimum recommandée pour les boutons tactiles */
+  }
+  
+  /* Amélioration des cartes sur mobile */
+  .card {
+    @apply shadow-sm border-0 sm:shadow-md sm:border;
+  }
 }
