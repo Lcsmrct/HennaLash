@@ -93,75 +93,6 @@ export const mockData = {
       }
     ]
   },
-  testimonials: {
-    title: "Avis Clients",
-    subtitle: "Découvrez les témoignages de nos clients qui ont vécu une expérience unique avec nos créations au henné",
-    rating: {
-      score: "5",
-      text: "Basé sur 47 avis vérifiés"
-    },
-    reviews: [
-      {
-        id: 1,
-        name: "Sarah M.",
-        timeAgo: "Il y a 2 semaines",
-        rating: 5,
-        avatar: "SM",
-        review: "Une expérience absolument magique ! Les motifs étaient d'une finesse incroyable et ont duré plus de 2 semaines. Je recommande vivement pour un mariage ou toute occasion spéciale.",
-        service: "Henné Mariée"
-      },
-      {
-        id: 2,
-        name: "Amina K.",
-        timeAgo: "Il y a 1 mois",
-        rating: 5,
-        avatar: "AK",
-        review: "Service impeccable et design magnifique. L'artiste a su parfaitement comprendre mes attentes et créer un motif unique. La qualité du henné est exceptionnelle.",
-        service: "Henné Traditionnel"
-      },
-      {
-        id: 3,
-        name: "Léa D.",
-        timeAgo: "Il y a 3 semaines",
-        rating: 5,
-        avatar: "LD",
-        review: "Premier essai du henné et je suis conquise ! Accueil chaleureux, conseils précieux et résultat au-delà de mes espérances. J'y retournerai sans hésiter.",
-        service: "Henné Simple"
-      },
-      {
-        id: 4,
-        name: "Fatima B.",
-        timeAgo: "Il y a 1 semaine",
-        rating: 5,
-        avatar: "FB",
-        review: "Pour mon mariage, j'ai fait appel à leurs services et c'était parfait. Les motifs traditionnels étaient respectés à la perfection. Toutes mes invitées étaient émerveillées.",
-        service: "Henné Mariée"
-      },
-      {
-        id: 5,
-        name: "Claire L.",
-        timeAgo: "Il y a 2 mois",
-        rating: 5,
-        avatar: "CL",
-        review: "Excellente prestation ! Le henné est de très bonne qualité, les motifs sont fins et détaillés. L'ambiance est relaxante et l'artiste très professionnelle.",
-        service: "Henné Traditionnel"
-      },
-      {
-        id: 6,
-        name: "Nadia R.",
-        timeAgo: "Il y a 3 semaines",
-        rating: 5,
-        avatar: "NR",
-        review: "Service à domicile parfait pour notre événement familial. Tout le monde était ravi ! Les enfants comme les adultes ont adoré leurs motifs personnalisés.",
-        service: "Atelier Groupe"
-      }
-    ],
-    stats: [
-      { number: "100%", label: "Satisfaction" },
-      { number: "200+", label: "Clientes" },
-      { number: "3 ans", label: "Expérience" }
-    ]
-  },
   contact: {
     title: "Réservation",
     subtitle: "Réservez votre séance de henné en quelques clics. Nous vous contacterons pour confirmer tous les détails.",
@@ -202,37 +133,14 @@ export const mockData = {
           ]
         },
         {
-          name: 'date',
-          label: 'Date souhaitée',
-          type: 'date',
-          required: true
-        },
-        {
-          name: 'time',
-          label: 'Heure préférée',
-          type: 'select',
-          required: true,
-          options: [
-            'Choisir un horaire',
-            '9h00',
-            '10h00',
-            '11h00',
-            '14h00',
-            '15h00',
-            '16h00',
-            '17h00'
-          ]
-        },
-        {
           name: 'location',
           label: 'Lieu souhaité',
           type: 'select',
           required: false,
           options: [
             'Choisir le lieu',
-            'En salon',
-            'À domicile',
-            'Événement'
+            'Chez vous',
+            'Chez moi',
           ]
         },
         {
