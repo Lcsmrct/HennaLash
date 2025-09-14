@@ -310,14 +310,14 @@ const ClientDashboard = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={submitReview} className="space-y-4">
+                <form onSubmit={submitReview} className="space-y-4 sm:space-y-6">
                   <div className="space-y-2">
-                    <Label>Note</Label>
+                    <Label className="text-sm sm:text-base">Note</Label>
                     <Select 
                       value={reviewForm.rating.toString()} 
                       onValueChange={(value) => setReviewForm({...reviewForm, rating: parseInt(value)})}
                     >
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="w-full h-10 sm:h-11">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -331,18 +331,18 @@ const ClientDashboard = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="comment">Commentaire</Label>
+                    <Label htmlFor="comment" className="text-sm sm:text-base">Commentaire</Label>
                     <Textarea
                       id="comment"
                       value={reviewForm.comment}
                       onChange={(e) => setReviewForm({...reviewForm, comment: e.target.value})}
                       placeholder="Partagez votre expérience..."
-                      className="min-h-[100px]"
+                      className="min-h-[80px] sm:min-h-[100px] text-sm sm:text-base"
                       required
                     />
                   </div>
                   
-                  <Button type="submit" className="w-full py-3">
+                  <Button type="submit" className="w-full py-2 sm:py-3 text-sm sm:text-base font-medium">
                     Soumettre l'avis
                   </Button>
                 </form>
