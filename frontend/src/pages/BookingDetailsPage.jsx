@@ -220,7 +220,7 @@ const services = [
                   {formatTime(slot.start_time)}
                 </div>
                 <p className="text-2xl font-bold text-orange-600">
-                  {bookingForm.service_price}€
+                  {bookingForm.service_price}
                 </p>
               </div>
             </CardContent>
@@ -261,7 +261,7 @@ const services = [
                             <p className="text-xs text-gray-500">{service.duration}</p>
                           </div>
                           <div className="text-right">
-                            <p className="text-xl font-bold text-orange-600">{service.price}€</p>
+                            <p className="text-xl font-bold text-orange-600">{service.price}</p>
                           </div>
                         </div>
                       </div>
