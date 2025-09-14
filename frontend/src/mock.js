@@ -247,24 +247,12 @@ export const mockData = {
     },
     info: {
       title: "Contact Direct",
-      phone: "06 12 34 56 78",
       email: "contact@hennalash.fr",
-      address: {
-        street: "123 Rue de la Beauté",
-        city: "75001 Paris"
-      },
-      hours: {
-        title: "Horaires d'Ouverture",
-        schedule: [
-          { days: "Lundi - Vendredi", hours: "9h - 18h" },
-          { days: "Samedi", hours: "9h - 17h" },
-          { days: "Dimanche", hours: "Sur RDV" }
-        ]
-      },
+
       notes: {
         title: "À Savoir",
         items: [
-          "Confirmation par SMS dans les 24h",
+          "Confirmation par MAIL dans les 24h",
           "Possibilité d'annulation jusqu'à 24h avant",
           "Paiement en espèces ou par carte",
           "Henné 100% naturel et végétal",
