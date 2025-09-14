@@ -41,7 +41,7 @@ const GalleryPage = () => {
     },
     {
       id: 5,
-      url: "https://i.ibb.co/GfDt5V0M/IMG-6650.jpg",
+      url: "https://i.ibb.co/GfDt5V0/IMG-6650.jpg",
       title: "Henné Raffiné et Délicat",
       category: "Simple",
       description: "Design épuré alliant simplicité et élégance",
