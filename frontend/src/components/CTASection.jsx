@@ -6,7 +6,7 @@ const CTASection = () => {
   const { cta } = mockData;
 
   const handleClick = () => {
-    window.location.href = '/reserver';
+    window.location.href = '/connexion';
   };
 
   return (
