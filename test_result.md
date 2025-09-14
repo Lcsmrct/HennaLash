@@ -475,10 +475,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "External URL Deployment Issue"
+    - "URGENT: Appointment Creation Performance Optimization"
   stuck_tasks: []
   test_all: false
-  test_priority: "high_first"
+  test_priority: "critical_first"
 
 agent_communication:
   - agent: "main"
