@@ -14,6 +14,31 @@ from auth import *
 from database import get_database, create_indexes, close_db_connection
 from email_service import email_service
 
+# Background task for sending emails asynchronously
+async def send_appointment_notification_background(
+    admin_emails: list,
+    user_name: str,
+    user_email: str,
+    service_name: str,
+    appointment_date: str,
+    appointment_time: str
+):
+    """Send appointment notification email in background - non-blocking"""
+    try:
+        for admin_email in admin_emails:
+            await email_service.send_appointment_notification(
+                admin_email=admin_email,
+                user_name=user_name,
+                user_email=user_email,
+                service_name=service_name,
+                appointment_date=appointment_date,
+                appointment_time=appointment_time
+            )
+        logging.info(f"Background email notification sent for appointment: {user_name} - {service_name}")
+    except Exception as e:
+        logging.error(f"Background email notification failed: {str(e)}")
+        # Don't re-raise - background task failures shouldn't affect API response
+
 ROOT_DIR = Path(__file__).parent
 
 # Create the main app without a prefix
