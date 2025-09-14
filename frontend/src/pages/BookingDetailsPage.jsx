@@ -31,25 +31,25 @@ const BookingDetailsPage = () => {
 const services = [
   { 
     name: 'Très simple', 
-    price: '5€ / main', 
+    price: '5€ par main', 
     duration: '10-15 min', 
     description: 'Design sur un doigt' 
   },
   { 
     name: 'Simple', 
-    price: '8€ / main', 
+    price: '8€ par main', 
     duration: '20-30 min', 
     description: 'Design simple sur une main' 
   },
   { 
     name: 'Chargé', 
-    price: '12€ / 2 mains', 
+    price: '12€ par mains', 
     duration: '45 min - 1h', 
     description: 'Design sur les deux mains' 
   },
   { 
     name: 'Mariée', 
-    price: '20€ / mains + avant-bras', 
+    price: '20€ par mains + avant-bras', 
     duration: '1h - 1h30', 
     description: 'Mains et avant-bras' 
   }
