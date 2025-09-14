@@ -41,11 +41,19 @@ const GalleryPage = () => {
     },
     {
       id: 5,
-      url: "https://i.ibb.co/GfDt5V0/IMG-6650.jpg",
+      url: "https://i.ibb.co/VchJ9NGM/Capture-d-cran-2025-09-14-123433.png",
       title: "Henné Raffiné et Délicat",
       category: "Simple",
       description: "Design épuré alliant simplicité et élégance",
       likes: 156
+    },    
+    {
+      id: 6,
+      url: "https://i.ibb.co/kVKDYWBj/Capture-d-cran-2025-09-14-123451.png",
+      title: "Création Artistique Détaillée",
+      category: "Traditionnel",
+      description: "Œuvre d'art complexe avec motifs fins et précis",
+      likes: 267
     }
   ];
 
