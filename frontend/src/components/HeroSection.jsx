@@ -6,7 +6,7 @@ const HeroSection = () => {
   const { hero } = mockData;
 
   const handlePrimaryClick = () => {
-    window.location.href = '/reserver';
+    window.location.href = '/connexion';
   };
 
   const handleSecondaryClick = () => {
