@@ -254,32 +254,36 @@ const ClientDashboard = () => {
               </CardHeader>
               <CardContent>
                 {availableSlots.length === 0 ? (
-                  <p className="text-center text-gray-500 py-8">
+                  <p className="text-center text-gray-500 py-6 sm:py-8 text-sm sm:text-base">
                     Aucun créneau disponible pour le moment
                   </p>
                 ) : (
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
                     {availableSlots.map((slot, index) => {
                       console.log(`Slot ${index}:`, slot); // Debug chaque slot
                       return (
-                        <Card key={slot.id} className="cursor-pointer hover:shadow-md transition-shadow">
-                          <CardContent className="p-4">
-                            <h3 className="font-semibold mb-2">Créneau Disponible</h3>
-                            <div className="space-y-2 text-sm text-gray-600">
-                              <div className="flex items-center">
-                                <Calendar className="mr-1 h-4 w-4" />
-                                {slot.date ? formatDate(slot.date) : 'Date non spécifiée'}
+                        <Card key={slot.id} className="cursor-pointer hover:shadow-md transition-shadow h-full">
+                          <CardContent className="p-3 sm:p-4 h-full flex flex-col">
+                            <h3 className="font-semibold mb-3 text-sm sm:text-base">Créneau Disponible</h3>
+                            <div className="space-y-2 text-xs sm:text-sm text-gray-600 flex-1">
+                              <div className="flex items-center min-h-[20px]">
+                                <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                                <span className="truncate">
+                                  {slot.date ? formatDate(slot.date) : 'Date non spécifiée'}
+                                </span>
                               </div>
-                              <div className="flex items-center">
-                                <Clock className="mr-1 h-4 w-4" />
-                                {slot.start_time ? formatTime(slot.start_time) : 'Heure non spécifiée'}
+                              <div className="flex items-center min-h-[20px]">
+                                <Clock className="mr-2 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                                <span>
+                                  {slot.start_time ? formatTime(slot.start_time) : 'Heure non spécifiée'}
+                                </span>
                               </div>
-                              <p className="text-sm text-gray-500">
+                              <p className="text-xs sm:text-sm text-gray-500 pt-1">
                                 Service à choisir lors de la réservation
                               </p>
                             </div>
                             <Button 
-                              className="w-full mt-4 py-3" 
+                              className="w-full mt-4 py-2 sm:py-3 text-xs sm:text-sm font-medium" 
                               onClick={() => goToBookingDetails(slot.id)}
                             >
                               Réserver ce créneau
