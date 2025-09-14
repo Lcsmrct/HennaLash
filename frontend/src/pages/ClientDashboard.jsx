@@ -184,45 +184,53 @@ const ClientDashboard = () => {
               </CardHeader>
               <CardContent>
                 {appointments.length === 0 ? (
-                  <p className="text-center text-gray-500 py-8">
+                  <p className="text-center text-gray-500 py-6 sm:py-8 text-sm sm:text-base">
                     Aucun rendez-vous pour le moment
                   </p>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {appointments.map((appointment) => {
                       console.log('Appointment data:', appointment); // Debug temporaire
                       return (
-                        <div key={appointment.id} className="border rounded-lg p-4">
-                          <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-                            <div className="space-y-2 flex-1">
-                              <h3 className="font-semibold">
-                                {appointment.service_name || 'Service non spécifié'}
-                              </h3>
-                              <div className="flex items-center text-sm text-gray-600">
-                                <Calendar className="mr-1 h-4 w-4" />
-                                {appointment.slot_info && appointment.slot_info.date ? 
-                                  formatDate(appointment.slot_info.date) : 
-                                  'Date non spécifiée'}
+                        <div key={appointment.id} className="border rounded-lg p-3 sm:p-4 bg-white">
+                          <div className="flex flex-col gap-3 sm:gap-4">
+                            <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-4">
+                              <div className="space-y-2 flex-1 min-w-0">
+                                <h3 className="font-semibold text-sm sm:text-base leading-tight">
+                                  {appointment.service_name || 'Service non spécifié'}
+                                </h3>
+                                <div className="flex items-center text-xs sm:text-sm text-gray-600">
+                                  <Calendar className="mr-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                                  <span className="truncate">
+                                    {appointment.slot_info && appointment.slot_info.date ? 
+                                      formatDate(appointment.slot_info.date) : 
+                                      'Date non spécifiée'}
+                                  </span>
+                                </div>
+                                <div className="flex items-center text-xs sm:text-sm text-gray-600">
+                                  <Clock className="mr-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                                  <span>
+                                    {appointment.slot_info && appointment.slot_info.start_time ? 
+                                      `${formatTime(appointment.slot_info.start_time)}` : 
+                                      'Heure non spécifiée'}
+                                  </span>
+                                </div>
                               </div>
-                              <div className="flex items-center text-sm text-gray-600">
-                                <Clock className="mr-1 h-4 w-4" />
-                                {appointment.slot_info && appointment.slot_info.start_time ? 
-                                  `${formatTime(appointment.slot_info.start_time)}` : 
-                                  'Heure non spécifiée'}
-                              </div>
-                              {appointment.notes && (
-                                <p className="text-sm text-gray-600">
-                                  <MessageSquare className="mr-1 h-4 w-4 inline" />
-                                  {appointment.notes}
+                              <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 sm:gap-2 w-full sm:w-auto">
+                                {getStatusBadge(appointment.status)}
+                                <p className="text-base sm:text-lg font-semibold">
+                                  {appointment.service_price || 0}€
                                 </p>
-                              )}
+                              </div>
                             </div>
-                            <div className="text-right w-full sm:w-auto">
-                              {getStatusBadge(appointment.status)}
-                              <p className="text-lg font-semibold mt-2">
-                                {appointment.service_price || 0}€
-                              </p>
-                            </div>
+                            {appointment.notes && (
+                              <div className="pt-2 border-t border-gray-100">
+                                <p className="text-xs sm:text-sm text-gray-600 flex items-start">
+                                  <MessageSquare className="mr-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 mt-0.5" />
+                                  <span className="break-words">{appointment.notes}</span>
+                                </p>
+                              </div>
+                            )}
                           </div>
                         </div>
                       );
