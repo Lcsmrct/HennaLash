@@ -174,7 +174,7 @@ async def create_time_slot(
         date=slot_data.date,
         start_time=slot_data.time,
         end_time=end_time_str,
-        service_name="Henné Artisanal",  # Service par défaut
+        service_name="HennaLash",  # Service par défaut
         service_duration=60,  # 1 heure
         price=15.0,  # Prix par défaut
         created_by=current_user.id

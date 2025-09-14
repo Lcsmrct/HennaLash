@@ -1,4 +1,4 @@
-// Mock data for Henné Artisanal website
+// Mock data for HennaLash website
 export const mockData = {
   navigation: [
     { label: 'Accueil', href: '/', active: true },

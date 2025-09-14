@@ -152,7 +152,7 @@ Nous avons hâte de vous accueillir !
 En cas de besoin, n'hésitez pas à nous contacter.
 
 Cordialement,
-L'équipe Henné Artisanal
+L'équipe HennaLash
         """
         
         html_body = f"""
@@ -174,7 +174,7 @@ L'équipe Henné Artisanal
                 
                 <p>Nous avons hâte de vous accueillir !</p>
                 <p>En cas de besoin, n'hésitez pas à nous contacter.</p>
-                <p>Cordialement,<br><strong>L'équipe Henné Artisanal</strong></p>
+                <p>Cordialement,<br><strong>L'équipe HennaLash</strong></p>
                 
                 <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666;">
                     <p>Cet email a été envoyé automatiquement suite à la confirmation de votre rendez-vous.</p>
