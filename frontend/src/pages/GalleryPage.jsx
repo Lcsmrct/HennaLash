@@ -158,7 +158,7 @@ const GalleryPage = () => {
               Transformez vos mains en œuvre d'art avec nos créations sur mesure
             </p>
             <Link
-              to="/reserver"
+              to="/connexion"
               className="inline-block bg-orange-600 text-white px-8 sm:px-12 py-3 sm:py-4 font-light tracking-wider text-sm hover:bg-orange-700 transition-all duration-300 border border-orange-600 hover:shadow-lg"
             >
               RÉSERVER MAINTENANT
