@@ -202,25 +202,25 @@ const services = [
           </div>
 
           {/* Slot Details Card */}
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Calendar className="mr-2 h-5 w-5" />
+          <Card className="mb-6 sm:mb-8">
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="flex items-center text-base sm:text-lg">
+                <Calendar className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 Détails du Créneau
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                <h3 className="font-semibold text-lg">{slot.service_name}</h3>
-                <div className="flex items-center text-gray-600">
-                  <Calendar className="mr-2 h-4 w-4" />
-                  {formatDate(slot.date)}
+              <div className="space-y-2 sm:space-y-3">
+                <h3 className="font-semibold text-base sm:text-lg">{slot.service_name}</h3>
+                <div className="flex items-center text-sm sm:text-base text-gray-600">
+                  <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                  <span className="truncate">{formatDate(slot.date)}</span>
                 </div>
-                <div className="flex items-center text-gray-600">
-                  <Clock className="mr-2 h-4 w-4" />
-                  {formatTime(slot.start_time)}
+                <div className="flex items-center text-sm sm:text-base text-gray-600">
+                  <Clock className="mr-2 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                  <span>{formatTime(slot.start_time)}</span>
                 </div>
-                <p className="text-2xl font-bold text-orange-600">
+                <p className="text-xl sm:text-2xl font-bold text-orange-600 pt-1">
                   {bookingForm.service_price}
                 </p>
               </div>
