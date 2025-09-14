@@ -183,39 +183,44 @@ const ClientDashboard = () => {
                   </p>
                 ) : (
                   <div className="space-y-4">
-                    {appointments.map((appointment) => (
-                      <div key={appointment.id} className="border rounded-lg p-4">
-                        <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-                          <div className="space-y-2 flex-1">
-                            <h3 className="font-semibold">
-                              {appointment.service_name || 'Service non spécifié'}
-                            </h3>
-                            <div className="flex items-center text-sm text-gray-600">
-                              <Calendar className="mr-1 h-4 w-4" />
-                              {appointment.slot_info ? formatDate(appointment.slot_info.date) : 'Date non spécifiée'}
+                    {appointments.map((appointment) => {
+                      console.log('Appointment data:', appointment); // Debug temporaire
+                      return (
+                        <div key={appointment.id} className="border rounded-lg p-4">
+                          <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                            <div className="space-y-2 flex-1">
+                              <h3 className="font-semibold">
+                                {appointment.service_name || 'Service non spécifié'}
+                              </h3>
+                              <div className="flex items-center text-sm text-gray-600">
+                                <Calendar className="mr-1 h-4 w-4" />
+                                {appointment.slot_info && appointment.slot_info.date ? 
+                                  formatDate(appointment.slot_info.date) : 
+                                  'Date non spécifiée'}
+                              </div>
+                              <div className="flex items-center text-sm text-gray-600">
+                                <Clock className="mr-1 h-4 w-4" />
+                                {appointment.slot_info && appointment.slot_info.start_time ? 
+                                  `${formatTime(appointment.slot_info.start_time)}` : 
+                                  'Heure non spécifiée'}
+                              </div>
+                              {appointment.notes && (
+                                <p className="text-sm text-gray-600">
+                                  <MessageSquare className="mr-1 h-4 w-4 inline" />
+                                  {appointment.notes}
+                                </p>
+                              )}
                             </div>
-                            <div className="flex items-center text-sm text-gray-600">
-                              <Clock className="mr-1 h-4 w-4" />
-                              {appointment.slot_info ? 
-                                `${formatTime(appointment.slot_info.start_time)}` 
-                                : 'Heure non spécifiée'}
-                            </div>
-                            {appointment.notes && (
-                              <p className="text-sm text-gray-600">
-                                <MessageSquare className="mr-1 h-4 w-4 inline" />
-                                {appointment.notes}
+                            <div className="text-right w-full sm:w-auto">
+                              {getStatusBadge(appointment.status)}
+                              <p className="text-lg font-semibold mt-2">
+                                {appointment.service_price || 0}€
                               </p>
-                            )}
-                          </div>
-                          <div className="text-right w-full sm:w-auto">
-                            {getStatusBadge(appointment.status)}
-                            <p className="text-lg font-semibold mt-2">
-                              {appointment.service_price || 0}€
-                            </p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </CardContent>
