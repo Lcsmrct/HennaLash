@@ -227,6 +227,7 @@ async def delete_time_slot(
 @api_router.post("/appointments", response_model=AppointmentResponse)
 async def create_appointment(
     appointment_data: AppointmentCreate,
+    background_tasks: BackgroundTasks,
     current_user: User = Depends(get_current_active_user_with_db),
     db = Depends(get_db)
 ):
@@ -258,26 +259,32 @@ async def create_appointment(
         {"$set": {"is_available": False}}
     )
     
-    # Send email notification to admin
+    # Schedule email notification in background (non-blocking)
     try:
-        # Get admin users
+        # Get admin emails
         admin_users = await db.users.find({"role": "admin"}).to_list(10)
-        for admin in admin_users:
+        admin_emails = [admin["email"] for admin in admin_users]
+        
+        if admin_emails:
             user_name = f"{current_user.first_name} {current_user.last_name}"
             slot_obj = TimeSlot(**slot)
             appointment_date = slot_obj.date.strftime("%d/%m/%Y")
             appointment_time = slot_obj.start_time
             
-            await email_service.send_appointment_notification(
-                admin_email=admin["email"],
+            # Add background task - this returns immediately without waiting for email
+            background_tasks.add_task(
+                send_appointment_notification_background,
+                admin_emails=admin_emails,
                 user_name=user_name,
                 user_email=current_user.email,
-                service_name=appointment_data.service_name,  # Service choisi par le client
+                service_name=appointment_data.service_name,
                 appointment_date=appointment_date,
                 appointment_time=appointment_time
             )
+            logging.info(f"Email notification scheduled for appointment: {appointment.id}")
     except Exception as e:
-        logger.warning(f"Failed to send appointment notification: {str(e)}")
+        logging.warning(f"Failed to schedule email notification: {str(e)}")
+        # Continue - email failure shouldn't block appointment creation
     
     # Return appointment with populated fields (user_name, user_email, slot_info)
     pipeline = [
