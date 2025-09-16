@@ -172,3 +172,20 @@ class MaintenanceStatus(BaseModel):
 class MaintenanceToggle(BaseModel):
     is_maintenance: bool
     message: Optional[str] = "Site en maintenance. Veuillez réessayer plus tard."
+
+# Password Reset Models
+class PasswordResetRequest(BaseModel):
+    email: str
+
+class PasswordResetCode(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    email: str
+    code: str
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    expires_at: datetime = Field(default_factory=lambda: datetime.utcnow() + timedelta(minutes=15))
+    used: bool = False
+
+class PasswordResetConfirm(BaseModel):
+    email: str
+    code: str
+    new_password: str
