@@ -747,6 +747,121 @@ async def emergency_disable_maintenance():
     return {"status": "success", "message": "Maintenance désactivée via route d'urgence"}
 
 # ==========================================
+# PASSWORD RESET ROUTES
+# ==========================================
+
+def generate_reset_code():
+    """Generate a 6-digit numeric code."""
+    return ''.join(random.choices(string.digits, k=6))
+
+@api_router.post("/auth/password-reset/request")
+async def request_password_reset(
+    request: PasswordResetRequest,
+    background_tasks: BackgroundTasks,
+    db = Depends(get_db)
+):
+    """Request password reset - sends code via email."""
+    
+    # Check if user exists
+    user = await db.users.find_one({"email": request.email})
+    if not user:
+        # Security: Don't reveal if email exists or not
+        return {"message": "Si l'email existe, un code de réinitialisation a été envoyé."}
+    
+    # Generate 6-digit code
+    reset_code = generate_reset_code()
+    
+    # Save reset code to database
+    reset_data = PasswordResetCode(
+        email=request.email,
+        code=reset_code
+    )
+    
+    # Remove any existing reset codes for this email
+    await db.password_resets.delete_many({"email": request.email})
+    
+    # Insert new reset code
+    await db.password_resets.insert_one(reset_data.model_dump())
+    
+    # Send email in background
+    background_tasks.add_task(
+        send_password_reset_email,
+        request.email,
+        reset_code,
+        user.get("first_name", "")
+    )
+    
+    return {"message": "Si l'email existe, un code de réinitialisation a été envoyé."}
+
+@api_router.post("/auth/password-reset/confirm")
+async def confirm_password_reset(
+    request: PasswordResetConfirm,
+    db = Depends(get_db)
+):
+    """Confirm password reset with code and set new password."""
+    
+    # Find valid reset code
+    reset_record = await db.password_resets.find_one({
+        "email": request.email,
+        "code": request.code,
+        "used": False,
+        "expires_at": {"$gt": datetime.utcnow()}
+    })
+    
+    if not reset_record:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Code invalide ou expiré"
+        )
+    
+    # Check if user still exists
+    user = await db.users.find_one({"email": request.email})
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Utilisateur non trouvé"
+        )
+    
+    # Hash new password
+    hashed_password = get_password_hash(request.new_password)
+    
+    # Update user password
+    await db.users.update_one(
+        {"email": request.email},
+        {"$set": {"hashed_password": hashed_password, "updated_at": datetime.utcnow()}}
+    )
+    
+    # Mark reset code as used
+    await db.password_resets.update_one(
+        {"id": reset_record["id"]},
+        {"$set": {"used": True}}
+    )
+    
+    # Clean up old reset codes for this email
+    await db.password_resets.delete_many({
+        "email": request.email,
+        "$or": [
+            {"used": True},
+            {"expires_at": {"$lt": datetime.utcnow()}}
+        ]
+    })
+    
+    return {"message": "Mot de passe réinitialisé avec succès"}
+
+# Background task for sending password reset email
+async def send_password_reset_email(email: str, code: str, first_name: str):
+    """Send password reset email in background."""
+    try:
+        await email_service.send_password_reset_email(
+            email=email,
+            code=code,
+            first_name=first_name
+        )
+        print(f"Password reset email sent to {email}")
+    except Exception as e:
+        print(f"Failed to send password reset email to {email}: {e}")
+
+# ==========================================
 # MAINTENANCE MIDDLEWARE
 # ==========================================
 
