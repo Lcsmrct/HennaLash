@@ -263,7 +263,7 @@ const services = [
                             <p className="text-xs text-gray-500">{service.duration}</p>
                           </div>
                           <div className="text-left sm:text-right flex-shrink-0">
-                            <p className="text-lg sm:text-xl font-bold text-orange-600">{service.price}</p>
+                            <p className="text-lg sm:text-xl font-bold text-orange-600">{service.priceDisplay}</p>
                           </div>
                         </div>
                       </div>
