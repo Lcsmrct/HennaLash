@@ -190,7 +190,6 @@ const ClientDashboard = () => {
                 ) : (
                   <div className="space-y-3 sm:space-y-4">
                     {appointments.map((appointment) => {
-                      console.log('Appointment data:', appointment); // Debug temporaire
                       return (
                         <div key={appointment.id} className="border rounded-lg p-3 sm:p-4 bg-white">
                           <div className="flex flex-col gap-3 sm:gap-4">
@@ -202,16 +201,16 @@ const ClientDashboard = () => {
                                 <div className="flex items-center text-xs sm:text-sm text-gray-600">
                                   <Calendar className="mr-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                                   <span className="truncate">
-                                    {appointment.slot_info && appointment.slot_info.date ? 
-                                      formatDate(appointment.slot_info.date) : 
+                                    {appointment.date ? 
+                                      formatDate(appointment.date) : 
                                       'Date non spécifiée'}
                                   </span>
                                 </div>
                                 <div className="flex items-center text-xs sm:text-sm text-gray-600">
                                   <Clock className="mr-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                                   <span>
-                                    {appointment.slot_info && appointment.slot_info.start_time ? 
-                                      `${formatTime(appointment.slot_info.start_time)}` : 
+                                    {appointment.start_time ? 
+                                      `${formatTime(appointment.start_time)}` : 
                                       'Heure non spécifiée'}
                                   </span>
                                 </div>
