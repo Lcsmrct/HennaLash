@@ -35,8 +35,9 @@ class BackendTester:
         })
         
     def authenticate_admin(self):
-        """Authenticate as admin user"""
+        """Authenticate as admin user or create one"""
         try:
+            # First try to login
             start_time = time.time()
             response = requests.post(
                 f"{BASE_URL}/login",
@@ -53,10 +54,39 @@ class BackendTester:
                 self.log_result("Admin Authentication", True, "Admin login successful", duration)
                 return True
             else:
-                self.log_result("Admin Authentication", False, f"Status {response.status_code}: {response.text}", duration)
-                return False
+                # Try to create admin user
+                return self.create_admin_user()
         except Exception as e:
             self.log_result("Admin Authentication", False, f"Exception: {str(e)}")
+            return False
+    
+    def create_admin_user(self):
+        """Create admin user and then authenticate"""
+        try:
+            # Register admin user
+            start_time = time.time()
+            response = requests.post(
+                f"{BASE_URL}/register",
+                json={
+                    "email": "admin@salon.com",
+                    "password": "admin123",
+                    "first_name": "Admin",
+                    "last_name": "Salon",
+                    "phone": "0123456789"
+                },
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                self.log_result("Admin Registration", True, "Admin user created", duration)
+                # Now try to login
+                return self.authenticate_admin()
+            else:
+                self.log_result("Admin Registration", False, f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Admin Registration", False, f"Exception: {str(e)}")
             return False
     
     def authenticate_client(self):
