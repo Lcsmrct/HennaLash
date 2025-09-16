@@ -347,6 +347,18 @@ backend:
       - working: true
         agent: "main"
         comment: "🎨 DESIGN AMÉLIORÉ - Espace client rendez-vous entièrement redesigné: 1) Affichage RDV: cartes colorées selon statut, badges avec icônes, mise en page moderne, 2) Onglet Réserver: aperçu services, créneaux avec indicateurs (aujourd'hui/demain), design gradient, 3) État vide amélioré avec boutons d'action, 4) Responsive design optimisé, animations hover."
+
+  - task: "Redesign Pages Connexion/Inscription"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/LoginPage.jsx, /app/frontend/src/pages/RegisterPage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "🎨 DESIGN MODERNE APPLIQUÉ - Pages connexion et inscription entièrement redesignées: 1) Nouvelles images henné élégantes (Unsplash), 2) Design cartes glass morphism avec backdrop blur, 3) Gradients modernes (orange/amber pour login, purple/indigo pour register), 4) Icônes dans champs, toggle password visibility, 5) Animations hover et transitions fluides, 6) Headers colorés avec icônes, 7) Éléments décoratifs et responsive design optimisé. Toutes fonctionnalités préservées."
     implemented: true
     working: true
     file: "/app/frontend/src/context/AuthContext.jsx"
