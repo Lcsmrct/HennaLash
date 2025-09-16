@@ -143,7 +143,41 @@ class BackendTester:
             self.log_result("Client Registration", False, f"Exception: {str(e)}")
             return False
     
-    def get_available_slot(self):
+    def create_test_slot(self):
+        """Create a test slot for booking"""
+        if not self.admin_token:
+            self.log_result("Create Test Slot", False, "Missing admin token")
+            return False
+            
+        try:
+            start_time = time.time()
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            # Create slot for tomorrow
+            tomorrow = datetime.now() + timedelta(days=1)
+            slot_data = {
+                "date": tomorrow.strftime("%Y-%m-%d"),
+                "time": "14:30"  # 2:30 PM
+            }
+            
+            response = requests.post(
+                f"{BASE_URL}/slots",
+                json=slot_data,
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                slot = response.json()
+                self.log_result("Create Test Slot", True, f"Test slot created: {slot.get('id', 'N/A')}", duration)
+                return True
+            else:
+                self.log_result("Create Test Slot", False, f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Create Test Slot", False, f"Exception: {str(e)}")
+            return False
         """Get an available slot for testing"""
         try:
             start_time = time.time()
