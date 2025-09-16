@@ -201,16 +201,16 @@ const ClientDashboard = () => {
                                 <div className="flex items-center text-xs sm:text-sm text-gray-600">
                                   <Calendar className="mr-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                                   <span className="truncate">
-                                    {appointment.date ? 
-                                      formatDate(appointment.date) : 
+                                    {(appointment.slot_info && appointment.slot_info.date) || appointment.date ? 
+                                      formatDate((appointment.slot_info && appointment.slot_info.date) || appointment.date) : 
                                       'Date non spécifiée'}
                                   </span>
                                 </div>
                                 <div className="flex items-center text-xs sm:text-sm text-gray-600">
                                   <Clock className="mr-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                                   <span>
-                                    {appointment.start_time ? 
-                                      `${formatTime(appointment.start_time)}` : 
+                                    {(appointment.slot_info && appointment.slot_info.start_time) || appointment.start_time ? 
+                                      `${formatTime((appointment.slot_info && appointment.slot_info.start_time) || appointment.start_time)}` : 
                                       'Heure non spécifiée'}
                                   </span>
                                 </div>
