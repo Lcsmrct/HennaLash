@@ -143,6 +143,21 @@ export const apiService = {
       message: message
     });
     return response.data;
+  },
+
+  // Password Reset
+  requestPasswordReset: async (email) => {
+    const response = await apiClient.post('/api/auth/password-reset/request', { email });
+    return response.data;
+  },
+
+  confirmPasswordReset: async (email, code, new_password) => {
+    const response = await apiClient.post('/api/auth/password-reset/confirm', {
+      email,
+      code,
+      new_password
+    });
+    return response.data;
   }
 };
 
