@@ -8,6 +8,7 @@ import PricingPage from "./pages/PricingPage";
 import ReviewsPage from "./pages/ReviewsPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import PasswordResetPage from "./pages/PasswordResetPage";
 import ClientDashboard from "./pages/ClientDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import BookingDetailsPage from "./pages/BookingDetailsPage";
