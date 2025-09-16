@@ -516,6 +516,7 @@ test_plan:
   current_focus:
     - "Erreur 422 Réservation Rendez-vous"
     - "Amélioration Design Espace Client RDV"
+    - "Redesign Pages Connexion/Inscription"
   stuck_tasks: []
   test_all: false
   test_priority: "critical_first"
