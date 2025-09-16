@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Backend API Testing for 422 Error Fixes
-Focus: Testing corrections applied to resolve 422 errors in appointment creation
+Backend API Testing - Final Validation Tests
+Focus: Validate all corrections applied for 422 error and design improvements
 """
 
 import requests
@@ -9,10 +9,11 @@ import json
 import time
 from datetime import datetime, timedelta
 import sys
+import random
 
 # Configuration
 BASE_URL = "https://henna-lash.onrender.com/api"
-TIMEOUT = 10
+TIMEOUT = 15
 
 class BackendTester:
     def __init__(self):
