@@ -385,10 +385,28 @@ async def get_appointments(
         
         appointments = await db.appointments.aggregate(pipeline).to_list(length=limit)
     else:
-        # Regular user can only see their own appointments
-        appointments = await db.appointments.find(
-            {"user_id": current_user.id}
-        ).sort("created_at", -1).skip(skip).limit(limit).to_list(length=limit)
+        # Regular user can only see their own appointments - with slot info
+        pipeline = [
+            {"$match": {"user_id": current_user.id}},
+            {"$sort": {"created_at": -1}},
+            {"$skip": skip},
+            {"$limit": limit},
+            {
+                "$lookup": {
+                    "from": "time_slots",
+                    "localField": "slot_id",
+                    "foreignField": "id",
+                    "as": "slot_info"
+                }
+            },
+            {
+                "$addFields": {
+                    "slot_info": {"$arrayElemAt": ["$slot_info", 0]}
+                }
+            }
+        ]
+        
+        appointments = await db.appointments.aggregate(pipeline).to_list(length=limit)
     
     return [AppointmentResponse(**appointment) for appointment in appointments]
 
