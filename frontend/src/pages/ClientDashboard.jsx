@@ -113,6 +113,47 @@ const ClientDashboard = () => {
     return <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>;
   };
 
+  const getStatusBadgeEnhanced = (status) => {
+    const statusConfigs = {
+      pending: { 
+        label: 'En attente', 
+        bgColor: 'bg-yellow-100', 
+        textColor: 'text-yellow-800',
+        borderColor: 'border-yellow-200',
+        icon: '⏳'
+      },
+      confirmed: { 
+        label: 'Confirmé', 
+        bgColor: 'bg-green-100', 
+        textColor: 'text-green-800',
+        borderColor: 'border-green-200',
+        icon: '✅'
+      },
+      cancelled: { 
+        label: 'Annulé', 
+        bgColor: 'bg-red-100', 
+        textColor: 'text-red-800',
+        borderColor: 'border-red-200',
+        icon: '❌'
+      },
+      completed: { 
+        label: 'Terminé', 
+        bgColor: 'bg-blue-100', 
+        textColor: 'text-blue-800',
+        borderColor: 'border-blue-200',
+        icon: '🎉'
+      }
+    };
+    
+    const config = statusConfigs[status] || statusConfigs.pending;
+    return (
+      <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${config.bgColor} ${config.textColor} ${config.borderColor}`}>
+        <span className="mr-1">{config.icon}</span>
+        {config.label}
+      </div>
+    );
+  };
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('fr-FR', {
       weekday: 'long',
