@@ -320,6 +320,33 @@ backend:
       - working: false
         agent: "testing"
         comment: "🚨 CRITICAL PERFORMANCE ISSUE CONFIRMED - USER COMPLAINT VALIDATED! Diagnostic chronométrique précis révèle: POST /api/appointments prend 4.7s en moyenne (4411ms-5684ms), confirmant exactement la plainte utilisateur de ~5 secondes pour confirmation RDV. 🔍 CAUSE RACINE: Service email Gmail SMTP synchrone = goulot d'étranglement principal (~3.3s sur 4.7s total). Comparaison: endpoints sans email = 0.3-0.5s, endpoints avec email = 4.4-5.7s. 💡 SOLUTION REQUISE: Rendre envoi email ASYNCHRONE (background tasks) pour réduire temps réponse à ~1.0-1.8s. Email admin notification bloque actuellement réponse API pendant 3-4 secondes via connexion SMTP Gmail synchrone dans create_appointment()."
+
+  - task: "Erreur 422 Réservation Rendez-vous"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/BookingDetailsPage.jsx"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "Erreur 422 lors de la réservation de rendez-vous depuis l'espace client"
+      - working: true
+        agent: "main"
+        comment: "🔧 CORRIGÉ - Problème identifié: services envoyaient des prix en string (ex: '5€ par main') alors que backend attend des nombres. Modifié structure services avec price (numérique) et priceDisplay (affichage). Services corrigés: Très simple (5), Simple (8), Chargé (12), Mariée (20)."
+
+  - task: "Amélioration Design Espace Client RDV"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/ClientDashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "🎨 DESIGN AMÉLIORÉ - Espace client rendez-vous entièrement redesigné: 1) Affichage RDV: cartes colorées selon statut, badges avec icônes, mise en page moderne, 2) Onglet Réserver: aperçu services, créneaux avec indicateurs (aujourd'hui/demain), design gradient, 3) État vide amélioré avec boutons d'action, 4) Responsive design optimisé, animations hover."
     implemented: true
     working: true
     file: "/app/frontend/src/context/AuthContext.jsx"
