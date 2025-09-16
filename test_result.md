@@ -502,7 +502,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "URGENT: Appointment Creation Performance Optimization"
+    - "Erreur 422 Réservation Rendez-vous"
+    - "Amélioration Design Espace Client RDV"
   stuck_tasks: []
   test_all: false
   test_priority: "critical_first"
