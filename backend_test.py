@@ -198,6 +198,32 @@ class BackendTester:
             return False
 
     
+    def get_available_slot(self):
+        """Get an available slot for testing"""
+        try:
+            start_time = time.time()
+            response = requests.get(
+                f"{BASE_URL}/slots?available_only=true",
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                slots = response.json()
+                if slots:
+                    self.available_slot_id = slots[0]["id"]
+                    self.log_result("Get Available Slots", True, f"Found {len(slots)} available slots, using slot {self.available_slot_id}", duration)
+                    return True
+                else:
+                    self.log_result("Get Available Slots", False, "No available slots found", duration)
+                    return False
+            else:
+                self.log_result("Get Available Slots", False, f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Get Available Slots", False, f"Exception: {str(e)}")
+            return False
+    
     def create_test_slot(self):
         """Create a test slot for booking"""
         if not self.admin_token:
