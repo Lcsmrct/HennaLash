@@ -151,15 +151,27 @@ const LoginPage = () => {
 
             {/* Links */}
             <div className="mt-6 sm:mt-8 space-y-3 sm:space-y-4 text-center">
-              <p className="text-sm sm:text-base text-gray-600">
-                Pas encore de compte ?{' '}
-                <Link 
-                  to="/inscription" 
-                  className="text-orange-600 hover:text-orange-700 font-semibold hover:underline transition-colors"
-                >
-                  Créer un compte
-                </Link>
-              </p>
+              <div className="space-y-2">
+                <p className="text-sm sm:text-base text-gray-600">
+                  Pas encore de compte ?{' '}
+                  <Link 
+                    to="/inscription" 
+                    className="text-orange-600 hover:text-orange-700 font-semibold hover:underline transition-colors"
+                  >
+                    Créer un compte
+                  </Link>
+                </p>
+                
+                <p className="text-sm sm:text-base text-gray-600">
+                  Mot de passe oublié ?{' '}
+                  <Link 
+                    to="/mot-de-passe-oublie" 
+                    className="text-orange-600 hover:text-orange-700 font-semibold hover:underline transition-colors"
+                  >
+                    Réinitialiser
+                  </Link>
+                </p>
+              </div>
               
               <div className="pt-3 sm:pt-4 border-t border-gray-200">
                 <p className="text-xs sm:text-sm text-gray-500">
