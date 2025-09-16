@@ -284,7 +284,48 @@ class BackendTester:
             self.log_result("Get Available Slots", False, f"Exception: {str(e)}")
             return False
     
-    def test_appointment_creation_with_token(self):
+    def create_multiple_test_slots(self, count=5):
+        """Create multiple test slots for comprehensive testing"""
+        if not self.admin_token:
+            self.log_result("Create Multiple Slots", False, "Missing admin token")
+            return False
+            
+        created_count = 0
+        for i in range(count):
+            try:
+                start_time = time.time()
+                headers = {"Authorization": f"Bearer {self.admin_token}"}
+                
+                # Create slots for different times tomorrow
+                tomorrow = datetime.now() + timedelta(days=1)
+                times = ["10:00", "11:00", "14:00", "15:00", "16:00"]
+                slot_data = {
+                    "date": tomorrow.strftime("%Y-%m-%d"),
+                    "time": times[i % len(times)]
+                }
+                
+                response = requests.post(
+                    f"{BASE_URL}/slots",
+                    json=slot_data,
+                    headers=headers,
+                    timeout=TIMEOUT
+                )
+                duration = time.time() - start_time
+                
+                if response.status_code == 200:
+                    created_count += 1
+                else:
+                    # Slot might already exist, continue
+                    pass
+            except Exception as e:
+                pass
+        
+        if created_count > 0:
+            self.log_result("Create Multiple Slots", True, f"Created {created_count} additional slots")
+            return True
+        else:
+            self.log_result("Create Multiple Slots", False, "No additional slots created")
+            return False
         """CRITICAL TEST: Test POST /api/appointments with proper Authorization token"""
         if not self.client_token or not self.available_slot_id:
             self.log_result("Appointment Creation (With Token)", False, "Missing client token or available slot")
