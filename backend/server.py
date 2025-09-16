@@ -7,6 +7,8 @@ import logging
 from pathlib import Path
 from typing import List, Optional
 from datetime import datetime
+import random
+import string
 
 # Local imports
 from models import *
