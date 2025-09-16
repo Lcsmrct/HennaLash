@@ -73,8 +73,7 @@ const services = [
   const fetchSlotDetails = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_BASE_URL}/api/slots`);
-      const availableSlots = response.data.filter(s => s.is_available);
+      const availableSlots = await apiService.getSlots(true);
       const selectedSlot = availableSlots.find(s => s.id === slotId);
       
       if (!selectedSlot) {
