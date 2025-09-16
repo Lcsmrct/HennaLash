@@ -109,10 +109,92 @@ class BackendTester:
                 self.log_result("Client Authentication", True, "Client login successful", duration)
                 return True
             else:
-                # Try to create client if login fails
-                return self.create_test_client()
+                # If login fails, try with different credentials or create new user
+                return self.try_alternative_client_login()
         except Exception as e:
             self.log_result("Client Authentication", False, f"Exception: {str(e)}")
+            return False
+    
+    def try_alternative_client_login(self):
+        """Try alternative client credentials or create new user"""
+        # Try different password
+        try:
+            start_time = time.time()
+            response = requests.post(
+                f"{BASE_URL}/login",
+                json={
+                    "email": "marie.dupont@email.com",
+                    "password": "password123"  # Try different password
+                },
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                self.client_token = response.json()["access_token"]
+                self.log_result("Client Authentication (Alt)", True, "Client login successful with alternative password", duration)
+                return True
+            else:
+                # Create new client with different email
+                return self.create_new_test_client()
+        except Exception as e:
+            return self.create_new_test_client()
+    
+    def create_new_test_client(self):
+        """Create a new test client with unique email"""
+        try:
+            import random
+            random_num = random.randint(1000, 9999)
+            email = f"testclient{random_num}@email.com"
+            
+            start_time = time.time()
+            response = requests.post(
+                f"{BASE_URL}/register",
+                json={
+                    "email": email,
+                    "password": "client123",
+                    "first_name": "Test",
+                    "last_name": "Client",
+                    "phone": "0123456789"
+                },
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                self.log_result("New Client Registration", True, f"New client created: {email}", duration)
+                # Now login with new credentials
+                return self.login_new_client(email, "client123")
+            else:
+                self.log_result("New Client Registration", False, f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("New Client Registration", False, f"Exception: {str(e)}")
+            return False
+    
+    def login_new_client(self, email, password):
+        """Login with new client credentials"""
+        try:
+            start_time = time.time()
+            response = requests.post(
+                f"{BASE_URL}/login",
+                json={
+                    "email": email,
+                    "password": password
+                },
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                self.client_token = response.json()["access_token"]
+                self.log_result("New Client Login", True, "New client login successful", duration)
+                return True
+            else:
+                self.log_result("New Client Login", False, f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("New Client Login", False, f"Exception: {str(e)}")
             return False
     
     def create_test_client(self):
