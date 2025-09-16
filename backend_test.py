@@ -503,10 +503,16 @@ class BackendTester:
             print("❌ Cannot proceed without client authentication")
             return
         
-        # Get available slots
+        # Get available slots or create one
         if not self.get_available_slot():
-            print("❌ Cannot proceed without available slots")
-            return
+            print("⚠️ No available slots found, creating test slot...")
+            if not self.create_test_slot():
+                print("❌ Cannot proceed without available slots")
+                return
+            # Try again to get the slot we just created
+            if not self.get_available_slot():
+                print("❌ Still no available slots after creation")
+                return
         
         print("\n🔥 CRITICAL TESTS - 422 ERROR FIXES:")
         print("-" * 40)
