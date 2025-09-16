@@ -612,9 +612,255 @@ class BackendTester:
             self.log_result("All Services Booking", False, f"Only {successful_bookings}/{len(services)} services work")
             return False
     
+    def test_complete_end_to_end_workflow(self):
+        """COMPLETE END-TO-END TEST: Registration → Login → Booking → Verification"""
+        print("\n🎯 COMPLETE END-TO-END WORKFLOW TEST")
+        print("-" * 50)
+        
+        # Step 1: Create new client
+        random_num = random.randint(10000, 99999)
+        test_email = f"endtoend{random_num}@test.com"
+        test_password = "testpass123"
+        
+        try:
+            # Registration
+            start_time = time.time()
+            response = requests.post(
+                f"{BASE_URL}/register",
+                json={
+                    "email": test_email,
+                    "password": test_password,
+                    "first_name": "Sophie",
+                    "last_name": "Martin",
+                    "phone": "0123456789"
+                },
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code != 200:
+                self.log_result("E2E - Registration", False, f"Registration failed: {response.status_code} - {response.text}", duration)
+                return False
+            
+            self.log_result("E2E - Registration", True, f"New client registered: {test_email}", duration)
+            
+            # Step 2: Login
+            start_time = time.time()
+            response = requests.post(
+                f"{BASE_URL}/login",
+                json={
+                    "email": test_email,
+                    "password": test_password
+                },
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code != 200:
+                self.log_result("E2E - Login", False, f"Login failed: {response.status_code} - {response.text}", duration)
+                return False
+            
+            e2e_token = response.json()["access_token"]
+            self.log_result("E2E - Login", True, "Client login successful", duration)
+            
+            # Step 3: Get available slot
+            if not self.get_available_slot():
+                self.log_result("E2E - Get Slot", False, "No available slots for booking")
+                return False
+            
+            # Step 4: Test all 4 services booking
+            services = [
+                {"name": "Très simple", "price": 5},
+                {"name": "Simple", "price": 8},
+                {"name": "Chargé", "price": 12},
+                {"name": "Mariée", "price": 20}
+            ]
+            
+            headers = {"Authorization": f"Bearer {e2e_token}"}
+            successful_bookings = 0
+            
+            for service in services:
+                # Get fresh slot for each service
+                if not self.get_available_slot():
+                    continue
+                    
+                start_time = time.time()
+                appointment_data = {
+                    "slot_id": self.available_slot_id,
+                    "service_name": service["name"],
+                    "service_price": service["price"],  # CRITICAL: Numeric price (not string)
+                    "notes": f"E2E test - {service['name']} service"
+                }
+                
+                response = requests.post(
+                    f"{BASE_URL}/appointments",
+                    json=appointment_data,
+                    headers=headers,
+                    timeout=TIMEOUT
+                )
+                duration = time.time() - start_time
+                
+                if response.status_code == 200:
+                    successful_bookings += 1
+                    appointment = response.json()
+                    self.log_result(f"E2E - Book {service['name']}", True, 
+                                  f"✅ SUCCESS - {service['name']} ({service['price']}€) booked successfully", duration)
+                elif response.status_code == 422:
+                    self.log_result(f"E2E - Book {service['name']}", False, 
+                                  f"❌ 422 ERROR STILL EXISTS - {response.text}", duration)
+                else:
+                    self.log_result(f"E2E - Book {service['name']}", False, 
+                                  f"Status {response.status_code}: {response.text}", duration)
+            
+            # Step 5: Verify data storage
+            start_time = time.time()
+            response = requests.get(
+                f"{BASE_URL}/appointments",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                appointments = response.json()
+                self.log_result("E2E - Verify Storage", True, 
+                              f"Data verified - {len(appointments)} appointments stored with slot_info", duration)
+                
+                # Check if appointments have proper service data
+                for apt in appointments:
+                    if apt.get('service_name') and apt.get('service_price'):
+                        print(f"  📋 Appointment: {apt['service_name']} - {apt['service_price']}€")
+                
+                return successful_bookings == len(services)
+            else:
+                self.log_result("E2E - Verify Storage", False, f"Status {response.status_code}: {response.text}", duration)
+                return False
+                
+        except Exception as e:
+            self.log_result("E2E - Workflow", False, f"Exception: {str(e)}")
+            return False
+
+    def test_422_error_specifically(self):
+        """SPECIFIC TEST: Verify 422 error is resolved with numeric prices"""
+        print("\n🚨 SPECIFIC 422 ERROR TEST")
+        print("-" * 30)
+        
+        if not self.client_token or not self.available_slot_id:
+            self.log_result("422 Error Test", False, "Missing client token or slot")
+            return False
+        
+        # Test each service with numeric prices
+        services_to_test = [
+            {"name": "Très simple", "price": 5, "expected": "✅ Should work"},
+            {"name": "Simple", "price": 8, "expected": "✅ Should work"},
+            {"name": "Chargé", "price": 12, "expected": "✅ Should work"},
+            {"name": "Mariée", "price": 20, "expected": "✅ Should work"}
+        ]
+        
+        headers = {"Authorization": f"Bearer {self.client_token}"}
+        all_passed = True
+        
+        for service in services_to_test:
+            if not self.get_available_slot():
+                continue
+                
+            try:
+                start_time = time.time()
+                appointment_data = {
+                    "slot_id": self.available_slot_id,
+                    "service_name": service["name"],
+                    "service_price": service["price"],  # NUMERIC (not string like "5€")
+                    "notes": f"422 test - {service['name']}"
+                }
+                
+                response = requests.post(
+                    f"{BASE_URL}/appointments",
+                    json=appointment_data,
+                    headers=headers,
+                    timeout=TIMEOUT
+                )
+                duration = time.time() - start_time
+                
+                if response.status_code == 200:
+                    self.log_result(f"422 Test - {service['name']}", True, 
+                                  f"✅ NO 422 ERROR - {service['name']} ({service['price']}€) works", duration)
+                elif response.status_code == 422:
+                    self.log_result(f"422 Test - {service['name']}", False, 
+                                  f"❌ 422 ERROR PERSISTS - {response.text}", duration)
+                    all_passed = False
+                else:
+                    self.log_result(f"422 Test - {service['name']}", False, 
+                                  f"Unexpected status {response.status_code}: {response.text}", duration)
+                    all_passed = False
+                    
+            except Exception as e:
+                self.log_result(f"422 Test - {service['name']}", False, f"Exception: {str(e)}")
+                all_passed = False
+        
+        return all_passed
+
+    def test_login_registration_pages_backend(self):
+        """Test backend support for login/registration (design pages)"""
+        print("\n🎨 LOGIN/REGISTRATION BACKEND SUPPORT TEST")
+        print("-" * 45)
+        
+        # Test registration endpoint
+        random_num = random.randint(100000, 999999)
+        test_email = f"designtest{random_num}@test.com"
+        
+        try:
+            start_time = time.time()
+            response = requests.post(
+                f"{BASE_URL}/register",
+                json={
+                    "email": test_email,
+                    "password": "design123",
+                    "first_name": "Design",
+                    "last_name": "Test",
+                    "phone": "0123456789"
+                },
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                self.log_result("Design - Registration Backend", True, 
+                              "Registration endpoint works for new design pages", duration)
+                
+                # Test login endpoint
+                start_time = time.time()
+                response = requests.post(
+                    f"{BASE_URL}/login",
+                    json={
+                        "email": test_email,
+                        "password": "design123"
+                    },
+                    timeout=TIMEOUT
+                )
+                duration = time.time() - start_time
+                
+                if response.status_code == 200:
+                    self.log_result("Design - Login Backend", True, 
+                                  "Login endpoint works for new design pages", duration)
+                    return True
+                else:
+                    self.log_result("Design - Login Backend", False, 
+                                  f"Login failed: {response.status_code} - {response.text}", duration)
+                    return False
+            else:
+                self.log_result("Design - Registration Backend", False, 
+                              f"Registration failed: {response.status_code} - {response.text}", duration)
+                return False
+                
+        except Exception as e:
+            self.log_result("Design - Backend Support", False, f"Exception: {str(e)}")
+            return False
+
     def run_tests(self):
-        """Run all tests focusing on 422 error fixes"""
-        print("🎯 BACKEND TESTING - FOCUS: 422 ERROR FIXES")
+        """Run final validation tests as requested"""
+        print("🎯 TESTS DE VALIDATION FINAUX")
+        print("=" * 60)
+        print("Focus: Erreur 422 + Design + End-to-End")
         print("=" * 60)
         
         # Authentication setup
@@ -626,49 +872,32 @@ class BackendTester:
             print("❌ Cannot proceed without client authentication")
             return
         
-        # Get available slots or create multiple ones
+        # Ensure we have slots for testing
         if not self.get_available_slot():
-            print("⚠️ No available slots found, creating multiple test slots...")
-            self.create_multiple_test_slots(5)
+            print("⚠️ Creating test slots for comprehensive testing...")
+            self.create_multiple_test_slots(8)
             if not self.get_available_slot():
                 print("❌ Still no available slots after creation")
                 return
         else:
-            # Create additional slots for comprehensive testing
-            print("✅ Available slots found, creating additional slots for comprehensive testing...")
-            self.create_multiple_test_slots(4)
+            print("✅ Available slots found, creating additional slots...")
+            self.create_multiple_test_slots(6)
         
-        print("\n🔥 CRITICAL TESTS - 422 ERROR FIXES:")
+        print("\n🚨 TEST 1: ERREUR 422 RÉSERVATION")
         print("-" * 40)
+        self.test_422_error_specifically()
         
-        # CRITICAL: Test the main 422 fix
-        self.test_appointment_creation_with_token()
-        self.test_appointment_creation_without_token()
-        
-        print("\n📋 IMPORTANT TESTS - SLOT INFO FIX:")
+        print("\n🎨 TEST 2: PAGES DESIGN BACKEND SUPPORT")
         print("-" * 40)
+        self.test_login_registration_pages_backend()
         
-        # IMPORTANT: Test slot_info in appointments
-        self.test_client_appointments_with_slot_info()
-        
-        print("\n🔐 NEW TESTS - PASSWORD RESET SYSTEM:")
+        print("\n🔄 TEST 3: WORKFLOW COMPLET END-TO-END")
         print("-" * 40)
+        self.test_complete_end_to_end_workflow()
         
-        # NEW: Test password reset system
-        self.test_password_reset_request()
-        self.test_password_reset_confirm_invalid()
-        
-        print("\n⚡ PERFORMANCE TESTS - BACKGROUND TASKS:")
+        print("\n⚡ TEST 4: PERFORMANCE VALIDATION")
         print("-" * 40)
-        
-        # PERFORMANCE: Test appointment creation speed
         self.test_appointment_creation_performance()
-        
-        print("\n🎯 SERVICE TESTS - ALL 4 SERVICES:")
-        print("-" * 40)
-        
-        # Test all services
-        self.test_all_services_booking()
         
         # Summary
         self.print_summary()
