@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "L'affichage sur telephone est pas bon - RÉSOLU: Problèmes d'affichage mobile corrigés avec améliorations responsive design complètes."
+user_problem_statement: "Erreur lorsque je choisis mon rdv depuis l'espace client 'réserver' et améliore le design coté espace client des rdv etccc sans modifier le design du site / fonctionalites actuel - CORRIGÉ: Erreur 422 résolue (prix numériques) + Design espace client amélioré"
 
 backend:
   - task: "MongoDB Database Connection"
