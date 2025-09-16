@@ -174,9 +174,17 @@ const ClientDashboard = () => {
           <TabsContent value="appointments" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Calendar className="mr-2 h-5 w-5" />
-                  Mes Rendez-vous
+                <CardTitle className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <Calendar className="mr-2 h-5 w-5" />
+                    Mes Rendez-vous
+                  </div>
+                  <Button variant="outline" size="sm" onClick={fetchData}>
+                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Actualiser
+                  </Button>
                 </CardTitle>
                 <CardDescription>
                   Consultez vos rendez-vous passés et à venir
@@ -184,52 +192,91 @@ const ClientDashboard = () => {
               </CardHeader>
               <CardContent>
                 {appointments.length === 0 ? (
-                  <p className="text-center text-gray-500 py-6 sm:py-8 text-sm sm:text-base">
-                    Aucun rendez-vous pour le moment
-                  </p>
+                  <div className="text-center py-12">
+                    <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                      <Calendar className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <p className="text-gray-500 text-lg font-medium mb-2">Aucun rendez-vous</p>
+                    <p className="text-gray-400 text-sm mb-6">Vous n'avez pas encore de rendez-vous programmés</p>
+                    <Button onClick={() => document.querySelector('[value="booking"]').click()} className="bg-orange-600 hover:bg-orange-700">
+                      <Calendar className="w-4 h-4 mr-2" />
+                      Réserver maintenant
+                    </Button>
+                  </div>
                 ) : (
-                  <div className="space-y-3 sm:space-y-4">
+                  <div className="space-y-4">
                     {appointments.map((appointment) => {
+                      const isUpcoming = appointment.status === 'confirmed' || appointment.status === 'pending';
+                      const isCompleted = appointment.status === 'completed';
+                      const isCancelled = appointment.status === 'cancelled';
+                      
                       return (
-                        <div key={appointment.id} className="border rounded-lg p-3 sm:p-4 bg-white">
-                          <div className="flex flex-col gap-3 sm:gap-4">
-                            <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-4">
-                              <div className="space-y-2 flex-1 min-w-0">
-                                <h3 className="font-semibold text-sm sm:text-base leading-tight">
-                                  {appointment.service_name || 'Service non spécifié'}
-                                </h3>
-                                <div className="flex items-center text-xs sm:text-sm text-gray-600">
-                                  <Calendar className="mr-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                                  <span className="truncate">
-                                    {(appointment.slot_info && appointment.slot_info.date) || appointment.date ? 
-                                      formatDate((appointment.slot_info && appointment.slot_info.date) || appointment.date) : 
-                                      'Date non spécifiée'}
-                                  </span>
+                        <div key={appointment.id} className={`border-2 rounded-xl p-4 sm:p-6 transition-all hover:shadow-lg ${
+                          isUpcoming ? 'border-orange-200 bg-orange-50/50' : 
+                          isCompleted ? 'border-green-200 bg-green-50/50' :
+                          isCancelled ? 'border-red-200 bg-red-50/50' : 'border-gray-200 bg-white'
+                        }`}>
+                          <div className="flex flex-col lg:flex-row gap-4">
+                            {/* Service Info */}
+                            <div className="flex-1 space-y-3">
+                              <div className="flex items-start justify-between">
+                                <div>
+                                  <h3 className="text-lg font-bold text-gray-900 mb-1">
+                                    {appointment.service_name || 'Service non spécifié'}
+                                  </h3>
+                                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                                    <div className="flex items-center">
+                                      <Calendar className="w-4 h-4 mr-1 flex-shrink-0" />
+                                      <span className="font-medium">
+                                        {(appointment.slot_info && appointment.slot_info.date) || appointment.date ? 
+                                          formatDate((appointment.slot_info && appointment.slot_info.date) || appointment.date) : 
+                                          'Date non spécifiée'}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center">
+                                      <Clock className="w-4 h-4 mr-1 flex-shrink-0" />
+                                      <span className="font-medium">
+                                        {(appointment.slot_info && appointment.slot_info.start_time) || appointment.start_time ? 
+                                          `${formatTime((appointment.slot_info && appointment.slot_info.start_time) || appointment.start_time)}` : 
+                                          'Heure non spécifiée'}
+                                      </span>
+                                    </div>
+                                  </div>
                                 </div>
-                                <div className="flex items-center text-xs sm:text-sm text-gray-600">
-                                  <Clock className="mr-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                                  <span>
-                                    {(appointment.slot_info && appointment.slot_info.start_time) || appointment.start_time ? 
-                                      `${formatTime((appointment.slot_info && appointment.slot_info.start_time) || appointment.start_time)}` : 
-                                      'Heure non spécifiée'}
-                                  </span>
+                                
+                                {/* Status et Prix */}
+                                <div className="flex flex-col items-end gap-2">
+                                  {getStatusBadgeEnhanced(appointment.status)}
+                                  <div className="text-2xl font-bold text-orange-600">
+                                    {appointment.service_price || 0}€
+                                  </div>
                                 </div>
                               </div>
-                              <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 sm:gap-2 w-full sm:w-auto">
-                                {getStatusBadge(appointment.status)}
-                                <p className="text-base sm:text-lg font-semibold">
-                                  {appointment.service_price || 0}€
-                                </p>
-                              </div>
+
+                              {/* Notes/Détails */}
+                              {appointment.notes && (
+                                <div className="bg-white/80 rounded-lg p-3 border border-gray-100">
+                                  <div className="flex items-start">
+                                    <MessageSquare className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5 text-gray-500" />
+                                    <div className="text-sm text-gray-700 whitespace-pre-line leading-relaxed">
+                                      {appointment.notes}
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Actions pour les RDV à venir */}
+                              {isUpcoming && (
+                                <div className="flex flex-wrap gap-2 pt-2">
+                                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                                    </svg>
+                                    {appointment.status === 'pending' ? 'En attente de confirmation' : 'Confirmé - À venir'}
+                                  </span>
+                                </div>
+                              )}
                             </div>
-                            {appointment.notes && (
-                              <div className="pt-2 border-t border-gray-100">
-                                <p className="text-xs sm:text-sm text-gray-600 flex items-start">
-                                  <MessageSquare className="mr-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 mt-0.5" />
-                                  <span className="break-words">{appointment.notes}</span>
-                                </p>
-                              </div>
-                            )}
                           </div>
                         </div>
                       );
