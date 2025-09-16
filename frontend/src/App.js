@@ -56,6 +56,7 @@ function App() {
             <Route path="/avis" element={<ReviewsPage />} />
             <Route path="/connexion" element={<LoginPage />} />
             <Route path="/inscription" element={<RegisterPage />} />
+            <Route path="/mot-de-passe-oublie" element={<PasswordResetPage />} />
             <Route path="/mon-espace" element={<ClientDashboard />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/reserver/:slotId" element={<BookingDetailsPage />} />
