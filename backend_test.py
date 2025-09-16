@@ -196,34 +196,7 @@ class BackendTester:
         except Exception as e:
             self.log_result("New Client Login", False, f"Exception: {str(e)}")
             return False
-    
-    def create_test_client(self):
-        """Create a test client user"""
-        try:
-            start_time = time.time()
-            response = requests.post(
-                f"{BASE_URL}/register",
-                json={
-                    "email": "marie.dupont@email.com",
-                    "password": "client123",
-                    "first_name": "Marie",
-                    "last_name": "Dupont",
-                    "phone": "0123456789"
-                },
-                timeout=TIMEOUT
-            )
-            duration = time.time() - start_time
-            
-            if response.status_code == 200:
-                self.log_result("Client Registration", True, "Client created successfully", duration)
-                # Now login
-                return self.authenticate_client()
-            else:
-                self.log_result("Client Registration", False, f"Status {response.status_code}: {response.text}", duration)
-                return False
-        except Exception as e:
-            self.log_result("Client Registration", False, f"Exception: {str(e)}")
-            return False
+
     
     def create_test_slot(self):
         """Create a test slot for booking"""
