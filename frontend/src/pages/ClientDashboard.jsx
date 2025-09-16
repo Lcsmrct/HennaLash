@@ -336,49 +336,101 @@ const ClientDashboard = () => {
                   Réserver un Rendez-vous
                 </CardTitle>
                 <CardDescription>
-                  Choisissez parmi les créneaux disponibles
+                  Choisissez parmi les créneaux disponibles et sélectionnez votre service
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 {availableSlots.length === 0 ? (
-                  <p className="text-center text-gray-500 py-6 sm:py-8 text-sm sm:text-base">
-                    Aucun créneau disponible pour le moment
-                  </p>
+                  <div className="text-center py-12">
+                    <div className="mx-auto w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                      <Clock className="w-8 h-8 text-orange-500" />
+                    </div>
+                    <p className="text-gray-500 text-lg font-medium mb-2">Aucun créneau disponible</p>
+                    <p className="text-gray-400 text-sm mb-6">Les créneaux sont mis à jour régulièrement</p>
+                    <Button variant="outline" onClick={fetchData}>
+                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                      Vérifier les disponibilités
+                    </Button>
+                  </div>
                 ) : (
-                  <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
-                    {availableSlots.map((slot, index) => {
-                      console.log(`Slot ${index}:`, slot); // Debug chaque slot
-                      return (
-                        <Card key={slot.id} className="cursor-pointer hover:shadow-md transition-shadow h-full">
-                          <CardContent className="p-3 sm:p-4 h-full flex flex-col">
-                            <h3 className="font-semibold mb-3 text-sm sm:text-base">Créneau Disponible</h3>
-                            <div className="space-y-2 text-xs sm:text-sm text-gray-600 flex-1">
-                              <div className="flex items-center min-h-[20px]">
-                                <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                                <span className="truncate">
-                                  {slot.date ? formatDate(slot.date) : 'Date non spécifiée'}
-                                </span>
+                  <div>
+                    <div className="mb-6 p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-lg border border-orange-200">
+                      <h3 className="font-semibold text-orange-800 mb-2">🎨 Nos Services</h3>
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
+                        <div className="text-center">
+                          <div className="font-medium text-orange-700">Très simple</div>
+                          <div className="text-orange-600">5€ par main</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="font-medium text-orange-700">Simple</div>
+                          <div className="text-orange-600">8€ par main</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="font-medium text-orange-700">Chargé</div>
+                          <div className="text-orange-600">12€ par mains</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="font-medium text-orange-700">Mariée</div>
+                          <div className="text-orange-600">20€ complet</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
+                      {availableSlots.map((slot, index) => {
+                        console.log(`Slot ${index}:`, slot); // Debug chaque slot
+                        const slotDate = new Date(slot.date);
+                        const isToday = slotDate.toDateString() === new Date().toDateString();
+                        const isTomorrow = slotDate.toDateString() === new Date(Date.now() + 86400000).toDateString();
+                        
+                        return (
+                          <Card key={slot.id} className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-orange-300 h-full group">
+                            <CardContent className="p-4 h-full flex flex-col">
+                              <div className="flex justify-between items-start mb-3">
+                                <div className="flex-1">
+                                  <h3 className="font-bold text-lg text-gray-900 mb-1 group-hover:text-orange-600 transition-colors">
+                                    {isToday ? '🔥 Aujourd\'hui' : isTomorrow ? '⚡ Demain' : 'Disponible'}
+                                  </h3>
+                                </div>
+                                <div className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full font-medium">
+                                  Libre
+                                </div>
                               </div>
-                              <div className="flex items-center min-h-[20px]">
-                                <Clock className="mr-2 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                                <span>
-                                  {slot.start_time ? formatTime(slot.start_time) : 'Heure non spécifiée'}
-                                </span>
+                              
+                              <div className="space-y-3 text-sm flex-1">
+                                <div className="flex items-center bg-gray-50 rounded-lg p-2">
+                                  <Calendar className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" />
+                                  <span className="font-medium text-gray-700">
+                                    {slot.date ? formatDate(slot.date) : 'Date non spécifiée'}
+                                  </span>
+                                </div>
+                                <div className="flex items-center bg-gray-50 rounded-lg p-2">
+                                  <Clock className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" />
+                                  <span className="font-medium text-gray-700">
+                                    {slot.start_time ? `${formatTime(slot.start_time)} - ${slot.end_time ? formatTime(slot.end_time) : '(+1h)'}` : 'Heure non spécifiée'}
+                                  </span>
+                                </div>
+                                <div className="bg-blue-50 rounded-lg p-2">
+                                  <p className="text-xs text-blue-600 font-medium">
+                                    ✨ Choisissez votre service lors de la réservation
+                                  </p>
+                                </div>
                               </div>
-                              <p className="text-xs sm:text-sm text-gray-500 pt-1">
-                                Service à choisir lors de la réservation
-                              </p>
-                            </div>
-                            <Button 
-                              className="w-full mt-4 py-2 sm:py-3 text-xs sm:text-sm font-medium" 
-                              onClick={() => goToBookingDetails(slot.id)}
-                            >
-                              Réserver ce créneau
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      );
-                    })}
+                              
+                              <Button 
+                                className="w-full mt-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium transition-all duration-200 group-hover:shadow-md" 
+                                onClick={() => goToBookingDetails(slot.id)}
+                              >
+                                <Calendar className="w-4 h-4 mr-2" />
+                                Réserver ce créneau
+                              </Button>
+                            </CardContent>
+                          </Card>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
               </CardContent>
