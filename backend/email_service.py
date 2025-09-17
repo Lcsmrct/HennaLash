@@ -460,7 +460,7 @@ L'équipe HennaLash
                     </div>
                     
                     <!-- Info Box -->
-                    <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-radius: 12px; padding: 20px; margin: 24px 0; border-left: 4px solid #3b82f6;">
+                    <div style="background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%); border-radius: 12px; padding: 20px; margin: 24px 0; border-left: 4px solid #f97316;">
                         <div style="display: flex; align-items: flex-start;">
                             <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
