@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """
-Backend API Testing - Password Reset System Testing
-Focus: Test spécifique du système de réinitialisation de mot de passe
+Backend API Testing - French User Improvements Testing
+Focus: Test des améliorations demandées par l'utilisateur français
+- Lieu obligatoire côté client
+- Endpoint annulation avec email
+- Affichage lieu corrigé côté admin
+- Emails responsives mobiles
 """
 
 import requests
