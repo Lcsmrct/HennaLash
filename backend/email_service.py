@@ -97,25 +97,25 @@ Système de réservation
         <body style="margin: 0; padding: 20px; background-color: #fef7ed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
             <div class="container" style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
                 <!-- Header -->
-                <div style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); padding: 32px 24px; text-align: center;">
+                <div class="header" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); padding: 32px 24px; text-align: center;">
                     <div style="width: 64px; height: 64px; background-color: rgba(255, 255, 255, 0.15); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H9V12H7V10ZM11 10H13V12H11V10ZM15 10H17V12H15V10Z" fill="white"/>
                         </svg>
                     </div>
-                    <h1 style="color: white; margin: 0 0 8px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">HennaLash</h1>
+                    <h1 class="title" style="color: white; margin: 0 0 8px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">HennaLash</h1>
                     <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 500;">Nouvelle réservation</p>
                 </div>
                 
                 <!-- Content -->
-                <div style="padding: 32px 24px;">
+                <div class="content" style="padding: 32px 24px;">
                     <div style="text-align: center; margin-bottom: 32px;">
                         <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #fef3c7 0%, #f59e0b 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H9V12H7V10ZM11 10H13V12H11V10ZM15 10H17V12H15V10Z" fill="#d97706"/>
                             </svg>
                         </div>
-                        <h2 style="color: #1f2937; margin: 0 0 8px 0; font-size: 24px; font-weight: 700;">Nouvelle réservation reçue !</h2>
+                        <h2 class="subtitle" style="color: #1f2937; margin: 0 0 8px 0; font-size: 24px; font-weight: 700;">Nouvelle réservation reçue !</h2>
                         <p style="color: #6b7280; margin: 0; font-size: 16px;">Un client vient de faire une réservation</p>
                     </div>
                     
