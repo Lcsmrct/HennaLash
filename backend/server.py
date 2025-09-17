@@ -539,6 +539,99 @@ async def delete_appointment(
     await db.appointments.delete_one({"id": appointment_id})
     
     return {"message": "Appointment deleted successfully"}
+@api_router.put("/appointments/{appointment_id}/cancel")
+async def cancel_appointment(
+    appointment_id: str,
+    current_user: User = Depends(get_current_admin_user_with_db),
+    db = Depends(get_db)
+):
+    """Cancel an appointment and notify client by email (Admin only)."""
+    
+    # Get appointment with user details using aggregation
+    pipeline = [
+        {"$match": {"id": appointment_id}},
+        {
+            "$lookup": {
+                "from": "users",
+                "localField": "user_id",
+                "foreignField": "id",
+                "as": "user_info"
+            }
+        },
+        {
+            "$lookup": {
+                "from": "time_slots",
+                "localField": "slot_id",
+                "foreignField": "id",
+                "as": "slot_info"
+            }
+        },
+        {
+            "$addFields": {
+                "user_info": {"$arrayElemAt": ["$user_info", 0]},
+                "slot_info": {"$arrayElemAt": ["$slot_info", 0]}
+            }
+        }
+    ]
+    
+    appointment_data = await db.appointments.aggregate(pipeline).to_list(length=1)
+    if not appointment_data:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+    
+    appointment = appointment_data[0]
+    
+    # Update appointment status to cancelled
+    await db.appointments.update_one(
+        {"id": appointment_id},
+        {"$set": {"status": "cancelled", "updated_at": datetime.utcnow()}}
+    )
+    
+    # Make the slot available again
+    await db.time_slots.update_one(
+        {"id": appointment["slot_id"]},
+        {"$set": {"is_available": True}}
+    )
+    
+    # Send cancellation email to client
+    if appointment.get("user_info") and appointment.get("slot_info"):
+        user_info = appointment["user_info"]
+        slot_info = appointment["slot_info"]
+        
+        client_name = f"{user_info.get('first_name', '')} {user_info.get('last_name', '')}".strip()
+        client_email = user_info.get("email")
+        service_name = appointment.get("service_name", "Service")
+        service_price = appointment.get("service_price", 0)
+        
+        # Format date and time
+        appointment_date = "Date non spécifiée"
+        appointment_time = "Heure non spécifiée"
+        
+        if slot_info.get("date"):
+            try:
+                from datetime import datetime
+                date_obj = datetime.fromisoformat(slot_info["date"].replace('Z', '+00:00'))
+                appointment_date = date_obj.strftime("%d/%m/%Y")
+            except:
+                pass
+        
+        if slot_info.get("start_time"):
+            appointment_time = slot_info["start_time"]
+        
+        # Send email
+        try:
+            await email_service.send_appointment_cancellation_to_client(
+                client_email=client_email,
+                client_name=client_name,
+                service_name=service_name,
+                appointment_date=appointment_date,
+                appointment_time=appointment_time,
+                service_price=service_price
+            )
+        except Exception as e:
+            logger.error(f"Failed to send cancellation email: {str(e)}")
+            # Continue execution even if email fails
+    
+    return {"message": "Appointment cancelled successfully and client notified by email"}
 
 # ==========================================
 # REVIEW ROUTES
