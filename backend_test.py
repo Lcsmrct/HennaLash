@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Backend API Testing - Final Validation Tests
-Focus: Validate all corrections applied for 422 error and design improvements
+Backend API Testing - Password Reset System Testing
+Focus: Test spécifique du système de réinitialisation de mot de passe
 """
 
 import requests
@@ -11,8 +11,8 @@ from datetime import datetime, timedelta
 import sys
 import random
 
-# Configuration
-BASE_URL = "https://henna-lash.onrender.com/api"
+# Configuration - Use frontend .env URL
+BASE_URL = "https://auth-upgrade-14.preview.emergentagent.com/api"
 TIMEOUT = 15
 
 class BackendTester:
