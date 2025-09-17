@@ -446,26 +446,30 @@ const ClientDashboard = () => {
           </TabsContent>
 
           <TabsContent value="booking" className="space-y-4">
-            <Card>
-              <CardHeader>
+            <Card className="bg-white/80 backdrop-blur-sm border-2 border-orange-100 shadow-xl rounded-2xl overflow-hidden">
+              <CardHeader className="bg-gradient-to-r from-orange-500 to-amber-500 text-white">
                 <CardTitle className="flex items-center">
-                  <Calendar className="mr-2 h-5 w-5" />
-                  Réserver un Rendez-vous
+                  <Calendar className="mr-3 h-6 w-6" />
+                  <span className="text-xl font-bold">Réserver un Rendez-vous</span>
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-orange-100 text-base">
                   Choisissez parmi les créneaux disponibles et sélectionnez votre service
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6">
                 {availableSlots.length === 0 ? (
-                  <div className="text-center py-12">
-                    <div className="mx-auto w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4">
-                      <Clock className="w-8 h-8 text-orange-500" />
+                  <div className="text-center py-16">
+                    <div className="mx-auto w-20 h-20 bg-gradient-to-br from-orange-100 to-amber-100 rounded-full flex items-center justify-center mb-6 shadow-lg">
+                      <Clock className="w-10 h-10 text-orange-500" />
                     </div>
-                    <p className="text-gray-500 text-lg font-medium mb-2">Aucun créneau disponible</p>
-                    <p className="text-gray-400 text-sm mb-6">Les créneaux sont mis à jour régulièrement</p>
-                    <Button variant="outline" onClick={fetchData}>
-                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <p className="text-gray-600 text-xl font-semibold mb-3">Aucun créneau disponible</p>
+                    <p className="text-gray-500 text-base mb-8 max-w-md mx-auto">Les créneaux sont mis à jour régulièrement. Revenez bientôt !</p>
+                    <Button 
+                      variant="outline" 
+                      onClick={fetchData}
+                      className="bg-white/80 hover:bg-orange-50 border-orange-200 hover:border-orange-300 transition-all duration-300 px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl"
+                    >
+                      <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                       </svg>
                       Vérifier les disponibilités
@@ -473,29 +477,44 @@ const ClientDashboard = () => {
                   </div>
                 ) : (
                   <div>
-                    <div className="mb-6 p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-lg border border-orange-200">
-                      <h3 className="font-semibold text-orange-800 mb-2">🎨 Nos Services</h3>
-                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
-                        <div className="text-center">
-                          <div className="font-medium text-orange-700">Très simple</div>
-                          <div className="text-orange-600">5€ par main</div>
+                    <div className="mb-8 p-6 bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl border-2 border-orange-200 shadow-lg">
+                      <h3 className="font-bold text-orange-800 mb-4 text-lg flex items-center">
+                        <span className="mr-2">🎨</span>
+                        Nos Services Premium
+                      </h3>
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="text-center bg-white/70 rounded-xl p-3 border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300">
+                          <div className="w-12 h-12 bg-gradient-to-br from-orange-200 to-amber-200 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <span className="text-lg">✨</span>
+                          </div>
+                          <div className="font-semibold text-orange-700 text-sm">Très simple</div>
+                          <div className="text-orange-600 font-bold">5€ par main</div>
                         </div>
-                        <div className="text-center">
-                          <div className="font-medium text-orange-700">Simple</div>
-                          <div className="text-orange-600">8€ par main</div>
+                        <div className="text-center bg-white/70 rounded-xl p-3 border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300">
+                          <div className="w-12 h-12 bg-gradient-to-br from-orange-300 to-amber-300 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <span className="text-lg">🌟</span>
+                          </div>
+                          <div className="font-semibold text-orange-700 text-sm">Simple</div>
+                          <div className="text-orange-600 font-bold">8€ par main</div>
                         </div>
-                        <div className="text-center">
-                          <div className="font-medium text-orange-700">Chargé</div>
-                          <div className="text-orange-600">12€ par mains</div>
+                        <div className="text-center bg-white/70 rounded-xl p-3 border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300">
+                          <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-amber-400 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <span className="text-lg">💫</span>
+                          </div>
+                          <div className="font-semibold text-orange-700 text-sm">Chargé</div>
+                          <div className="text-orange-600 font-bold">12€ par mains</div>
                         </div>
-                        <div className="text-center">
-                          <div className="font-medium text-orange-700">Mariée</div>
-                          <div className="text-orange-600">20€ complet</div>
+                        <div className="text-center bg-white/70 rounded-xl p-3 border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300">
+                          <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <span className="text-lg">👰</span>
+                          </div>
+                          <div className="font-semibold text-orange-700 text-sm">Mariée</div>
+                          <div className="text-orange-600 font-bold">20€ complet</div>
                         </div>
                       </div>
                     </div>
                     
-                    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
+                    <div className="grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                       {availableSlots.map((slot, index) => {
                         console.log(`Slot ${index}:`, slot); // Debug chaque slot
                         const slotDate = new Date(slot.date);
@@ -503,44 +522,70 @@ const ClientDashboard = () => {
                         const isTomorrow = slotDate.toDateString() === new Date(Date.now() + 86400000).toDateString();
                         
                         return (
-                          <Card key={slot.id} className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-orange-300 h-full group">
-                            <CardContent className="p-4 h-full flex flex-col">
-                              <div className="flex justify-between items-start mb-3">
+                          <Card key={slot.id} className="cursor-pointer hover:shadow-2xl transition-all duration-300 border-2 hover:border-orange-400 h-full group bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden transform hover:scale-105">
+                            <CardContent className="p-6 h-full flex flex-col">
+                              <div className="flex justify-between items-start mb-4">
                                 <div className="flex-1">
-                                  <h3 className="font-bold text-lg text-gray-900 mb-1 group-hover:text-orange-600 transition-colors">
-                                    {isToday ? '🔥 Aujourd\'hui' : isTomorrow ? '⚡ Demain' : 'Disponible'}
+                                  <h3 className="font-bold text-xl text-gray-900 mb-2 group-hover:text-orange-600 transition-colors flex items-center">
+                                    {isToday ? (
+                                      <>
+                                        <span className="mr-2">🔥</span>
+                                        <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">Aujourd'hui</span>
+                                      </>
+                                    ) : isTomorrow ? (
+                                      <>
+                                        <span className="mr-2">⚡</span>
+                                        <span className="bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">Demain</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <span className="mr-2">✨</span>
+                                        <span>Disponible</span>
+                                      </>
+                                    )}
                                   </h3>
                                 </div>
-                                <div className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full font-medium">
+                                <div className="bg-gradient-to-r from-green-400 to-emerald-400 text-white text-xs px-3 py-2 rounded-full font-semibold shadow-md">
                                   Libre
                                 </div>
                               </div>
                               
-                              <div className="space-y-3 text-sm flex-1">
-                                <div className="flex items-center bg-gray-50 rounded-lg p-2">
-                                  <Calendar className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" />
-                                  <span className="font-medium text-gray-700">
-                                    {slot.date ? formatDate(slot.date) : 'Date non spécifiée'}
-                                  </span>
+                              <div className="space-y-4 text-sm flex-1">
+                                <div className="flex items-center bg-gradient-to-r from-gray-50 to-orange-50 rounded-xl p-4 shadow-sm border border-orange-100">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-amber-400 rounded-full flex items-center justify-center mr-4">
+                                    <Calendar className="w-5 h-5 text-white" />
+                                  </div>
+                                  <div>
+                                    <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Date</div>
+                                    <div className="font-bold text-gray-800">
+                                      {slot.date ? formatDate(slot.date) : 'Date non spécifiée'}
+                                    </div>
+                                  </div>
                                 </div>
-                                <div className="flex items-center bg-gray-50 rounded-lg p-2">
-                                  <Clock className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" />
-                                  <span className="font-medium text-gray-700">
-                                    {slot.start_time ? `${formatTime(slot.start_time)} - ${slot.end_time ? formatTime(slot.end_time) : '(+1h)'}` : 'Heure non spécifiée'}
-                                  </span>
+                                <div className="flex items-center bg-gradient-to-r from-gray-50 to-orange-50 rounded-xl p-4 shadow-sm border border-orange-100">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-amber-400 rounded-full flex items-center justify-center mr-4">
+                                    <Clock className="w-5 h-5 text-white" />
+                                  </div>
+                                  <div>
+                                    <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Horaire</div>
+                                    <div className="font-bold text-gray-800">
+                                      {slot.start_time ? `${formatTime(slot.start_time)} - ${slot.end_time ? formatTime(slot.end_time) : '(+1h)'}` : 'Heure non spécifiée'}
+                                    </div>
+                                  </div>
                                 </div>
-                                <div className="bg-blue-50 rounded-lg p-2">
-                                  <p className="text-xs text-blue-600 font-medium">
-                                    ✨ Choisissez votre service lors de la réservation
+                                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border-2 border-blue-200">
+                                  <p className="text-sm text-blue-700 font-semibold flex items-center">
+                                    <span className="mr-2">✨</span>
+                                    Choisissez votre service lors de la réservation
                                   </p>
                                 </div>
                               </div>
                               
                               <Button 
-                                className="w-full mt-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium transition-all duration-200 group-hover:shadow-md" 
+                                className="w-full mt-6 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-3 transition-all duration-300 group-hover:shadow-xl transform group-hover:scale-105 rounded-xl" 
                                 onClick={() => goToBookingDetails(slot.id)}
                               >
-                                <Calendar className="w-4 h-4 mr-2" />
+                                <Calendar className="w-5 h-5 mr-3" />
                                 Réserver ce créneau
                               </Button>
                             </CardContent>
