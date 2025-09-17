@@ -218,33 +218,46 @@ const ClientDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50 pt-16">
       <Navigation />
       
       <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
           <div className="w-full sm:w-auto">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
-              Bonjour, {user?.first_name} !
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 via-amber-600 to-rose-600 bg-clip-text text-transparent">
+              Bonjour, {user?.first_name} ! ✨
             </h1>
-            <p className="text-sm sm:text-base text-gray-600 mt-1">Gérez vos rendez-vous et laissez des avis</p>
+            <p className="text-sm sm:text-base text-gray-600 mt-2 font-medium">Gérez vos rendez-vous et laissez des avis</p>
           </div>
-          <Button onClick={logout} variant="outline" className="w-full sm:w-auto min-w-[120px]">
+          <Button 
+            onClick={logout} 
+            variant="outline" 
+            className="w-full sm:w-auto min-w-[140px] bg-white/80 backdrop-blur-sm hover:bg-orange-50 border-orange-200 hover:border-orange-300 transition-all duration-300 hover:shadow-lg"
+          >
             <LogOut className="mr-2 h-4 w-4" />
             Déconnexion
           </Button>
         </div>
 
         <Tabs defaultValue="appointments" className="space-y-4 sm:space-y-6">
-          <TabsList className="grid w-full grid-cols-3 h-auto p-1">
-            <TabsTrigger value="appointments" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
-              Mes Rendez-vous
+          <TabsList className="grid w-full grid-cols-3 h-auto p-1 bg-white/80 backdrop-blur-sm border-2 border-orange-100 shadow-lg rounded-xl">
+            <TabsTrigger 
+              value="appointments" 
+              className="text-xs sm:text-sm py-3 px-1 sm:px-3 rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+            >
+              📅 Mes Rendez-vous
             </TabsTrigger>
-            <TabsTrigger value="booking" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
-              Réserver
+            <TabsTrigger 
+              value="booking" 
+              className="text-xs sm:text-sm py-3 px-1 sm:px-3 rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+            >
+              🎯 Réserver
             </TabsTrigger>
-            <TabsTrigger value="reviews" className="text-xs sm:text-sm py-2 px-1 sm:px-3">
-              Laisser un Avis
+            <TabsTrigger 
+              value="reviews" 
+              className="text-xs sm:text-sm py-3 px-1 sm:px-3 rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+            >
+              ⭐ Laisser un Avis
             </TabsTrigger>
           </TabsList>
 
