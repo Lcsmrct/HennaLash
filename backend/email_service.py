@@ -505,6 +505,123 @@ L'équipe HennaLash
         
         return await self.send_email(client_email, subject, body, html_body)
 
+    async def send_appointment_cancellation_to_client(self, client_email: str, client_name: str, 
+                                                    service_name: str, appointment_date: str, 
+                                                    appointment_time: str, service_price: float):
+        """Send appointment cancellation notification to client."""
+        subject = f"Annulation de votre rendez-vous - {service_name}"
+        
+        body = f"""
+Bonjour {client_name},
+
+Nous sommes désolés de vous informer que votre rendez-vous a été annulé.
+
+Détails du rendez-vous annulé :
+- Service : {service_name}
+- Date : {appointment_date}
+- Heure : {appointment_time}
+- Prix : {service_price}€
+
+N'hésitez pas à reprendre un nouveau rendez-vous quand vous le souhaitez.
+
+Cordialement,
+L'équipe HennaLash
+        """
+        
+        html_body = f"""
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Annulation de rendez-vous</title>
+            <style>
+                @media only screen and (max-width: 600px) {{
+                    .container {{ width: 100% !important; margin: 0 !important; }}
+                    .content {{ padding: 16px !important; }}
+                    .header {{ padding: 24px 16px !important; }}
+                    .card {{ padding: 16px !important; }}
+                    .title {{ font-size: 24px !important; }}
+                    .button {{ width: 100% !important; padding: 16px !important; }}
+                }}
+            </style>
+        </head>
+        <body style="margin: 0; padding: 20px; background-color: #fef7ed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+            <div class="container" style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);">
+                
+                <!-- Header -->
+                <div class="header" style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); padding: 32px 24px; text-align: center;">
+                    <div style="width: 64px; height: 64px; background-color: rgba(255, 255, 255, 0.15); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; backdrop-filter: blur(10px);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="white"/>
+                        </svg>
+                    </div>
+                    <h1 class="title" style="color: white; margin: 0 0 8px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">HennaLash</h1>
+                    <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 500;">⚠️ Annulation de rendez-vous</p>
+                </div>
+                
+                <!-- Content -->
+                <div class="content" style="padding: 32px 24px;">
+                    <div style="text-align: center; margin-bottom: 32px;">
+                        <h2 style="color: #1f2937; margin: 0 0 16px 0; font-size: 24px; font-weight: 700;">Bonjour {client_name},</h2>
+                        <p style="color: #6b7280; margin: 0; font-size: 16px; line-height: 1.6;">
+                            Nous sommes désolés de vous informer que votre rendez-vous a été <strong style="color: #dc2626;">annulé</strong>.
+                        </p>
+                    </div>
+                    
+                    <!-- Appointment Details -->
+                    <div class="card" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 16px; padding: 24px; margin-bottom: 24px; border: 1px solid #f59e0b;">
+                        <h3 style="color: #92400e; margin: 0 0 20px 0; font-size: 18px; font-weight: 700; display: flex; align-items: center;">
+                            <span style="margin-right: 8px;">📅</span>
+                            Détails du rendez-vous annulé
+                        </h3>
+                        
+                        <div style="display: grid; gap: 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: rgba(255,255,255,0.7); border-radius: 8px;">
+                                <span style="color: #92400e; font-weight: 600;">🎨 Service</span>
+                                <span style="color: #1f2937; font-weight: 700;">{service_name}</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: rgba(255,255,255,0.7); border-radius: 8px;">
+                                <span style="color: #92400e; font-weight: 600;">📅 Date</span>
+                                <span style="color: #1f2937; font-weight: 700;">{appointment_date}</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: rgba(255,255,255,0.7); border-radius: 8px;">
+                                <span style="color: #92400e; font-weight: 600;">⏰ Heure</span>
+                                <span style="color: #1f2937; font-weight: 700;">{appointment_time}</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: rgba(255,255,255,0.7); border-radius: 8px;">
+                                <span style="color: #92400e; font-weight: 600;">💰 Prix</span>
+                                <span style="color: #1f2937; font-weight: 700;">{service_price}€</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reassurance Message -->
+                    <div style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #22c55e;">
+                        <p style="color: #166534; margin: 0; font-size: 16px; font-weight: 600;">
+                            💚 N'hésitez pas à reprendre un nouveau rendez-vous quand vous le souhaitez !
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Footer -->
+                <div style="background-color: #f8fafc; padding: 24px; text-align: center; border-top: 1px solid #e5e7eb;">
+                    <p style="color: #6b7280; margin: 0 0 8px 0; font-size: 14px;">
+                        Merci de votre compréhension
+                    </p>
+                    <p style="color: #9ca3af; margin: 0; font-size: 12px; font-weight: 600;">
+                        L'équipe HennaLash ✨
+                    </p>
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+        
+        return await self.send_email(client_email, subject, body, html_body)
     async def send_password_reset_email(self, email: str, code: str, first_name: str):
         """Send password reset code email."""
         subject = "Réinitialisation de votre mot de passe"
