@@ -828,7 +828,7 @@ async def confirm_password_reset(
     # Update user password
     await db.users.update_one(
         {"email": request.email},
-        {"$set": {"hashed_password": hashed_password, "updated_at": datetime.utcnow()}}
+        {"$set": {"password_hash": hashed_password, "updated_at": datetime.utcnow()}}
     )
     
     # Mark reset code as used
