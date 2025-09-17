@@ -113,42 +113,78 @@ const ClientDashboard = () => {
     return <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>;
   };
 
+  // Fonction pour parser le lieu depuis les notes
+  const parseLieuFromNotes = (notes) => {
+    if (!notes) return null;
+    
+    const lieuMatch = notes.match(/📍 Lieu: (.+?)(?:\n|$)/);
+    if (lieuMatch) {
+      const lieu = lieuMatch[1].trim();
+      // Convertir les valeurs techniques en affichage user-friendly
+      switch(lieu) {
+        case 'salon': return 'Chez moi';
+        case 'domicile': return 'Chez vous';
+        case 'evenement': return 'Autre';
+        default: return lieu;
+      }
+    }
+    return null;
+  };
+
+  // Fonction pour parser l'Instagram depuis les notes
+  const parseInstagramFromNotes = (notes) => {
+    if (!notes) return null;
+    const instagramMatch = notes.match(/📱 Instagram: (.+?)(?:\n|$)/);
+    return instagramMatch ? instagramMatch[1].trim() : null;
+  };
+
+  // Fonction pour parser le nombre de personnes depuis les notes
+  const parsePersonnesFromNotes = (notes) => {
+    if (!notes) return null;
+    const personnesMatch = notes.match(/👥 Nombre de personnes: (.+?)(?:\n|$)/);
+    return personnesMatch ? personnesMatch[1].trim() : null;
+  };
+
   const getStatusBadgeEnhanced = (status) => {
     const statusConfigs = {
       pending: { 
         label: 'En attente', 
-        bgColor: 'bg-yellow-100', 
+        bgColor: 'bg-gradient-to-r from-yellow-50 to-orange-50', 
         textColor: 'text-yellow-800',
-        borderColor: 'border-yellow-200',
-        icon: '⏳'
+        borderColor: 'border-yellow-300',
+        icon: '⏳',
+        shadowColor: 'shadow-yellow-100'
       },
       confirmed: { 
         label: 'Confirmé', 
-        bgColor: 'bg-green-100', 
+        bgColor: 'bg-gradient-to-r from-green-50 to-emerald-50', 
         textColor: 'text-green-800',
-        borderColor: 'border-green-200',
-        icon: '✅'
+        borderColor: 'border-green-300',
+        icon: '✅',
+        shadowColor: 'shadow-green-100'
       },
       cancelled: { 
         label: 'Annulé', 
-        bgColor: 'bg-red-100', 
+        bgColor: 'bg-gradient-to-r from-red-50 to-rose-50', 
         textColor: 'text-red-800',
-        borderColor: 'border-red-200',
-        icon: '❌'
+        borderColor: 'border-red-300',
+        icon: '❌',
+        shadowColor: 'shadow-red-100'
       },
       completed: { 
         label: 'Terminé', 
-        bgColor: 'bg-blue-100', 
+        bgColor: 'bg-gradient-to-r from-blue-50 to-indigo-50', 
         textColor: 'text-blue-800',
-        borderColor: 'border-blue-200',
-        icon: '🎉'
+        borderColor: 'border-blue-300',
+        icon: '🎉',
+        shadowColor: 'shadow-blue-100'
       }
     };
     
     const config = statusConfigs[status] || statusConfigs.pending;
     return (
-      <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${config.bgColor} ${config.textColor} ${config.borderColor}`}>
-        <span className="mr-1">{config.icon}</span>
+      <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold border-2 backdrop-blur-sm ${config.bgColor} ${config.textColor} ${config.borderColor} ${config.shadowColor} shadow-lg transition-all duration-300 hover:scale-105`}>
+        <span className="mr-2 text-base">{config.icon}</span>
         {config.label}
       </div>
     );
