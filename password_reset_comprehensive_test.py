@@ -13,7 +13,7 @@ import random
 import re
 
 # Configuration - Use frontend .env URL
-BASE_URL = "https://auth-upgrade-14.preview.emergentagent.com/api"
+BASE_URL = "https://design-modernize.preview.emergentagent.com/api"
 TIMEOUT = 15
 
 class ComprehensivePasswordResetTester:
