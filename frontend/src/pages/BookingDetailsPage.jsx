@@ -299,14 +299,15 @@ const services = [
                 <div className="space-y-2">
                   <Label htmlFor="lieu" className="flex items-center text-sm sm:text-base">
                     <MapPin className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-                    Lieu souhaité
+                    Lieu souhaité <span className="text-red-500 ml-1">*</span>
                   </Label>
                   <Select 
                     value={bookingForm.lieu} 
                     onValueChange={(value) => setBookingForm({...bookingForm, lieu: value})}
+                    required
                   >
-                    <SelectTrigger className="h-10 sm:h-11">
-                      <SelectValue placeholder="Choisissez le lieu" />
+                    <SelectTrigger className={`h-10 sm:h-11 ${!bookingForm.lieu ? 'border-red-200 hover:border-red-300' : ''}`}>
+                      <SelectValue placeholder="Choisissez le lieu *" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="salon">Chez moi</SelectItem>
