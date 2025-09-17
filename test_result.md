@@ -553,9 +553,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Erreur 422 Réservation Rendez-vous"
-    - "Amélioration Design Espace Client RDV"
-    - "Redesign Pages Connexion/Inscription"
+    - "Correction Affichage Lieu dans Espace Client"
+    - "Redesign Moderne Espace Client"
+    - "Redesign Moderne Espace Admin"
+    - "Modernisation Templates Email"
   stuck_tasks: []
   test_all: false
   test_priority: "critical_first"
