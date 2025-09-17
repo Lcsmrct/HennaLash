@@ -334,57 +334,141 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50 pt-16">
+    <div className="min-h-screen bg-slate-50/50">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-600 via-amber-600 to-rose-600 bg-clip-text text-transparent">
-              🛠️ Administration
-            </h1>
-            <p className="text-gray-600 text-lg font-medium mt-2">Gérez les créneaux, rendez-vous et avis</p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            <MaintenanceModal isAdmin={true} />
-            <Button 
-              onClick={logout} 
-              variant="outline" 
-              className="w-full sm:w-auto bg-white/80 backdrop-blur-sm hover:bg-orange-50 border-orange-200 hover:border-orange-300 transition-all duration-300 hover:shadow-lg"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              Déconnexion
-            </Button>
+      <div className="pt-20 pb-8">
+        {/* Modern Header */}
+        <div className="bg-white border-b border-slate-200/60 shadow-sm">
+          <div className="container mx-auto px-6 py-8">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/25">
+                  <Settings className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold text-slate-900 mb-1">
+                    Administration
+                  </h1>
+                  <p className="text-slate-600 font-medium">
+                    Tableau de bord • {appointments.length} rendez-vous • {slots.length} créneaux
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <MaintenanceModal isAdmin={true} />
+                <Button 
+                  onClick={logout} 
+                  variant="outline" 
+                  className="bg-white hover:bg-slate-50 border-slate-300 hover:border-slate-400 text-slate-700 font-medium shadow-sm transition-all duration-200"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Déconnexion
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <Tabs defaultValue="appointments" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-1 h-auto p-1 bg-white/80 backdrop-blur-sm border-2 border-orange-100 shadow-lg rounded-xl">
-            <TabsTrigger 
-              value="appointments" 
-              className="text-xs sm:text-sm py-3 px-1 sm:px-3 min-h-[50px] flex items-center justify-center rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
-            >
-              📅 Rendez-vous
-            </TabsTrigger>
-            <TabsTrigger 
-              value="slots" 
-              className="text-xs sm:text-sm py-3 px-1 sm:px-3 min-h-[50px] flex items-center justify-center rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
-            >
-              ⏰ Créneaux
-            </TabsTrigger>
-            <TabsTrigger 
-              value="reviews" 
-              className="text-xs sm:text-sm py-3 px-1 sm:px-3 min-h-[50px] flex items-center justify-center rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
-            >
-              ⭐ Avis
-            </TabsTrigger>
-            <TabsTrigger 
-              value="stats" 
-              className="text-xs sm:text-sm py-3 px-1 sm:px-3 min-h-[50px] flex items-center justify-center rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
-            >
-              📊 Stats
-            </TabsTrigger>
-          </TabsList>
+        {/* Stats Overview */}
+        <div className="container mx-auto px-6 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-200">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center">
+                  <Users className="w-6 h-6 text-blue-600" />
+                </div>
+                <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200">
+                  Total
+                </Badge>
+              </div>
+              <div className="space-y-1">
+                <p className="text-2xl font-bold text-slate-900">{appointments.length}</p>
+                <p className="text-sm text-slate-600 font-medium">Rendez-vous</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-200">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center">
+                  <Timer className="w-6 h-6 text-orange-600" />
+                </div>
+                <Badge variant="secondary" className="bg-orange-50 text-orange-700 border-orange-200">
+                  Actifs
+                </Badge>
+              </div>
+              <div className="space-y-1">
+                <p className="text-2xl font-bold text-slate-900">{slots.filter(s => s.is_available).length}</p>
+                <p className="text-sm text-slate-600 font-medium">Créneaux dispos</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-200">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-yellow-500/10 rounded-xl flex items-center justify-center">
+                  <Award className="w-6 h-6 text-yellow-600" />
+                </div>
+                <Badge variant="secondary" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+                  Qualité
+                </Badge>
+              </div>
+              <div className="space-y-1">
+                <p className="text-2xl font-bold text-slate-900">{reviews.filter(r => r.status === 'approved').length}</p>
+                <p className="text-sm text-slate-600 font-medium">Avis validés</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-200">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center">
+                  <BarChart3 className="w-6 h-6 text-emerald-600" />
+                </div>
+                <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 border-emerald-200">
+                  En attente
+                </Badge>
+              </div>
+              <div className="space-y-1">
+                <p className="text-2xl font-bold text-slate-900">{appointments.filter(a => a.status === 'pending').length}</p>
+                <p className="text-sm text-slate-600 font-medium">À confirmer</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Main Content Tabs */}
+          <Tabs defaultValue="appointments" className="space-y-6">
+            <div className="bg-white rounded-2xl p-2 border border-slate-200/60 shadow-sm">
+              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 bg-transparent h-auto p-0 gap-2">
+                <TabsTrigger 
+                  value="appointments" 
+                  className="flex items-center gap-2 p-4 rounded-xl font-semibold text-slate-600 hover:text-slate-900 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-orange-500/25 transition-all duration-300"
+                >
+                  <Users className="w-4 h-4" />
+                  <span className="hidden sm:inline">Rendez-vous</span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="slots" 
+                  className="flex items-center gap-2 p-4 rounded-xl font-semibold text-slate-600 hover:text-slate-900 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-orange-500/25 transition-all duration-300"
+                >
+                  <Timer className="w-4 h-4" />
+                  <span className="hidden sm:inline">Créneaux</span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="reviews" 
+                  className="flex items-center gap-2 p-4 rounded-xl font-semibold text-slate-600 hover:text-slate-900 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-orange-500/25 transition-all duration-300"
+                >
+                  <Award className="w-4 h-4" />
+                  <span className="hidden sm:inline">Avis</span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="stats" 
+                  className="flex items-center gap-2 p-4 rounded-xl font-semibold text-slate-600 hover:text-slate-900 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-orange-500/25 transition-all duration-300"
+                >
+                  <BarChart3 className="w-4 h-4" />
+                  <span className="hidden sm:inline">Statistiques</span>
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
           <TabsContent value="appointments" className="space-y-4">
             <Card>
