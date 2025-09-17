@@ -134,7 +134,7 @@ const PricingPage = () => {
               <CardContent className="space-y-6">
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-2">Combien de temps dure le henné ?</h4>
-                  <p className="text-gray-600 text-sm">Le henné dure généralement entre 1 à 3 semaines selon votre type de peau et les soins apportés.</p>
+                  <p className="text-gray-600 text-sm">Le henné dure généralement entre 1 semaine et 10 jours selon votre type de peau et les soins apportés.</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-2">Le henné est-il naturel ?</h4>
@@ -146,7 +146,7 @@ const PricingPage = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-2">Proposez-vous le service à domicile ?</h4>
-                  <p className="text-gray-600 text-sm">Oui, pour la formule Henné Mariée et les événements spéciaux, nous nous déplaçons à domicile.</p>
+                  <p className="text-gray-600 text-sm">Oui, nous proposons des déplacements à domicile. Cependant des frais de déplacement peuvent s'appliquer en fonction de votre lieu de résidence.</p>
                 </div>
               </CardContent>
             </Card>
@@ -167,7 +167,7 @@ const PricingPage = () => {
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-gray-900">Henné Premium</h4>
+                    <h4 className="font-semibold text-gray-900">Henné Naturel</h4>
                     <p className="text-gray-600 text-sm">Produits de haute qualité pour des résultats durables</p>
                   </div>
                 </div>
@@ -176,13 +176,6 @@ const PricingPage = () => {
                   <div>
                     <h4 className="font-semibold text-gray-900">Guide d'Entretien</h4>
                     <p className="text-gray-600 text-sm">Conseils pour optimiser la tenue de votre henné</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Garantie Satisfaction</h4>
-                    <p className="text-gray-600 text-sm">Retouches gratuites si nécessaire dans les 48h</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">

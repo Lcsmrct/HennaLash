@@ -212,8 +212,8 @@ const LoginPage = () => {
                 
                 <div className="pt-4 border-t border-gray-200">
                   <p className="text-gray-500 text-xs">
-                    Besoin d'aide ? Contactez-nous au{' '}
-                    <span className="text-orange-600 font-semibold">01 23 45 67 89</span>
+                    Besoin d'aide ? Contactez-nous sur instagram{' '}
+                    <span className="text-orange-600 font-semibold">hennaa.lash</span>
                   </p>
                 </div>
               </div>

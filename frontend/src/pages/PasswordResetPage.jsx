@@ -273,7 +273,7 @@ const PasswordResetPage = () => {
               <div className="pt-3 sm:pt-4 border-t border-gray-200 mt-4">
                 <p className="text-xs sm:text-sm text-gray-500">
                   Besoin d'aide ? Contactez-nous au{' '}
-                  <span className="text-orange-600 font-medium">01 23 45 67 89</span>
+                  <span className="text-orange-600 font-medium">hennaa.lash</span>
                 </p>
               </div>
             </div>
