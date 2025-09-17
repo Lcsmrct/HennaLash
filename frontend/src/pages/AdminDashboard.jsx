@@ -905,7 +905,7 @@ const AdminDashboard = () => {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-2xl p-6 border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-200">
+                <div className="bg-white rounded-2xl p-6 border-2 border-orange-100 hover:border-orange-200 shadow-sm hover:shadow-md transition-all duration-200">
                   <div className="flex items-center justify-between mb-4">
                     <div className="w-12 h-12 bg-yellow-500/10 rounded-xl flex items-center justify-center">
                       <Award className="w-6 h-6 text-yellow-600" />
