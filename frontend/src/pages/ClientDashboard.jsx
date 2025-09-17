@@ -507,13 +507,13 @@ const ClientDashboard = () => {
           </TabsContent>
 
           <TabsContent value="booking" className="space-y-4">
-            <Card className="bg-white/80 backdrop-blur-sm border-2 border-orange-100 shadow-xl rounded-2xl overflow-hidden">
+            <Card className="bg-white/95 backdrop-blur-sm border-2 border-orange-100 shadow-xl rounded-2xl overflow-hidden">
               <CardHeader className="bg-gradient-to-r from-orange-500 to-amber-500 text-white">
                 <CardTitle className="flex items-center">
                   <Calendar className="mr-3 h-6 w-6" />
-                  <span className="text-xl font-bold">Réserver un Rendez-vous</span>
+                  <span className="text-xl font-bold drop-shadow-sm">Réserver un Rendez-vous</span>
                 </CardTitle>
-                <CardDescription className="text-orange-100 text-base">
+                <CardDescription className="text-orange-50 text-base font-medium drop-shadow-sm">
                   Choisissez parmi les créneaux disponibles et sélectionnez votre service
                 </CardDescription>
               </CardHeader>
@@ -523,12 +523,12 @@ const ClientDashboard = () => {
                     <div className="mx-auto w-20 h-20 bg-gradient-to-br from-orange-100 to-amber-100 rounded-full flex items-center justify-center mb-6 shadow-lg">
                       <Clock className="w-10 h-10 text-orange-500" />
                     </div>
-                    <p className="text-gray-600 text-xl font-semibold mb-3">Aucun créneau disponible</p>
-                    <p className="text-gray-500 text-base mb-8 max-w-md mx-auto">Les créneaux sont mis à jour régulièrement. Revenez bientôt !</p>
+                    <p className="text-gray-700 text-xl font-semibold mb-3">Aucun créneau disponible</p>
+                    <p className="text-gray-600 text-base mb-8 max-w-md mx-auto">Les créneaux sont mis à jour régulièrement. Revenez bientôt !</p>
                     <Button 
                       variant="outline" 
                       onClick={fetchData}
-                      className="bg-white/80 hover:bg-orange-50 border-orange-200 hover:border-orange-300 transition-all duration-300 px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl"
+                      className="bg-white hover:bg-orange-50 border-orange-200 hover:border-orange-400 transition-all duration-300 px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl"
                     >
                       <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -538,37 +538,55 @@ const ClientDashboard = () => {
                   </div>
                 ) : (
                   <div>
-                    {/* Services Info - Version simple et pro */}
-                    <div className="mb-6">
-                      <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
-                        <h3 className="font-semibold text-gray-800 mb-3 flex items-center text-base">
-                          <span className="mr-2">🎨</span>
-                          Services disponibles
+                    {/* Services Info - Version simple et pro avec meilleure lisibilité */}
+                    <div className="mb-8">
+                      <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl p-6 border-2 border-orange-200 shadow-lg">
+                        <h3 className="font-bold text-gray-800 mb-4 flex items-center text-lg">
+                          <span className="mr-3 text-2xl" role="img" aria-label="palette">🎨</span>
+                          <span className="text-gray-800">Nos Services & Tarifs</span>
                         </h3>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                          <div className="text-center p-2 bg-gray-50 rounded-lg">
-                            <div className="text-xs font-medium text-gray-600">Très simple</div>
-                            <div className="text-sm font-bold text-orange-600">5€</div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                          <div className="text-center p-4 bg-white rounded-xl shadow-sm border-2 border-orange-100 hover:shadow-md transition-all duration-200">
+                            <div className="text-sm font-bold text-gray-700 mb-1">Très simple</div>
+                            <div className="text-xl font-black text-orange-600">5€</div>
+                            <div className="text-xs text-gray-500 mt-1">Design basique</div>
                           </div>
-                          <div className="text-center p-2 bg-gray-50 rounded-lg">
-                            <div className="text-xs font-medium text-gray-600">Simple</div>
-                            <div className="text-sm font-bold text-orange-600">8€</div>
+                          <div className="text-center p-4 bg-white rounded-xl shadow-sm border-2 border-orange-100 hover:shadow-md transition-all duration-200">
+                            <div className="text-sm font-bold text-gray-700 mb-1">Simple</div>
+                            <div className="text-xl font-black text-orange-600">8€</div>
+                            <div className="text-xs text-gray-500 mt-1">Design élégant</div>
                           </div>
-                          <div className="text-center p-2 bg-gray-50 rounded-lg">
-                            <div className="text-xs font-medium text-gray-600">Chargé</div>
-                            <div className="text-sm font-bold text-orange-600">12€</div>
+                          <div className="text-center p-4 bg-white rounded-xl shadow-sm border-2 border-orange-100 hover:shadow-md transition-all duration-200">
+                            <div className="text-sm font-bold text-gray-700 mb-1">Chargé</div>
+                            <div className="text-xl font-black text-orange-600">12€</div>
+                            <div className="text-xs text-gray-500 mt-1">Design détaillé</div>
                           </div>
-                          <div className="text-center p-2 bg-gray-50 rounded-lg">
-                            <div className="text-xs font-medium text-gray-600">Mariée</div>
-                            <div className="text-sm font-bold text-orange-600">20€</div>
+                          <div className="text-center p-4 bg-white rounded-xl shadow-sm border-2 border-orange-100 hover:shadow-md transition-all duration-200">
+                            <div className="text-sm font-bold text-gray-700 mb-1">Mariée</div>
+                            <div className="text-xl font-black text-orange-600">20€</div>
+                            <div className="text-xs text-gray-500 mt-1">Design premium</div>
                           </div>
+                        </div>
+                        <div className="mt-4 p-3 bg-white/60 rounded-lg border border-orange-200">
+                          <p className="text-sm text-gray-700 text-center font-medium">
+                            <span className="text-orange-600">💡</span> 
+                            Chaque service inclut une consultation personnalisée et une durée de 1 heure
+                          </p>
                         </div>
                       </div>
                     </div>
                     
-                    {/* Créneaux disponibles - Design simple et pro */}
-                    <div className="space-y-3">
-                      <h3 className="text-lg font-semibold text-gray-800 mb-4">Créneaux disponibles</h3>
+                    {/* Créneaux disponibles - Design amélioré */}
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between mb-6">
+                        <h3 className="text-xl font-bold text-gray-800 flex items-center">
+                          <Calendar className="w-6 h-6 mr-3 text-orange-500" />
+                          Créneaux disponibles
+                        </h3>
+                        <div className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+                          {availableSlots.length} créneau{availableSlots.length > 1 ? 's' : ''} disponible{availableSlots.length > 1 ? 's' : ''}
+                        </div>
+                      </div>
                       
                       {availableSlots.map((slot, index) => {
                         const slotDate = new Date(slot.date);
