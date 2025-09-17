@@ -405,7 +405,7 @@ L'équipe HennaLash
                                     <path d="M12 2L13.09 8.26L22 9.27L17 14.14L18.18 23.02L12 19.77L5.82 23.02L7 14.14L2 9.27L10.91 8.26L12 2Z" fill="white"/>
                                 </svg>
                             </div>
-                            <h3 style="margin: 0; color: #065f46; font-size: 20px; font-weight: 700;">Détails de votre rendez-vous</h3>
+                            <h3 style="margin: 0; color: #ea580c; font-size: 20px; font-weight: 700;">Détails de votre rendez-vous</h3>
                         </div>
                         
                         <div style="display: flex; flex-direction: column; gap: 16px;">
