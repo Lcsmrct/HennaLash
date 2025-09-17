@@ -509,7 +509,7 @@ const ClientDashboard = () => {
                             <span className="text-lg">👰</span>
                           </div>
                           <div className="font-semibold text-orange-700 text-sm">Mariée</div>
-                          <div className="text-orange-600 font-bold">20€ complet</div>
+                          <div className="text-orange-600 font-bold">20€ par main</div>
                         </div>
                       </div>
                     </div>
