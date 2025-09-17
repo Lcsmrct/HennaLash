@@ -477,119 +477,88 @@ const ClientDashboard = () => {
                   </div>
                 ) : (
                   <div>
-                    <div className="mb-8 p-6 bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl border-2 border-orange-200 shadow-lg">
-                      <h3 className="font-bold text-orange-800 mb-4 text-lg flex items-center">
-                        <span className="mr-2">🎨</span>
-                        Nos Services Premium
-                      </h3>
-                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div className="text-center bg-white/70 rounded-xl p-3 border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300">
-                          <div className="w-12 h-12 bg-gradient-to-br from-orange-200 to-amber-200 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <span className="text-lg">✨</span>
+                    {/* Services Info - Version simple et pro */}
+                    <div className="mb-6">
+                      <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                        <h3 className="font-semibold text-gray-800 mb-3 flex items-center text-base">
+                          <span className="mr-2">🎨</span>
+                          Services disponibles
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                          <div className="text-center p-2 bg-gray-50 rounded-lg">
+                            <div className="text-xs font-medium text-gray-600">Très simple</div>
+                            <div className="text-sm font-bold text-orange-600">5€</div>
                           </div>
-                          <div className="font-semibold text-orange-700 text-sm">Très simple</div>
-                          <div className="text-orange-600 font-bold">5€ par main</div>
-                        </div>
-                        <div className="text-center bg-white/70 rounded-xl p-3 border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300">
-                          <div className="w-12 h-12 bg-gradient-to-br from-orange-300 to-amber-300 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <span className="text-lg">🌟</span>
+                          <div className="text-center p-2 bg-gray-50 rounded-lg">
+                            <div className="text-xs font-medium text-gray-600">Simple</div>
+                            <div className="text-sm font-bold text-orange-600">8€</div>
                           </div>
-                          <div className="font-semibold text-orange-700 text-sm">Simple</div>
-                          <div className="text-orange-600 font-bold">8€ par main</div>
-                        </div>
-                        <div className="text-center bg-white/70 rounded-xl p-3 border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300">
-                          <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-amber-400 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <span className="text-lg">💫</span>
+                          <div className="text-center p-2 bg-gray-50 rounded-lg">
+                            <div className="text-xs font-medium text-gray-600">Chargé</div>
+                            <div className="text-sm font-bold text-orange-600">12€</div>
                           </div>
-                          <div className="font-semibold text-orange-700 text-sm">Chargé</div>
-                          <div className="text-orange-600 font-bold">12€ par main</div>
-                        </div>
-                        <div className="text-center bg-white/70 rounded-xl p-3 border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300">
-                          <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <span className="text-lg">👰</span>
+                          <div className="text-center p-2 bg-gray-50 rounded-lg">
+                            <div className="text-xs font-medium text-gray-600">Mariée</div>
+                            <div className="text-sm font-bold text-orange-600">20€</div>
                           </div>
-                          <div className="font-semibold text-orange-700 text-sm">Mariée</div>
-                          <div className="text-orange-600 font-bold">20€ par main</div>
                         </div>
                       </div>
                     </div>
                     
-                    <div className="grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                    {/* Créneaux disponibles - Design simple et pro */}
+                    <div className="space-y-3">
+                      <h3 className="text-lg font-semibold text-gray-800 mb-4">Créneaux disponibles</h3>
+                      
                       {availableSlots.map((slot, index) => {
-                        console.log(`Slot ${index}:`, slot); // Debug chaque slot
                         const slotDate = new Date(slot.date);
                         const isToday = slotDate.toDateString() === new Date().toDateString();
                         const isTomorrow = slotDate.toDateString() === new Date(Date.now() + 86400000).toDateString();
                         
+                        let dateLabel = formatDate(slot.date);
+                        if (isToday) {
+                          dateLabel = "Aujourd'hui";
+                        } else if (isTomorrow) {
+                          dateLabel = "Demain";
+                        }
+                        
                         return (
-                          <Card key={slot.id} className="cursor-pointer hover:shadow-2xl transition-all duration-300 border-2 hover:border-orange-400 h-full group bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden transform hover:scale-105">
-                            <CardContent className="p-6 h-full flex flex-col">
-                              <div className="flex justify-between items-start mb-4">
-                                <div className="flex-1">
-                                  <h3 className="font-bold text-xl text-gray-900 mb-2 group-hover:text-orange-600 transition-colors flex items-center">
-                                    {isToday ? (
-                                      <>
-                                        <span className="mr-2">🔥</span>
-                                        <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">Aujourd'hui</span>
-                                      </>
-                                    ) : isTomorrow ? (
-                                      <>
-                                        <span className="mr-2">⚡</span>
-                                        <span className="bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">Demain</span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <span className="mr-2">✨</span>
-                                        <span>Disponible</span>
-                                      </>
-                                    )}
-                                  </h3>
+                          <div 
+                            key={slot.id} 
+                            className="bg-white border border-gray-200 rounded-lg p-4 hover:border-orange-300 hover:shadow-md transition-all duration-200 cursor-pointer group"
+                            onClick={() => goToBookingDetails(slot.id)}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-4">
+                                <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                                  <Calendar className="w-6 h-6 text-orange-600" />
                                 </div>
-                                <div className="bg-gradient-to-r from-green-400 to-emerald-400 text-white text-xs px-3 py-2 rounded-full font-semibold shadow-md">
-                                  Libre
+                                <div>
+                                  <div className="font-medium text-gray-900 flex items-center">
+                                    {dateLabel}
+                                    {isToday && <span className="ml-2 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full">Urgent</span>}
+                                    {isTomorrow && <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full">Bientôt</span>}
+                                  </div>
+                                  <div className="text-sm text-gray-600 flex items-center mt-1">
+                                    <Clock className="w-4 h-4 mr-1" />
+                                    {slot.start_time ? `${formatTime(slot.start_time)} - ${slot.end_time ? formatTime(slot.end_time) : '(60min)'}` : 'Heure non spécifiée'}
+                                  </div>
                                 </div>
                               </div>
                               
-                              <div className="space-y-4 text-sm flex-1">
-                                <div className="flex items-center bg-gradient-to-r from-gray-50 to-orange-50 rounded-xl p-4 shadow-sm border border-orange-100">
-                                  <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-amber-400 rounded-full flex items-center justify-center mr-4">
-                                    <Calendar className="w-5 h-5 text-white" />
-                                  </div>
-                                  <div>
-                                    <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Date</div>
-                                    <div className="font-bold text-gray-800">
-                                      {slot.date ? formatDate(slot.date) : 'Date non spécifiée'}
-                                    </div>
-                                  </div>
+                              <div className="flex items-center space-x-3">
+                                <div className="text-right hidden sm:block">
+                                  <div className="text-xs text-gray-500">Durée</div>
+                                  <div className="text-sm font-medium text-gray-700">1 heure</div>
                                 </div>
-                                <div className="flex items-center bg-gradient-to-r from-gray-50 to-orange-50 rounded-xl p-4 shadow-sm border border-orange-100">
-                                  <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-amber-400 rounded-full flex items-center justify-center mr-4">
-                                    <Clock className="w-5 h-5 text-white" />
-                                  </div>
-                                  <div>
-                                    <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Horaire</div>
-                                    <div className="font-bold text-gray-800">
-                                      {slot.start_time ? `${formatTime(slot.start_time)} - ${slot.end_time ? formatTime(slot.end_time) : '(+1h)'}` : 'Heure non spécifiée'}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border-2 border-blue-200">
-                                  <p className="text-sm text-blue-700 font-semibold flex items-center">
-                                    <span className="mr-2">✨</span>
-                                    Choisissez votre service lors de la réservation
-                                  </p>
-                                </div>
+                                <Button 
+                                  size="sm"
+                                  className="bg-orange-600 hover:bg-orange-700 text-white group-hover:bg-orange-700 transition-colors"
+                                >
+                                  Réserver
+                                </Button>
                               </div>
-                              
-                              <Button 
-                                className="w-full mt-6 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-3 transition-all duration-300 group-hover:shadow-xl transform group-hover:scale-105 rounded-xl" 
-                                onClick={() => goToBookingDetails(slot.id)}
-                              >
-                                <Calendar className="w-5 h-5 mr-3" />
-                                Réserver ce créneau
-                              </Button>
-                            </CardContent>
-                          </Card>
+                            </div>
+                          </div>
                         );
                       })}
                     </div>
