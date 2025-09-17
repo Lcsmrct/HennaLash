@@ -393,11 +393,26 @@ backend:
     file: "/app/frontend/src/pages/LoginPage.jsx, /app/frontend/src/pages/RegisterPage.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "🎨 DESIGN MODERNE APPLIQUÉ - Pages connexion et inscription entièrement redesignées: 1) Nouvelles images henné élégantes (Unsplash), 2) Design cartes glass morphism avec backdrop blur, 3) Gradients modernes (orange/amber pour login, purple/indigo pour register), 4) Icônes dans champs, toggle password visibility, 5) Animations hover et transitions fluides, 6) Headers colorés avec icônes, 7) Éléments décoratifs et responsive design optimisé. Toutes fonctionnalités préservées."
+
+  - task: "Système de Réinitialisation de Mot de Passe"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py, /app/backend/models.py"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "Utilisateur signale: 'lors de la saisie du nouveau mot de passe aucun changement du mdp n'est fait dans la bdd'"
+      - working: true
+        agent: "testing"
+        comment: "🔐 PROBLÈME CRITIQUE RÉSOLU! Diagnostic complet effectué: ✅ PROBLÈME IDENTIFIÉ: Erreur dans server.py ligne 831 - tentative de mise à jour du champ 'hashed_password' alors que le modèle User utilise 'password_hash'. ✅ CORRECTION APPLIQUÉE: Modifié la requête MongoDB pour utiliser le bon nom de champ 'password_hash'. ✅ TESTS COMPLETS RÉUSSIS: 1) POST /api/auth/password-reset/request fonctionne, 2) Code 6 chiffres généré et stocké dans password_resets collection, 3) Validation des codes invalides fonctionne (400), 4) POST /api/auth/password-reset/confirm avec code valide fonctionne, 5) CRITIQUE: Mot de passe mis à jour dans users.password_hash, 6) Connexion avec nouveau mot de passe réussie, 7) Ancien mot de passe correctement rejeté (401). 🎯 VERDICT: Le système de réinitialisation de mot de passe fonctionne parfaitement maintenant!"
     implemented: true
     working: true
     file: "/app/frontend/src/context/AuthContext.jsx"
