@@ -101,6 +101,28 @@ const ClientDashboard = () => {
     }
   };
 
+  const deleteAppointment = async (appointmentId) => {
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce rendez-vous de votre historique ?')) {
+      return;
+    }
+    
+    try {
+      await apiService.deleteAppointment(appointmentId);
+      setAppointments(appointments.filter(app => app.id !== appointmentId));
+      toast({
+        title: "Succès",
+        description: "Rendez-vous supprimé de votre historique"
+      });
+    } catch (error) {
+      console.error('Error deleting appointment:', error);
+      toast({
+        title: "Erreur", 
+        description: error.response?.data?.detail || "Impossible de supprimer le rendez-vous",
+        variant: "destructive"
+      });
+    }
+  };
+
   const getStatusBadge = (status) => {
     const statusMap = {
       pending: { label: 'En attente', variant: 'secondary' },
