@@ -468,8 +468,8 @@ L'équipe HennaLash
                                 </svg>
                             </div>
                             <div>
-                                <h4 style="margin: 0 0 8px 0; color: #1e40af; font-size: 16px; font-weight: 700;">Informations importantes</h4>
-                                <p style="margin: 0; color: #1e3a8a; font-size: 14px; line-height: 1.6;">
+                                <h4 style="margin: 0 0 8px 0; color: #ea580c; font-size: 16px; font-weight: 700;">Informations importantes</h4>
+                                <p style="margin: 0; color: #9a3412; font-size: 14px; line-height: 1.6;">
                                     • Merci d'arriver 5 minutes avant l'heure de votre rendez-vous<br>
                                     • En cas d'empêchement, prévenez-nous au moins 24h à l'avance<br>
                                     • N'hésitez pas à nous contacter pour toute question
