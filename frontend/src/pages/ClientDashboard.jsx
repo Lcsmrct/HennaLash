@@ -262,94 +262,162 @@ const ClientDashboard = () => {
           </TabsList>
 
           <TabsContent value="appointments" className="space-y-4">
-            <Card>
-              <CardHeader>
+            <Card className="bg-white/80 backdrop-blur-sm border-2 border-orange-100 shadow-xl rounded-2xl overflow-hidden">
+              <CardHeader className="bg-gradient-to-r from-orange-500 to-amber-500 text-white">
                 <CardTitle className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <Calendar className="mr-2 h-5 w-5" />
-                    Mes Rendez-vous
+                    <Calendar className="mr-3 h-6 w-6" />
+                    <span className="text-xl font-bold">Mes Rendez-vous</span>
                   </div>
-                  <Button variant="outline" size="sm" onClick={fetchData}>
+                  <Button 
+                    variant="secondary" 
+                    size="sm" 
+                    onClick={fetchData}
+                    className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm transition-all duration-300"
+                  >
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                     Actualiser
                   </Button>
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-orange-100 text-base">
                   Consultez vos rendez-vous passés et à venir
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6">
                 {appointments.length === 0 ? (
-                  <div className="text-center py-12">
-                    <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                      <Calendar className="w-8 h-8 text-gray-400" />
+                  <div className="text-center py-16">
+                    <div className="mx-auto w-20 h-20 bg-gradient-to-br from-orange-100 to-amber-100 rounded-full flex items-center justify-center mb-6 shadow-lg">
+                      <Calendar className="w-10 h-10 text-orange-500" />
                     </div>
-                    <p className="text-gray-500 text-lg font-medium mb-2">Aucun rendez-vous</p>
-                    <p className="text-gray-400 text-sm mb-6">Vous n'avez pas encore de rendez-vous programmés</p>
-                    <Button onClick={() => document.querySelector('[value="booking"]').click()} className="bg-orange-600 hover:bg-orange-700">
-                      <Calendar className="w-4 h-4 mr-2" />
+                    <p className="text-gray-600 text-xl font-semibold mb-3">Aucun rendez-vous</p>
+                    <p className="text-gray-500 text-base mb-8 max-w-md mx-auto">Vous n'avez pas encore de rendez-vous programmés. Réservez dès maintenant !</p>
+                    <Button 
+                      onClick={() => document.querySelector('[value="booking"]').click()} 
+                      className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                    >
+                      <Calendar className="w-5 h-5 mr-3" />
                       Réserver maintenant
                     </Button>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     {appointments.map((appointment) => {
                       const isUpcoming = appointment.status === 'confirmed' || appointment.status === 'pending';
                       const isCompleted = appointment.status === 'completed';
                       const isCancelled = appointment.status === 'cancelled';
                       
+                      // Parser les informations depuis les notes
+                      const lieu = parseLieuFromNotes(appointment.notes);
+                      const instagram = parseInstagramFromNotes(appointment.notes);
+                      const personnes = parsePersonnesFromNotes(appointment.notes);
+                      
                       return (
-                        <div key={appointment.id} className={`border-2 rounded-xl p-4 sm:p-6 transition-all hover:shadow-lg ${
-                          isUpcoming ? 'border-orange-200 bg-orange-50/50' : 
-                          isCompleted ? 'border-green-200 bg-green-50/50' :
-                          isCancelled ? 'border-red-200 bg-red-50/50' : 'border-gray-200 bg-white'
+                        <div key={appointment.id} className={`border-2 rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl backdrop-blur-sm ${
+                          isUpcoming ? 'border-orange-300 bg-gradient-to-br from-orange-50 to-amber-50 hover:from-orange-100 hover:to-amber-100' : 
+                          isCompleted ? 'border-green-300 bg-gradient-to-br from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100' :
+                          isCancelled ? 'border-red-300 bg-gradient-to-br from-red-50 to-rose-50 hover:from-red-100 hover:to-rose-100' : 'border-gray-300 bg-white/80'
                         }`}>
-                          <div className="flex flex-col lg:flex-row gap-4">
+                          <div className="flex flex-col lg:flex-row gap-6">
                             {/* Service Info */}
-                            <div className="flex-1 space-y-3">
+                            <div className="flex-1 space-y-4">
                               <div className="flex items-start justify-between">
-                                <div>
-                                  <h3 className="text-lg font-bold text-gray-900 mb-1">
+                                <div className="flex-1">
+                                  <h3 className="text-xl font-bold text-gray-900 mb-2 flex items-center">
+                                    <span className="mr-2">🎨</span>
                                     {appointment.service_name || 'Service non spécifié'}
                                   </h3>
-                                  <div className="flex items-center gap-4 text-sm text-gray-600">
-                                    <div className="flex items-center">
-                                      <Calendar className="w-4 h-4 mr-1 flex-shrink-0" />
-                                      <span className="font-medium">
-                                        {(appointment.slot_info && appointment.slot_info.date) || appointment.date ? 
-                                          formatDate((appointment.slot_info && appointment.slot_info.date) || appointment.date) : 
-                                          'Date non spécifiée'}
-                                      </span>
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700">
+                                    <div className="flex items-center bg-white/60 rounded-lg p-3 shadow-sm">
+                                      <Calendar className="w-5 h-5 mr-3 text-orange-500 flex-shrink-0" />
+                                      <div>
+                                        <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Date</div>
+                                        <div className="font-semibold text-gray-800">
+                                          {(appointment.slot_info && appointment.slot_info.date) || appointment.date ? 
+                                            formatDate((appointment.slot_info && appointment.slot_info.date) || appointment.date) : 
+                                            'Date non spécifiée'}
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div className="flex items-center">
-                                      <Clock className="w-4 h-4 mr-1 flex-shrink-0" />
-                                      <span className="font-medium">
-                                        {(appointment.slot_info && appointment.slot_info.start_time) || appointment.start_time ? 
-                                          `${formatTime((appointment.slot_info && appointment.slot_info.start_time) || appointment.start_time)}` : 
-                                          'Heure non spécifiée'}
-                                      </span>
+                                    <div className="flex items-center bg-white/60 rounded-lg p-3 shadow-sm">
+                                      <Clock className="w-5 h-5 mr-3 text-orange-500 flex-shrink-0" />
+                                      <div>
+                                        <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Heure</div>
+                                        <div className="font-semibold text-gray-800">
+                                          {(appointment.slot_info && appointment.slot_info.start_time) || appointment.start_time ? 
+                                            `${formatTime((appointment.slot_info && appointment.slot_info.start_time) || appointment.start_time)}` : 
+                                            'Heure non spécifiée'}
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                                 
                                 {/* Status et Prix */}
-                                <div className="flex flex-col items-end gap-2">
+                                <div className="flex flex-col items-end gap-3 ml-4">
                                   {getStatusBadgeEnhanced(appointment.status)}
-                                  <div className="text-2xl font-bold text-orange-600">
+                                  <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-2 rounded-xl font-bold text-lg shadow-lg">
                                     {appointment.service_price || 0}€
                                   </div>
                                 </div>
                               </div>
 
-                              {/* Notes/Détails */}
-                              {appointment.notes && (
-                                <div className="bg-white/80 rounded-lg p-3 border border-gray-100">
+                              {/* Informations détaillées */}
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                {lieu && (
+                                  <div className="bg-white/80 rounded-xl p-3 border border-orange-200 shadow-sm">
+                                    <div className="flex items-center">
+                                      <div className="w-8 h-8 bg-gradient-to-br from-orange-100 to-amber-100 rounded-full flex items-center justify-center mr-3">
+                                        <span className="text-sm">📍</span>
+                                      </div>
+                                      <div>
+                                        <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Lieu</div>
+                                        <div className="font-semibold text-gray-800">{lieu}</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                                
+                                {personnes && (
+                                  <div className="bg-white/80 rounded-xl p-3 border border-orange-200 shadow-sm">
+                                    <div className="flex items-center">
+                                      <div className="w-8 h-8 bg-gradient-to-br from-orange-100 to-amber-100 rounded-full flex items-center justify-center mr-3">
+                                        <span className="text-sm">👥</span>
+                                      </div>
+                                      <div>
+                                        <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Personnes</div>
+                                        <div className="font-semibold text-gray-800">{personnes}</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+
+                                {instagram && (
+                                  <div className="bg-white/80 rounded-xl p-3 border border-orange-200 shadow-sm">
+                                    <div className="flex items-center">
+                                      <div className="w-8 h-8 bg-gradient-to-br from-orange-100 to-amber-100 rounded-full flex items-center justify-center mr-3">
+                                        <span className="text-sm">📱</span>
+                                      </div>
+                                      <div>
+                                        <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Instagram</div>
+                                        <div className="font-semibold text-gray-800">{instagram}</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Notes supplémentaires */}
+                              {appointment.notes && appointment.notes.includes('ℹ️ Informations supplémentaires:') && (
+                                <div className="bg-white/80 rounded-xl p-4 border border-orange-200 shadow-sm">
                                   <div className="flex items-start">
-                                    <MessageSquare className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5 text-gray-500" />
-                                    <div className="text-sm text-gray-700 whitespace-pre-line leading-relaxed">
-                                      {appointment.notes}
+                                    <MessageSquare className="w-5 h-5 mr-3 flex-shrink-0 mt-1 text-orange-500" />
+                                    <div>
+                                      <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">Notes</div>
+                                      <div className="text-sm text-gray-700 whitespace-pre-line leading-relaxed">
+                                        {appointment.notes.split('ℹ️ Informations supplémentaires:\n')[1] || 'Aucune note supplémentaire'}
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -357,13 +425,13 @@ const ClientDashboard = () => {
 
                               {/* Actions pour les RDV à venir */}
                               {isUpcoming && (
-                                <div className="flex flex-wrap gap-2 pt-2">
-                                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <div className="flex justify-center pt-2">
+                                  <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 border-2 border-blue-200 shadow-sm">
+                                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                                     </svg>
                                     {appointment.status === 'pending' ? 'En attente de confirmation' : 'Confirmé - À venir'}
-                                  </span>
+                                  </div>
                                 </div>
                               )}
                             </div>
