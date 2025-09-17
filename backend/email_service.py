@@ -388,9 +388,21 @@ L'équipe HennaLash
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Rendez-vous confirmé</title>
+            <style>
+                @media only screen and (max-width: 600px) {{
+                    .container {{ width: 100% !important; margin: 0 !important; }}
+                    .content {{ padding: 16px !important; }}
+                    .header {{ padding: 24px 16px !important; }}
+                    .card {{ padding: 16px !important; margin: 16px 0 !important; }}
+                    .title {{ font-size: 24px !important; }}
+                    .subtitle {{ font-size: 20px !important; }}
+                    .detail-row {{ padding: 8px 12px !important; }}
+                    .detail-text {{ font-size: 14px !important; }}
+                }}
+            </style>
         </head>
-        <body style="margin: 0; padding: 0; background-color: #fef7ed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-            <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+        <body style="margin: 0; padding: 20px; background-color: #fef7ed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+            <div class="container" style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
                 <!-- Header -->
                 <div style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); padding: 32px 24px; text-align: center;">
                     <div style="width: 64px; height: 64px; background-color: rgba(255, 255, 255, 0.15); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
