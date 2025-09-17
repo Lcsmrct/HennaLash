@@ -829,7 +829,7 @@ const AdminDashboard = () => {
                                 {getReviewStatusBadge(review.status)}
                               </div>
                               
-                              <div className="bg-white rounded-xl p-4 border border-slate-200/40">
+                              <div className="bg-white rounded-xl p-4 border-2 border-orange-100 hover:border-orange-200 transition-colors">
                                 <p className="text-slate-700 leading-relaxed">{review.comment}</p>
                               </div>
                               
