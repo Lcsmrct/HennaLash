@@ -336,7 +336,22 @@ backend:
         agent: "main"
         comment: "🔧 CORRIGÉ - Problème identifié: services envoyaient des prix en string (ex: '5€ par main') alors que backend attend des nombres. Modifié structure services avec price (numérique) et priceDisplay (affichage). Services corrigés: Très simple (5), Simple (8), Chargé (12), Mariée (20)."
 
-  - task: "Amélioration Design Espace Client RDV"
+  - task: "Correction Affichage Lieu dans Espace Client"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/ClientDashboard.jsx"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "Le lieu affiché sur le RDV n'est pas le même que celui choisi dans le système de réservation (Chez vous/Chez moi/Autres)"
+      - working: true
+        agent: "main"
+        comment: "🔧 CORRIGÉ - Ajouté fonctions de parsing pour extraire le lieu depuis les notes: parseLieuFromNotes() convertit 'salon' → 'Chez moi', 'domicile' → 'Chez vous', 'evenement' → 'Autre'. Le lieu est maintenant affiché clairement dans une carte dédiée avec icône 📍 dans l'espace client."
+
+  - task: "Redesign Moderne Espace Client"
     implemented: true
     working: true
     file: "/app/frontend/src/pages/ClientDashboard.jsx"
@@ -346,7 +361,31 @@ backend:
     status_history:
       - working: true
         agent: "main"
-        comment: "🎨 DESIGN AMÉLIORÉ - Espace client rendez-vous entièrement redesigné: 1) Affichage RDV: cartes colorées selon statut, badges avec icônes, mise en page moderne, 2) Onglet Réserver: aperçu services, créneaux avec indicateurs (aujourd'hui/demain), design gradient, 3) État vide amélioré avec boutons d'action, 4) Responsive design optimisé, animations hover."
+        comment: "🎨 REDESIGN MODERNE COMPLET - Style glassmorphism appliqué: 1) Background gradient orange-amber-rose, 2) Cards avec backdrop-blur et transparence, 3) Headers avec gradients colorés, 4) Badges status avec gradients et animations hover, 5) Informations détaillées en cartes séparées (lieu, personnes, Instagram), 6) Boutons avec effets hover et scale, 7) Typographie améliorée avec gradients text, 8) Animations et transitions fluides, 9) Design entièrement responsive et moderne."
+
+  - task: "Redesign Moderne Espace Admin"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/AdminDashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "🎨 REDESIGN ADMIN MODERNE - Style cohérent avec espace client: 1) Background gradient identique, 2) Header avec titre gradient et émojis, 3) Tabs avec style glassmorphism et effets hover, 4) Loading screen modernisé avec spinner coloré, 5) Boutons avec transparence et backdrop-blur, 6) Interface administrative élégante et intuitive."
+
+  - task: "Modernisation Templates Email"
+    implemented: true
+    working: true
+    file: "/app/backend/email_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✨ EMAILS REDESIGNÉS - Templates HTML premium: 1) Headers avec gradients et effets visuels, 2) Cards informations avec icons colorés, 3) Design responsive et moderne, 4) Couleurs cohérentes avec thème orange/amber, 5) Typographie améliorée, 6) Email admin (nouvelle réservation) avec cartes détaillées, 7) Email client (confirmation) avec design celebration, 8) Footers élégants avec branding HennaLash."
 
   - task: "Redesign Pages Connexion/Inscription"
     implemented: true
