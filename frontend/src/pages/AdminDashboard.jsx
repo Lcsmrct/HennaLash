@@ -803,7 +803,7 @@ const AdminDashboard = () => {
                   ) : (
                     <div className="space-y-4">
                       {reviews.map((review) => (
-                        <div key={review.id} className="bg-slate-50/50 rounded-2xl p-6 border border-slate-200/40 hover:shadow-md transition-all duration-200">
+                        <div key={review.id} className="bg-slate-50/50 rounded-2xl p-6 border-2 border-orange-200 hover:border-orange-300 hover:shadow-md transition-all duration-200">
                           <div className="flex flex-col lg:flex-row justify-between items-start gap-6">
                             <div className="flex-1 space-y-4">
                               <div className="flex items-start justify-between">
