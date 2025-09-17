@@ -163,7 +163,7 @@ const GalleryPage = () => {
               Prête pour votre création ?
             </h2>
             <p className="text-base sm:text-lg text-gray-600 mb-8 sm:mb-10 max-w-xl mx-auto font-light leading-relaxed px-4">
-              Transformez vos mains en œuvre d'art avec nos créations sur mesure
+              Transformez vos main en œuvre d'art avec nos créations sur mesure
             </p>
             <Link
               to="/connexion"

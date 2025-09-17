@@ -46,16 +46,16 @@ const services = [
   { 
     name: 'Chargé', 
     price: 12, 
-    priceDisplay: '12€ par mains',
+    priceDisplay: '12€ par main',
     duration: '45 min - 1h', 
-    description: 'Design sur les deux mains' 
+    description: 'Design sur main chargé' 
   },
   { 
     name: 'Mariée', 
     price: 20, 
-    priceDisplay: '20€ par mains + avant-bras',
+    priceDisplay: '20€ par main + avant-bras',
     duration: '1h - 1h30', 
-    description: 'Mains et avant-bras' 
+    description: 'main et avant-bras' 
   }
 ];
 

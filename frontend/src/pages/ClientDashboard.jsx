@@ -502,7 +502,7 @@ const ClientDashboard = () => {
                             <span className="text-lg">💫</span>
                           </div>
                           <div className="font-semibold text-orange-700 text-sm">Chargé</div>
-                          <div className="text-orange-600 font-bold">12€ par mains</div>
+                          <div className="text-orange-600 font-bold">12€ par main</div>
                         </div>
                         <div className="text-center bg-white/70 rounded-xl p-3 border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300">
                           <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-full flex items-center justify-center mx-auto mb-2">

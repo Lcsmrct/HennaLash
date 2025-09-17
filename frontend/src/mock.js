@@ -77,7 +77,7 @@ export const mockData = {
         price: "12€ par main",
         duration: "Durée: 45min - 1h",
         description: "Créations détaillées et ornementées",
-        features: ["Design sur les deux mains"],
+        features: ["Design sur main chargé"],
         buttonText: "Réserver",
         popular: false
       },
@@ -87,7 +87,7 @@ export const mockData = {
         price: "20€ par main",
         duration: "Durée: 1h - 1h30",
         description: "Service spécial mariée avec motifs exceptionnels",
-        features: ["Mains et avant-bras"],
+        features: ["main et avant-bras"],
         buttonText: "Réserver",
         popular: false
       }
