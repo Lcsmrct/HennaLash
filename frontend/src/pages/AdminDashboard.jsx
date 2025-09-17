@@ -716,15 +716,27 @@ const AdminDashboard = () => {
                                   Confirmer
                                 </Button>
                               )}
-                              <Button 
-                                size="sm" 
-                                variant="outline"
-                                onClick={() => deleteAppointment(appointment.id)}
-                                className="flex-1 lg:flex-none border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 font-medium"
-                              >
-                                <Trash2 className="w-4 h-4 mr-2" />
-                                Supprimer
-                              </Button>
+                              {appointment.status !== 'cancelled' ? (
+                                <Button 
+                                  size="sm" 
+                                  variant="outline"
+                                  onClick={() => cancelAppointment(appointment.id)}
+                                  className="flex-1 lg:flex-none border-orange-200 text-orange-600 hover:bg-orange-50 hover:border-orange-300 font-medium"
+                                >
+                                  <X className="w-4 h-4 mr-2" />
+                                  Annuler
+                                </Button>
+                              ) : (
+                                <Button 
+                                  size="sm" 
+                                  variant="outline"
+                                  onClick={() => deleteAppointment(appointment.id)}
+                                  className="flex-1 lg:flex-none border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 font-medium"
+                                >
+                                  <Trash2 className="w-4 h-4 mr-2" />
+                                  Supprimer
+                                </Button>
+                              )}
                             </div>
                           </div>
                         </div>
