@@ -278,34 +278,61 @@ const AdminDashboard = () => {
 
   const getStatusBadge = (status) => {
     const statusMap = {
-      pending: { 
-        label: 'En attente', 
-        className: 'bg-amber-50 text-amber-700 border-amber-200 font-medium'
-      },
-      confirmed: { 
-        label: 'Confirmé', 
-        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 font-medium'
-      },
-      cancelled: { 
-        label: 'Annulé', 
-        className: 'bg-red-50 text-red-700 border-red-200 font-medium'
-      },
-      completed: { 
-        label: 'Terminé',
-        className: 'bg-blue-50 text-blue-700 border-blue-200 font-medium'
+      'pending': { label: 'En attente', variant: 'default' },
+      'confirmed': { label: 'Confirmé', variant: 'success' },
+      'cancelled': { label: 'Annulé', variant: 'destructive' },
+      'completed': { label: 'Terminé', variant: 'secondary' }
+    };
+    const statusInfo = statusMap[status] || { label: status, variant: 'secondary' };
+    return <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>;
+  };
+
+  // Fonctions pour parser les informations depuis les notes (identiques à ClientDashboard)
+  const parseLieuFromNotes = (notes) => {
+    if (!notes) return null;
+    
+    const lieuMatch = notes.match(/📍 Lieu: (.+?)(?:\n|$)/);
+    if (lieuMatch) {
+      const lieu = lieuMatch[1].trim();
+      // Convertir les valeurs techniques en affichage user-friendly
+      switch(lieu) {
+        case 'salon': return 'Chez moi';
+        case 'domicile': return 'Chez vous';
+        case 'evenement': return 'Autre';
+        default: return lieu;
       }
-    };
+    }
+    return null;
+  };
+
+  const parseInstagramFromNotes = (notes) => {
+    if (!notes) return null;
     
-    const statusInfo = statusMap[status] || { 
-      label: status, 
-      className: 'bg-gray-50 text-gray-700 border-gray-200 font-medium'
-    };
+    const instagramMatch = notes.match(/📱 Instagram: (.+?)(?:\n|$)/);
+    if (instagramMatch) {
+      return instagramMatch[1].trim();
+    }
+    return null;
+  };
+
+  const parsePersonnesFromNotes = (notes) => {
+    if (!notes) return null;
     
-    return (
-      <Badge className={`${statusInfo.className} border rounded-lg px-3 py-1`}>
-        {statusInfo.label}
-      </Badge>
-    );
+    const personnesMatch = notes.match(/👥 Nombre de personnes: (.+?)(?:\n|$)/);
+    if (personnesMatch) {
+      return personnesMatch[1].trim();
+    }
+    return null;
+  };
+
+  const parseInfosSuppFromNotes = (notes) => {
+    if (!notes) return null;
+    
+    const infosMatch = notes.match(/ℹ️ Informations supplémentaires:\n(.+?)(?:\n\n|$)/s);
+    if (infosMatch) {
+      return infosMatch[1].trim();
+    }
+    return null;
   };
 
   const getReviewStatusBadge = (status) => {
