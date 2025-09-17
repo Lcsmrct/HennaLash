@@ -206,17 +206,111 @@ Système de réservation
         """
         
         html_body = f"""
-        <html>
-        <body>
-            <h2>Nouvel avis client</h2>
-            <p>Un nouvel avis client a été soumis :</p>
-            <ul>
-                <li><strong>Client:</strong> {user_name}</li>
-                <li><strong>Note:</strong> {rating}/5 étoiles</li>
-                <li><strong>Commentaire:</strong> {comment}</li>
-            </ul>
-            <p>Veuillez vous connecter à votre espace admin pour approuver ou rejeter cet avis.</p>
-            <p>Cordialement,<br>Système de réservation</p>
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Nouvel avis client</title>
+        </head>
+        <body style="margin: 0; padding: 0; background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 50%, #f59e0b 100%); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+            <div style="max-width: 650px; margin: 40px auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3); overflow: hidden;">
+                <!-- Header -->
+                <div style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); padding: 40px 30px; text-align: center; position: relative;">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"stars\" patternUnits=\"userSpaceOnUse\" width=\"50\" height=\"50\"><circle cx=\"10\" cy=\"10\" r=\"2\" fill=\"%23ffffff\" fill-opacity=\"0.1\"/><circle cx=\"35\" cy=\"25\" r=\"1\" fill=\"%23ffffff\" fill-opacity=\"0.2\"/><circle cx=\"20\" cy=\"40\" r=\"1.5\" fill=\"%23ffffff\" fill-opacity=\"0.15\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23stars)\"/></svg>') repeat; opacity: 0.6;"></div>
+                    <div style="position: relative; z-index: 1;">
+                        <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px; backdrop-filter: blur(10px);">
+                            <span style="font-size: 32px;">⭐</span>
+                        </div>
+                        <h1 style="color: white; margin: 0 0 10px 0; font-size: 28px; font-weight: bold;">Nouvel Avis Client</h1>
+                        <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 500;">Modération requise</p>
+                    </div>
+                </div>
+                
+                <!-- Content -->
+                <div style="padding: 40px 30px;">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #fef3c7 0%, #f59e0b 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                            <span style="font-size: 32px;">📝</span>
+                        </div>
+                        <h2 style="color: #1f2937; margin: 0 0 10px 0; font-size: 24px; font-weight: bold;">Un client a laissé un avis !</h2>
+                        <p style="color: #6b7280; margin: 0; font-size: 16px;">Action de modération requise</p>
+                    </div>
+                    
+                    <!-- Rating Display -->
+                    <div style="text-align: center; margin: 30px 0;">
+                        <div style="display: inline-block; background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%); border-radius: 20px; padding: 25px 40px; border: 3px solid #f59e0b; box-shadow: 0 8px 20px rgba(245, 158, 11, 0.2);">
+                            <p style="margin: 0 0 10px 0; color: #92400e; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Note attribuée</p>
+                            <div style="font-size: 48px; margin: 10px 0;">
+                                {'⭐' * rating}{'☆' * (5 - rating)}
+                            </div>
+                            <p style="margin: 10px 0 0 0; color: #78350f; font-size: 24px; font-weight: bold;">{rating}/5 étoiles</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Client Info Card -->
+                    <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 16px; padding: 25px; margin: 25px 0; border-left: 5px solid #8b5cf6; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                                <span style="color: white; font-size: 18px;">👤</span>
+                            </div>
+                            <div>
+                                <p style="margin: 0; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Client</p>
+                                <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 20px; font-weight: bold;">{user_name}</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Comment Section -->
+                        <div style="background: white; border-radius: 12px; padding: 20px; border: 2px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                            <div style="display: flex; align-items: flex-start; margin-bottom: 15px;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0;">
+                                    <span style="color: white; font-size: 16px;">💬</span>
+                                </div>
+                                <div style="flex-grow: 1;">
+                                    <p style="margin: 0 0 10px 0; color: #374151; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Commentaire client</p>
+                                </div>
+                            </div>
+                            <div style="background: #f8fafc; border-radius: 8px; padding: 20px; border-left: 4px solid #10b981;">
+                                <p style="margin: 0; color: #1f2937; font-size: 16px; line-height: 1.6; font-style: italic;">"{comment}"</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Required -->
+                    <div style="background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); border-radius: 16px; padding: 25px; margin: 30px 0; border: 2px solid #ef4444;">
+                        <div style="display: flex; align-items: flex-start;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0;">
+                                <span style="color: white; font-size: 18px;">🚨</span>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0 0 10px 0; color: #991b1b; font-size: 18px; font-weight: bold;">Action de modération requise</h4>
+                                <p style="margin: 0; color: #7f1d1d; font-size: 15px; line-height: 1.6;">
+                                    <strong>Connectez-vous à votre espace admin</strong> pour approuver ou rejeter cet avis.<br>
+                                    • <strong>Approuver</strong> : L'avis sera publié sur votre site<br>
+                                    • <strong>Rejeter</strong> : L'avis sera supprimé définitivement
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; color: #6b7280; font-size: 14px; line-height: 1.6; margin-top: 30px;">
+                        <p style="margin: 20px 0 5px 0;">Cordialement,</p>
+                        <p style="margin: 0; font-weight: 600; color: #8b5cf6;">Système de gestion HennaLash</p>
+                    </div>
+                </div>
+                
+                <!-- Footer -->
+                <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); padding: 25px 30px; text-align: center; border-top: 1px solid #e2e8f0;">
+                    <p style="margin: 0 0 10px 0; color: #64748b; font-size: 12px; line-height: 1.5;">
+                        Cet email a été envoyé automatiquement suite à la soumission d'un nouvel avis client.
+                    </p>
+                    <div style="display: inline-flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 16px;">⭐</span>
+                        <span style="color: #8b5cf6; font-weight: bold; font-size: 14px;">HennaLash Admin</span>
+                        <span style="color: #64748b; font-size: 12px;">- Système de modération</span>
+                    </div>
+                </div>
+            </div>
         </body>
         </html>
         """
