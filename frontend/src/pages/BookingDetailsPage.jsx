@@ -347,7 +347,7 @@ const services = [
                     id="informations_supplementaires"
                     value={bookingForm.informations_supplementaires}
                     onChange={(e) => setBookingForm({...bookingForm, informations_supplementaires: e.target.value})}
-                    placeholder="Exemple: Motifs souhaités, allergies, préférences particulières..."
+                    placeholder="Exemple: Mariages, henna, soirée entre copines..."
                     className="min-h-[60px] sm:min-h-[80px] text-sm sm:text-base"
                   />
                 </div>
