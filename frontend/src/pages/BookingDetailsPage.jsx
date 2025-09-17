@@ -104,6 +104,17 @@ const services = [
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validation: le lieu est obligatoire
+    if (!bookingForm.lieu) {
+      toast({
+        title: "Champ obligatoire",
+        description: "Veuillez sélectionner un lieu pour votre rendez-vous",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     try {
       // Combiner toutes les informations dans les notes avec un formatage amélioré
       const notesArray = [];
