@@ -67,6 +67,10 @@ export const apiService = {
     await apiClient.delete(`/api/appointments/${appointmentId}`);
     return true;
   },
+  cancelAppointment: async (appointmentId) => {
+    const response = await apiClient.put(`/api/appointments/${appointmentId}/cancel`);
+    return response.data;
+  },
 
   // Reviews avec optimisation
   getApprovedReviews: async () => {
