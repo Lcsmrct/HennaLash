@@ -82,76 +82,90 @@ Système de réservation
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Nouvelle réservation</title>
         </head>
-        <body style="margin: 0; padding: 0; background: linear-gradient(135deg, #fed7aa 0%, #fdba74 50%, #fb923c 100%); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-            <div style="max-width: 650px; margin: 40px auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(251, 146, 60, 0.3); overflow: hidden;">
+        <body style="margin: 0; padding: 0; background-color: #fef7ed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+            <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
                 <!-- Header -->
-                <div style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); padding: 40px 30px; text-align: center; position: relative;">
-                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"grain\" patternUnits=\"userSpaceOnUse\" width=\"100\" height=\"100\"><circle cx=\"20\" cy=\"20\" r=\"1\" fill=\"%23ffffff\" fill-opacity=\"0.1\"/><circle cx=\"80\" cy=\"40\" r=\"1\" fill=\"%23ffffff\" fill-opacity=\"0.1\"/><circle cx=\"40\" cy=\"80\" r=\"1\" fill=\"%23ffffff\" fill-opacity=\"0.1\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23grain)\"/></svg>') repeat; opacity: 0.1;"></div>
-                    <div style="position: relative; z-index: 1;">
-                        <h1 style="color: white; margin: 0 0 10px 0; font-size: 32px; font-weight: bold;">🎨 HennaLash</h1>
-                        <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 18px; font-weight: 500;">Nouvelle réservation</p>
+                <div style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); padding: 32px 24px; text-align: center;">
+                    <div style="width: 64px; height: 64px; background-color: rgba(255, 255, 255, 0.15); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H9V12H7V10ZM11 10H13V12H11V10ZM15 10H17V12H15V10Z" fill="white"/>
+                        </svg>
                     </div>
+                    <h1 style="color: white; margin: 0 0 8px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">HennaLash</h1>
+                    <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 500;">Nouvelle réservation</p>
                 </div>
                 
                 <!-- Content -->
-                <div style="padding: 40px 30px;">
-                    <div style="text-align: center; margin-bottom: 30px;">
-                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #fed7aa 0%, #fb923c 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                            <span style="font-size: 32px;">📅</span>
+                <div style="padding: 32px 24px;">
+                    <div style="text-align: center; margin-bottom: 32px;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #fef3c7 0%, #f59e0b 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H9V12H7V10ZM11 10H13V12H11V10ZM15 10H17V12H15V10Z" fill="#d97706"/>
+                            </svg>
                         </div>
-                        <h2 style="color: #1f2937; margin: 0 0 10px 0; font-size: 24px; font-weight: bold;">Nouvelle réservation reçue !</h2>
+                        <h2 style="color: #1f2937; margin: 0 0 8px 0; font-size: 24px; font-weight: 700;">Nouvelle réservation reçue !</h2>
                         <p style="color: #6b7280; margin: 0; font-size: 16px;">Un client vient de faire une réservation</p>
                     </div>
                     
                     <!-- Client Info Card -->
-                    <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 16px; padding: 25px; margin: 25px 0; border-left: 5px solid #f97316; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                        <div style="display: grid; gap: 15px;">
+                    <div style="background-color: #f8fafc; border-radius: 12px; padding: 24px; margin: 24px 0; border-left: 4px solid #f97316;">
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
                             <div style="display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
-                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                    <span style="color: white; font-size: 16px;">👤</span>
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="white"/>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <p style="margin: 0; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Client</p>
+                                    <p style="margin: 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Client</p>
                                     <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 16px; font-weight: 600;">{user_name}</p>
                                 </div>
                             </div>
                             
                             <div style="display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
-                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                    <span style="color: white; font-size: 16px;">📧</span>
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="white"/>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <p style="margin: 0; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Email</p>
+                                    <p style="margin: 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Email</p>
                                     <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 16px; font-weight: 600;">{user_email}</p>
                                 </div>
                             </div>
                             
                             <div style="display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
-                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                    <span style="color: white; font-size: 16px;">🎨</span>
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.4 16.6L4.8 12L3.4 13.4L9.4 19.4L20.6 8.2L19.2 6.8L9.4 16.6Z" fill="white"/>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <p style="margin: 0; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Service</p>
+                                    <p style="margin: 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Service</p>
                                     <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 16px; font-weight: 600;">{service_name}</p>
                                 </div>
                             </div>
                             
                             <div style="display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
-                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                    <span style="color: white; font-size: 16px;">📅</span>
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H9V12H7V10ZM11 10H13V12H11V10ZM15 10H17V12H15V10Z" fill="white"/>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <p style="margin: 0; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Date</p>
+                                    <p style="margin: 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Date</p>
                                     <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 16px; font-weight: 600;">{appointment_date}</p>
                                 </div>
                             </div>
                             
                             <div style="display: flex; align-items: center; padding: 12px 0;">
-                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                                    <span style="color: white; font-size: 16px;">🕐</span>
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2ZM12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20ZM12.5 7H11V13L16.25 16.15L17 14.92L12.5 12.25V7Z" fill="white"/>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <p style="margin: 0; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Heure</p>
+                                    <p style="margin: 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Heure</p>
                                     <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 16px; font-weight: 600;">{appointment_time}</p>
                                 </div>
                             </div>
@@ -159,10 +173,15 @@ Système de réservation
                     </div>
                     
                     <!-- Action Button -->
-                    <div style="text-align: center; margin: 30px 0;">
+                    <div style="text-align: center; margin: 32px 0;">
                         <div style="background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%); border-radius: 12px; padding: 20px; border: 2px solid #f59e0b;">
-                            <p style="margin: 0 0 15px 0; color: #92400e; font-weight: 600; font-size: 16px;">🚀 Action requise</p>
-                            <p style="margin: 0; color: #78350f; font-size: 14px;">Connectez-vous à votre espace admin pour confirmer cette réservation et envoyer la confirmation au client.</p>
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z" fill="#d97706"/>
+                                </svg>
+                                <p style="margin: 0; color: #92400e; font-weight: 600; font-size: 16px;">Action requise</p>
+                            </div>
+                            <p style="margin: 0; color: #78350f; font-size: 14px; line-height: 1.5;">Connectez-vous à votre espace admin pour confirmer cette réservation et envoyer la confirmation au client.</p>
                         </div>
                     </div>
                     
@@ -173,7 +192,7 @@ Système de réservation
                 </div>
                 
                 <!-- Footer -->
-                <div style="background: #f8fafc; padding: 20px 30px; text-align: center; border-top: 1px solid #e2e8f0;">
+                <div style="background-color: #f8fafc; padding: 20px 24px; text-align: center; border-top: 1px solid #e2e8f0;">
                     <p style="margin: 0; color: #64748b; font-size: 12px; line-height: 1.5;">
                         Cet email a été envoyé automatiquement suite à une nouvelle réservation.<br>
                         <strong>HennaLash</strong> - Votre salon de henné et lashes de confiance
@@ -213,77 +232,84 @@ Système de réservation
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Nouvel avis client</title>
         </head>
-        <body style="margin: 0; padding: 0; background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 50%, #f59e0b 100%); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-            <div style="max-width: 650px; margin: 40px auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3); overflow: hidden;">
+        <body style="margin: 0; padding: 0; background-color: #fef7ed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+            <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
                 <!-- Header -->
-                <div style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); padding: 40px 30px; text-align: center; position: relative;">
-                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"stars\" patternUnits=\"userSpaceOnUse\" width=\"50\" height=\"50\"><circle cx=\"10\" cy=\"10\" r=\"2\" fill=\"%23ffffff\" fill-opacity=\"0.1\"/><circle cx=\"35\" cy=\"25\" r=\"1\" fill=\"%23ffffff\" fill-opacity=\"0.2\"/><circle cx=\"20\" cy=\"40\" r=\"1.5\" fill=\"%23ffffff\" fill-opacity=\"0.15\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23stars)\"/></svg>') repeat; opacity: 0.6;"></div>
-                    <div style="position: relative; z-index: 1;">
-                        <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px; backdrop-filter: blur(10px);">
-                            <span style="font-size: 32px;">⭐</span>
-                        </div>
-                        <h1 style="color: white; margin: 0 0 10px 0; font-size: 28px; font-weight: bold;">Nouvel Avis Client</h1>
-                        <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 500;">Modération requise</p>
+                <div style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); padding: 32px 24px; text-align: center;">
+                    <div style="width: 64px; height: 64px; background-color: rgba(255, 255, 255, 0.15); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" fill="white"/>
+                        </svg>
                     </div>
+                    <h1 style="color: white; margin: 0 0 8px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">Nouvel Avis Client</h1>
+                    <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 500;">Modération requise</p>
                 </div>
                 
                 <!-- Content -->
-                <div style="padding: 40px 30px;">
-                    <div style="text-align: center; margin-bottom: 30px;">
-                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #fef3c7 0%, #f59e0b 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                            <span style="font-size: 32px;">📝</span>
+                <div style="padding: 32px 24px;">
+                    <div style="text-align: center; margin-bottom: 32px;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #fef3c7 0%, #f59e0b 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 2H6C4.9 2 4.01 2.9 4.01 4L4 20C4 21.1 4.89 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20Z" fill="#d97706"/>
+                            </svg>
                         </div>
-                        <h2 style="color: #1f2937; margin: 0 0 10px 0; font-size: 24px; font-weight: bold;">Un client a laissé un avis !</h2>
+                        <h2 style="color: #1f2937; margin: 0 0 8px 0; font-size: 24px; font-weight: 700;">Un client a laissé un avis !</h2>
                         <p style="color: #6b7280; margin: 0; font-size: 16px;">Action de modération requise</p>
                     </div>
                     
                     <!-- Rating Display -->
-                    <div style="text-align: center; margin: 30px 0;">
-                        <div style="display: inline-block; background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%); border-radius: 20px; padding: 25px 40px; border: 3px solid #f59e0b; box-shadow: 0 8px 20px rgba(245, 158, 11, 0.2);">
-                            <p style="margin: 0 0 10px 0; color: #92400e; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Note attribuée</p>
-                            <div style="font-size: 48px; margin: 10px 0;">
-                                {'⭐' * rating}{'☆' * (5 - rating)}
+                    <div style="text-align: center; margin: 32px 0;">
+                        <div style="display: inline-block; background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%); border-radius: 20px; padding: 24px 32px; border: 3px solid #f59e0b;">
+                            <p style="margin: 0 0 12px 0; color: #92400e; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Note attribuée</p>
+                            <div style="display: flex; justify-content: center; gap: 4px; margin: 12px 0;">
+                                {''.join([f'<svg width="20" height="20" viewBox="0 0 24 24" fill="#f59e0b" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/></svg>' if i < rating else '<svg width="20" height="20" viewBox="0 0 24 24" fill="#e5e7eb" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/></svg>' for i in range(5)])}
                             </div>
-                            <p style="margin: 10px 0 0 0; color: #78350f; font-size: 24px; font-weight: bold;">{rating}/5 étoiles</p>
+                            <p style="margin: 12px 0 0 0; color: #78350f; font-size: 24px; font-weight: 700;">{rating}/5 étoiles</p>
                         </div>
                     </div>
                     
                     <!-- Client Info Card -->
-                    <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 16px; padding: 25px; margin: 25px 0; border-left: 5px solid #8b5cf6; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                    <div style="background-color: #f8fafc; border-radius: 12px; padding: 24px; margin: 24px 0; border-left: 4px solid #f97316;">
                         <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
-                                <span style="color: white; font-size: 18px;">👤</span>
+                            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="white"/>
+                                </svg>
                             </div>
                             <div>
-                                <p style="margin: 0; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Client</p>
-                                <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 20px; font-weight: bold;">{user_name}</p>
+                                <p style="margin: 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Client</p>
+                                <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 20px; font-weight: 700;">{user_name}</p>
                             </div>
                         </div>
                         
                         <!-- Comment Section -->
-                        <div style="background: white; border-radius: 12px; padding: 20px; border: 2px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                            <div style="display: flex; align-items: flex-start; margin-bottom: 15px;">
-                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0;">
-                                    <span style="color: white; font-size: 16px;">💬</span>
+                        <div style="background-color: white; border-radius: 12px; padding: 20px; border: 2px solid #e2e8f0;">
+                            <div style="display: flex; align-items: flex-start; margin-bottom: 12px;">
+                                <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 2H4C2.9 2 2.01 2.9 2.01 4L2 22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.17L4 17.17V4H20V16Z" fill="white"/>
+                                    </svg>
                                 </div>
-                                <div style="flex-grow: 1;">
-                                    <p style="margin: 0 0 10px 0; color: #374151; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Commentaire client</p>
+                                <div>
+                                    <p style="margin: 0 0 8px 0; color: #374151; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Commentaire client</p>
                                 </div>
                             </div>
-                            <div style="background: #f8fafc; border-radius: 8px; padding: 20px; border-left: 4px solid #10b981;">
+                            <div style="background-color: #f8fafc; border-radius: 8px; padding: 16px; border-left: 4px solid #10b981;">
                                 <p style="margin: 0; color: #1f2937; font-size: 16px; line-height: 1.6; font-style: italic;">"{comment}"</p>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Action Required -->
-                    <div style="background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); border-radius: 16px; padding: 25px; margin: 30px 0; border: 2px solid #ef4444;">
+                    <div style="background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); border-radius: 12px; padding: 24px; margin: 32px 0; border: 2px solid #f97316;">
                         <div style="display: flex; align-items: flex-start;">
-                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0;">
-                                <span style="color: white; font-size: 18px;">🚨</span>
+                            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 16px; flex-shrink: 0;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z" fill="white"/>
+                                </svg>
                             </div>
                             <div>
-                                <h4 style="margin: 0 0 10px 0; color: #991b1b; font-size: 18px; font-weight: bold;">Action de modération requise</h4>
+                                <h4 style="margin: 0 0 8px 0; color: #dc2626; font-size: 18px; font-weight: 700;">Action de modération requise</h4>
                                 <p style="margin: 0; color: #7f1d1d; font-size: 15px; line-height: 1.6;">
                                     <strong>Connectez-vous à votre espace admin</strong> pour approuver ou rejeter cet avis.<br>
                                     • <strong>Approuver</strong> : L'avis sera publié sur votre site<br>
@@ -293,20 +319,22 @@ Système de réservation
                         </div>
                     </div>
                     
-                    <div style="text-align: center; color: #6b7280; font-size: 14px; line-height: 1.6; margin-top: 30px;">
+                    <div style="text-align: center; color: #6b7280; font-size: 14px; line-height: 1.6; margin-top: 32px;">
                         <p style="margin: 20px 0 5px 0;">Cordialement,</p>
-                        <p style="margin: 0; font-weight: 600; color: #8b5cf6;">Système de gestion HennaLash</p>
+                        <p style="margin: 0; font-weight: 600; color: #f97316;">Système de gestion HennaLash</p>
                     </div>
                 </div>
                 
                 <!-- Footer -->
-                <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); padding: 25px 30px; text-align: center; border-top: 1px solid #e2e8f0;">
-                    <p style="margin: 0 0 10px 0; color: #64748b; font-size: 12px; line-height: 1.5;">
+                <div style="background-color: #f8fafc; padding: 24px; text-align: center; border-top: 1px solid #e2e8f0;">
+                    <p style="margin: 0 0 8px 0; color: #64748b; font-size: 12px; line-height: 1.5;">
                         Cet email a été envoyé automatiquement suite à la soumission d'un nouvel avis client.
                     </p>
-                    <div style="display: inline-flex; align-items: center; gap: 10px;">
-                        <span style="font-size: 16px;">⭐</span>
-                        <span style="color: #8b5cf6; font-weight: bold; font-size: 14px;">HennaLash Admin</span>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#f97316" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/>
+                        </svg>
+                        <span style="color: #f97316; font-weight: 700; font-size: 14px;">HennaLash Admin</span>
                         <span style="color: #64748b; font-size: 12px;">- Système de modération</span>
                     </div>
                 </div>
@@ -349,87 +377,98 @@ L'équipe HennaLash
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Rendez-vous confirmé</title>
         </head>
-        <body style="margin: 0; padding: 0; background: linear-gradient(135deg, #fed7aa 0%, #fdba74 50%, #fb923c 100%); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-            <div style="max-width: 650px; margin: 40px auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(251, 146, 60, 0.3); overflow: hidden;">
+        <body style="margin: 0; padding: 0; background-color: #fef7ed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+            <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
                 <!-- Header -->
-                <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 40px 30px; text-align: center; position: relative;">
-                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"sparkle\" patternUnits=\"userSpaceOnUse\" width=\"50\" height=\"50\"><circle cx=\"10\" cy=\"10\" r=\"1\" fill=\"%23ffffff\" fill-opacity=\"0.3\"/><circle cx=\"40\" cy=\"20\" r=\"0.5\" fill=\"%23ffffff\" fill-opacity=\"0.3\"/><circle cx=\"20\" cy=\"40\" r=\"1.5\" fill=\"%23ffffff\" fill-opacity=\"0.2\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23sparkle)\"/></svg>') repeat; opacity: 0.7;"></div>
-                    <div style="position: relative; z-index: 1;">
-                        <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px; backdrop-filter: blur(10px);">
-                            <span style="font-size: 32px;">✅</span>
-                        </div>
-                        <h1 style="color: white; margin: 0 0 10px 0; font-size: 28px; font-weight: bold;">Rendez-vous Confirmé !</h1>
-                        <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 500;">Nous avons hâte de vous accueillir</p>
+                <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 32px 24px; text-align: center;">
+                    <div style="width: 64px; height: 64px; background-color: rgba(255, 255, 255, 0.15); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="white"/>
+                        </svg>
                     </div>
+                    <h1 style="color: white; margin: 0 0 8px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">Rendez-vous Confirmé !</h1>
+                    <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 500;">Nous avons hâte de vous accueillir</p>
                 </div>
                 
                 <!-- Content -->
-                <div style="padding: 40px 30px;">
-                    <div style="text-align: center; margin-bottom: 30px;">
-                        <h2 style="color: #1f2937; margin: 0 0 10px 0; font-size: 24px; font-weight: bold;">Bonjour {client_name} ! 👋</h2>
+                <div style="padding: 32px 24px;">
+                    <div style="text-align: center; margin-bottom: 32px;">
+                        <h2 style="color: #1f2937; margin: 0 0 8px 0; font-size: 24px; font-weight: 700;">Bonjour {client_name} !</h2>
                         <p style="color: #6b7280; margin: 0; font-size: 16px; line-height: 1.6;">Excellente nouvelle ! Votre rendez-vous a été confirmé par notre équipe.</p>
                     </div>
                     
                     <!-- Appointment Details Card -->
-                    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 20px; padding: 30px; margin: 30px 0; border: 2px solid #10b981; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.1);">
-                        <div style="text-align: center; margin-bottom: 25px;">
-                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px;">
-                                <span style="font-size: 24px; color: white;">🎨</span>
+                    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 16px; padding: 24px; margin: 24px 0; border: 2px solid #10b981;">
+                        <div style="text-align: center; margin-bottom: 24px;">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L13.09 8.26L22 9.27L17 14.14L18.18 23.02L12 19.77L5.82 23.02L7 14.14L2 9.27L10.91 8.26L12 2Z" fill="white"/>
+                                </svg>
                             </div>
-                            <h3 style="margin: 0; color: #065f46; font-size: 20px; font-weight: bold;">Détails de votre rendez-vous</h3>
+                            <h3 style="margin: 0; color: #065f46; font-size: 20px; font-weight: 700;">Détails de votre rendez-vous</h3>
                         </div>
                         
-                        <div style="display: grid; gap: 20px;">
-                            <div style="background: white; border-radius: 12px; padding: 20px; display: flex; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
-                                    <span style="color: white; font-size: 18px;">🎨</span>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <div style="background-color: white; border-radius: 12px; padding: 16px; display: flex; align-items: center;">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 2L13.09 8.26L22 9.27L17 14.14L18.18 23.02L12 19.77L5.82 23.02L7 14.14L2 9.27L10.91 8.26L12 2Z" fill="white"/>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <p style="margin: 0; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Service</p>
-                                    <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 18px; font-weight: bold;">{service_name}</p>
+                                    <p style="margin: 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Service</p>
+                                    <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 18px; font-weight: 700;">{service_name}</p>
                                 </div>
                             </div>
                             
-                            <div style="background: white; border-radius: 12px; padding: 20px; display: flex; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
-                                    <span style="color: white; font-size: 18px;">📅</span>
+                            <div style="background-color: white; border-radius: 12px; padding: 16px; display: flex; align-items: center;">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H9V12H7V10ZM11 10H13V12H11V10ZM15 10H17V12H15V10Z" fill="white"/>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <p style="margin: 0; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Date</p>
-                                    <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 18px; font-weight: bold;">{appointment_date}</p>
+                                    <p style="margin: 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Date</p>
+                                    <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 18px; font-weight: 700;">{appointment_date}</p>
                                 </div>
                             </div>
                             
-                            <div style="background: white; border-radius: 12px; padding: 20px; display: flex; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
-                                    <span style="color: white; font-size: 18px;">🕐</span>
+                            <div style="background-color: white; border-radius: 12px; padding: 16px; display: flex; align-items: center;">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2ZM12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20ZM12.5 7H11V13L16.25 16.15L17 14.92L12.5 12.25V7Z" fill="white"/>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <p style="margin: 0; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Heure</p>
-                                    <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 18px; font-weight: bold;">{appointment_time}</p>
+                                    <p style="margin: 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Heure</p>
+                                    <p style="margin: 2px 0 0 0; color: #1e293b; font-size: 18px; font-weight: 700;">{appointment_time}</p>
                                 </div>
                             </div>
                             
-                            <div style="background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%); border-radius: 12px; padding: 20px; display: flex; align-items: center; border: 2px solid #f59e0b;">
-                                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
-                                    <span style="color: white; font-size: 18px;">💰</span>
+                            <div style="background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%); border-radius: 12px; padding: 16px; display: flex; align-items: center; border: 2px solid #f59e0b;">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM13.41 18.09L13.41 18.09C13.21 18.21 12.7 18.21 12.5 18.09C12.29 17.97 12 17.81 12 17.81S11.71 17.97 11.5 18.09C11.29 18.21 10.79 18.21 10.59 18.09L10.59 18.09C9.4 17.4 8.5 16.4 8.09 15.19C7.68 13.98 7.79 12.67 8.09 11.56C8.39 10.44 8.85 9.47 9.56 8.76C10.27 8.05 11.13 7.6 12 7.6S13.73 8.05 14.44 8.76C15.15 9.47 15.61 10.44 15.91 11.56C16.21 12.67 16.32 13.98 15.91 15.19C15.5 16.4 14.6 17.4 13.41 18.09ZM14 14H10V16H14V14ZM10 10H14V12H10V10Z" fill="white"/>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <p style="margin: 0; color: #92400e; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Prix</p>
-                                    <p style="margin: 2px 0 0 0; color: #78350f; font-size: 24px; font-weight: bold;">{service_price}€</p>
+                                    <p style="margin: 0; color: #92400e; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Prix</p>
+                                    <p style="margin: 2px 0 0 0; color: #78350f; font-size: 24px; font-weight: 700;">{service_price}€</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Info Box -->
-                    <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-radius: 16px; padding: 25px; margin: 25px 0; border-left: 5px solid #3b82f6;">
+                    <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-radius: 12px; padding: 20px; margin: 24px 0; border-left: 4px solid #3b82f6;">
                         <div style="display: flex; align-items: flex-start;">
-                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0;">
-                                <span style="color: white; font-size: 16px;">💡</span>
+                            <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM13 17H11V11H13V17ZM13 9H11V7H13V9Z" fill="white"/>
+                                </svg>
                             </div>
                             <div>
-                                <h4 style="margin: 0 0 10px 0; color: #1e40af; font-size: 16px; font-weight: bold;">Informations importantes</h4>
+                                <h4 style="margin: 0 0 8px 0; color: #1e40af; font-size: 16px; font-weight: 700;">Informations importantes</h4>
                                 <p style="margin: 0; color: #1e3a8a; font-size: 14px; line-height: 1.6;">
                                     • Merci d'arriver 5 minutes avant l'heure de votre rendez-vous<br>
                                     • En cas d'empêchement, prévenez-nous au moins 24h à l'avance<br>
@@ -439,21 +478,23 @@ L'équipe HennaLash
                         </div>
                     </div>
                     
-                    <div style="text-align: center; margin: 40px 0 20px 0;">
-                        <p style="color: #6b7280; font-size: 16px; line-height: 1.6; margin: 0 0 10px 0;">Nous avons hâte de vous accueillir ! ✨</p>
-                        <p style="color: #1f2937; font-size: 14px; margin: 0 0 5px 0;">Cordialement,</p>
-                        <p style="color: #f97316; font-weight: bold; font-size: 16px; margin: 0;">L'équipe HennaLash</p>
+                    <div style="text-align: center; margin: 32px 0 20px 0;">
+                        <p style="color: #6b7280; font-size: 16px; line-height: 1.6; margin: 0 0 8px 0;">Nous avons hâte de vous accueillir !</p>
+                        <p style="color: #1f2937; font-size: 14px; margin: 0 0 4px 0;">Cordialement,</p>
+                        <p style="color: #f97316; font-weight: 700; font-size: 16px; margin: 0;">L'équipe HennaLash</p>
                     </div>
                 </div>
                 
                 <!-- Footer -->
-                <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); padding: 25px 30px; text-align: center; border-top: 1px solid #e2e8f0;">
-                    <p style="margin: 0 0 10px 0; color: #64748b; font-size: 12px; line-height: 1.5;">
+                <div style="background-color: #f8fafc; padding: 24px; text-align: center; border-top: 1px solid #e2e8f0;">
+                    <p style="margin: 0 0 8px 0; color: #64748b; font-size: 12px; line-height: 1.5;">
                         Cet email a été envoyé automatiquement suite à la confirmation de votre rendez-vous.
                     </p>
-                    <div style="display: inline-flex; align-items: center; gap: 10px;">
-                        <span style="font-size: 16px;">🎨</span>
-                        <span style="color: #f97316; font-weight: bold; font-size: 14px;">HennaLash</span>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#f97316" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L13.09 8.26L22 9.27L17 14.14L18.18 23.02L12 19.77L5.82 23.02L7 14.14L2 9.27L10.91 8.26L12 2Z"/>
+                        </svg>
+                        <span style="color: #f97316; font-weight: 700; font-size: 14px;">HennaLash</span>
                         <span style="color: #64748b; font-size: 12px;">- Votre salon de henné et lashes</span>
                     </div>
                 </div>
@@ -484,36 +525,63 @@ L'équipe HennaLash
         """
         
         html_body = f"""
-        <html>
-        <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-            <div style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); padding: 30px; border-radius: 10px; text-align: center; margin-bottom: 30px;">
-                <h1 style="color: white; margin: 0; font-size: 28px;">HennaLash</h1>
-                <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">Réinitialisation de mot de passe</p>
-            </div>
-            
-            <div style="background: #f8f9fa; padding: 30px; border-radius: 10px; border-left: 4px solid #f97316;">
-                <p>Bonjour{' ' + first_name if first_name else ''},</p>
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Réinitialisation de mot de passe</title>
+        </head>
+        <body style="margin: 0; padding: 0; background-color: #fef7ed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+            <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+                <!-- Header -->
+                <div style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); padding: 32px 24px; text-align: center;">
+                    <div style="width: 64px; height: 64px; background-color: rgba(255, 255, 255, 0.15); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 8H17V6C17 3.24 14.76 1 12 1S7 3.24 7 6V8H6C4.9 8 4 8.9 4 10V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V10C20 8.9 19.1 8 18 8ZM12 17C11.17 17 10.5 16.33 10.5 15.5S11.17 14 12 14 13.5 14.67 13.5 15.5 12.83 17 12 17ZM15.1 8H8.9V6C8.9 4.29 10.29 2.9 12 2.9S15.1 4.29 15.1 6V8Z" fill="white"/>
+                        </svg>
+                    </div>
+                    <h1 style="color: white; margin: 0 0 8px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">HennaLash</h1>
+                    <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 500;">Réinitialisation de mot de passe</p>
+                </div>
                 
-                <p>Vous avez demandé la réinitialisation de votre mot de passe.</p>
-                
-                <div style="background: white; border: 2px solid #f97316; border-radius: 8px; padding: 20px; text-align: center; margin: 20px 0;">
-                    <p style="margin: 0 0 10px 0; font-weight: bold; color: #333;">Votre code de réinitialisation :</p>
-                    <div style="font-size: 32px; font-weight: bold; color: #f97316; letter-spacing: 4px; font-family: monospace;">
-                        {code}
+                <!-- Content -->
+                <div style="padding: 32px 24px;">
+                    <div style="background-color: #f8fafc; border-radius: 12px; padding: 24px; border-left: 4px solid #f97316;">
+                        <p style="margin: 0 0 16px 0; color: #1f2937; font-size: 16px;">Bonjour{' ' + first_name if first_name else ''},</p>
+                        
+                        <p style="margin: 0 0 20px 0; color: #4b5563; font-size: 15px; line-height: 1.6;">Vous avez demandé la réinitialisation de votre mot de passe.</p>
+                        
+                        <div style="background-color: white; border: 2px solid #f97316; border-radius: 12px; padding: 24px; text-align: center; margin: 24px 0;">
+                            <p style="margin: 0 0 12px 0; font-weight: 700; color: #374151; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Votre code de réinitialisation :</p>
+                            <div style="font-size: 36px; font-weight: 700; color: #f97316; letter-spacing: 6px; font-family: 'Courier New', monospace; margin: 16px 0;">
+                                {code}
+                            </div>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); border-radius: 8px; padding: 16px; border: 1px solid #f87171; margin: 20px 0;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#dc2626" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2ZM12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20ZM12.5 7H11V13L16.25 16.15L17 14.92L12.5 12.25V7Z"/>
+                                </svg>
+                                <p style="margin: 0; color: #dc2626; font-weight: 700; font-size: 14px;">Ce code est valable pendant 15 minutes uniquement.</p>
+                            </div>
+                        </div>
+                        
+                        <p style="margin: 20px 0 0 0; color: #6b7280; font-size: 14px;">Si vous n'avez pas fait cette demande, ignorez cet email en toute sécurité.</p>
+                        
+                        <p style="margin: 24px 0 0 0; color: #374151; font-size: 15px;">
+                            Cordialement,<br>
+                            <strong style="color: #f97316;">L'équipe HennaLash</strong>
+                        </p>
                     </div>
                 </div>
                 
-                <p style="color: #dc2626; font-weight: bold;">⏰ Ce code est valable pendant 15 minutes uniquement.</p>
-                
-                <p>Si vous n'avez pas fait cette demande, ignorez cet email en toute sécurité.</p>
-                
-                <p style="margin-top: 30px;">
-                    Cordialement,<br>
-                    <strong>L'équipe HennaLash</strong>
-                </p>
-                
-                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 12px; color: #6b7280;">
-                    <p>Cet email a été envoyé automatiquement suite à votre demande de réinitialisation de mot de passe.</p>
+                <!-- Footer -->
+                <div style="background-color: #f8fafc; padding: 20px 24px; text-align: center; border-top: 1px solid #e2e8f0;">
+                    <p style="margin: 0; color: #64748b; font-size: 12px; line-height: 1.5;">
+                        Cet email a été envoyé automatiquement suite à votre demande de réinitialisation de mot de passe.
+                    </p>
                 </div>
             </div>
         </body>
