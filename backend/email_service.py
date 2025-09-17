@@ -404,25 +404,25 @@ L'équipe HennaLash
         <body style="margin: 0; padding: 20px; background-color: #fef7ed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
             <div class="container" style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
                 <!-- Header -->
-                <div style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); padding: 32px 24px; text-align: center;">
+                <div class="header" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); padding: 32px 24px; text-align: center;">
                     <div style="width: 64px; height: 64px; background-color: rgba(255, 255, 255, 0.15); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="white"/>
                         </svg>
                     </div>
-                    <h1 style="color: white; margin: 0 0 8px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">Rendez-vous Confirmé !</h1>
+                    <h1 class="title" style="color: white; margin: 0 0 8px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">Rendez-vous Confirmé !</h1>
                     <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 500;">Nous avons hâte de vous accueillir</p>
                 </div>
                 
                 <!-- Content -->
-                <div style="padding: 32px 24px;">
+                <div class="content" style="padding: 32px 24px;">
                     <div style="text-align: center; margin-bottom: 32px;">
-                        <h2 style="color: #1f2937; margin: 0 0 8px 0; font-size: 24px; font-weight: 700;">Bonjour {client_name} !</h2>
+                        <h2 class="subtitle" style="color: #1f2937; margin: 0 0 8px 0; font-size: 24px; font-weight: 700;">Bonjour {client_name} !</h2>
                         <p style="color: #6b7280; margin: 0; font-size: 16px; line-height: 1.6;">Excellente nouvelle ! Votre rendez-vous a été confirmé par notre équipe.</p>
                     </div>
                     
                     <!-- Appointment Details Card -->
-                    <div style="background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%); border-radius: 16px; padding: 24px; margin: 24px 0; border: 2px solid #f97316;">
+                    <div class="card" style="background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%); border-radius: 16px; padding: 24px; margin: 24px 0; border: 2px solid #f97316;">
                         <div style="text-align: center; margin-bottom: 24px;">
                             <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
