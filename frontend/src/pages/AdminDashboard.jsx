@@ -734,7 +734,7 @@ const AdminDashboard = () => {
                           </div>
                           
                           <div className="space-y-3 mb-4">
-                            <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200/40">
+                            <div className="flex items-center gap-3 p-3 bg-white rounded-xl border-2 border-orange-100 hover:border-orange-200 transition-colors">
                               <div className="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center">
                                 <Calendar className="w-4 h-4 text-blue-600" />
                               </div>
