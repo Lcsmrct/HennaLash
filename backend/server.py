@@ -519,21 +519,40 @@ async def update_appointment_status(
 @api_router.delete("/appointments/{appointment_id}")
 async def delete_appointment(
     appointment_id: str,
-    current_user: User = Depends(get_current_admin_user_with_db),
+    current_user: User = Depends(get_current_active_user_with_db),
     db = Depends(get_db)
 ):
-    """Delete an appointment (Admin only)."""
+    """Delete an appointment. Admins can delete any appointment, clients can only delete their own past completed/cancelled appointments."""
     
     # Check if appointment exists
     appointment = await db.appointments.find_one({"id": appointment_id})
     if not appointment:
         raise HTTPException(status_code=404, detail="Appointment not found")
     
-    # Make the slot available again
-    await db.time_slots.update_one(
-        {"id": appointment["slot_id"]},
-        {"$set": {"is_available": True}}
-    )
+    # If user is not admin, check if they own the appointment and if it's eligible for deletion
+    if current_user.role != "admin":
+        # Check if user owns the appointment
+        if appointment["user_id"] != current_user.id:
+            raise HTTPException(status_code=403, detail="You can only delete your own appointments")
+        
+        # Check if appointment is completed or cancelled (only past appointments can be deleted by clients)
+        if appointment["status"] not in ["completed", "cancelled"]:
+            raise HTTPException(status_code=403, detail="You can only delete completed or cancelled appointments")
+        
+        # Check if appointment is at least 1 hour old (additional safety)
+        appointment_date = appointment.get("created_at", datetime.utcnow())
+        if isinstance(appointment_date, str):
+            appointment_date = datetime.fromisoformat(appointment_date.replace('Z', '+00:00'))
+        hours_passed = (datetime.utcnow() - appointment_date).total_seconds() / 3600
+        if hours_passed < 1:
+            raise HTTPException(status_code=403, detail="You can only delete appointments that are at least 1 hour old")
+    
+    # For admin users or eligible client deletions, make the slot available again only if it's not already taken
+    if appointment["status"] in ["confirmed", "pending"]:
+        await db.time_slots.update_one(
+            {"id": appointment["slot_id"]},
+            {"$set": {"is_available": True}}
+        )
     
     # Delete appointment
     await db.appointments.delete_one({"id": appointment_id})
