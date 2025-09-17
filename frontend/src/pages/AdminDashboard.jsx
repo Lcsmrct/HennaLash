@@ -746,7 +746,7 @@ const AdminDashboard = () => {
                               </div>
                             </div>
                             
-                            <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200/40">
+                            <div className="flex items-center gap-3 p-3 bg-white rounded-xl border-2 border-orange-100 hover:border-orange-200 transition-colors">
                               <div className="w-8 h-8 bg-orange-500/10 rounded-lg flex items-center justify-center">
                                 <Clock className="w-4 h-4 text-orange-600" />
                               </div>
