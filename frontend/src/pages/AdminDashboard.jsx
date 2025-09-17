@@ -612,18 +612,72 @@ const AdminDashboard = () => {
                               </div>
 
                               {appointment.notes && (
-                                <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-200/50">
-                                  <div className="flex items-start gap-3">
-                                    <div className="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                                      <MessageSquare className="w-4 h-4 text-blue-600" />
-                                    </div>
-                                    <div className="flex-1">
-                                      <p className="text-xs text-blue-600 font-medium uppercase tracking-wide mb-2">Informations Client</p>
-                                      <div className="text-sm text-blue-900 whitespace-pre-line leading-relaxed">
-                                        {appointment.notes}
+                                <div className="space-y-3">
+                                  <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">Informations Client</p>
+                                  
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                    {/* Lieu */}
+                                    {parseLieuFromNotes(appointment.notes) && (
+                                      <div className="flex items-center gap-3 p-3 bg-white rounded-xl border-2 border-purple-100 hover:border-purple-200 transition-colors">
+                                        <div className="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                                          <MapPin className="w-4 h-4 text-purple-600" />
+                                        </div>
+                                        <div>
+                                          <p className="text-xs text-purple-500 font-medium uppercase tracking-wide">Lieu</p>
+                                          <p className="text-sm font-semibold text-slate-900">
+                                            {parseLieuFromNotes(appointment.notes)}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    )}
+
+                                    {/* Nombre de personnes */}
+                                    {parsePersonnesFromNotes(appointment.notes) && (
+                                      <div className="flex items-center gap-3 p-3 bg-white rounded-xl border-2 border-green-100 hover:border-green-200 transition-colors">
+                                        <div className="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
+                                          <Users className="w-4 h-4 text-green-600" />
+                                        </div>
+                                        <div>
+                                          <p className="text-xs text-green-500 font-medium uppercase tracking-wide">Personnes</p>
+                                          <p className="text-sm font-semibold text-slate-900">
+                                            {parsePersonnesFromNotes(appointment.notes)}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    )}
+
+                                    {/* Instagram */}
+                                    {parseInstagramFromNotes(appointment.notes) && (
+                                      <div className="flex items-center gap-3 p-3 bg-white rounded-xl border-2 border-pink-100 hover:border-pink-200 transition-colors">
+                                        <div className="w-8 h-8 bg-pink-500/10 rounded-lg flex items-center justify-center">
+                                          <Instagram className="w-4 h-4 text-pink-600" />
+                                        </div>
+                                        <div>
+                                          <p className="text-xs text-pink-500 font-medium uppercase tracking-wide">Instagram</p>
+                                          <p className="text-sm font-semibold text-slate-900">
+                                            @{parseInstagramFromNotes(appointment.notes)}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  {/* Informations supplémentaires */}
+                                  {parseInfosSuppFromNotes(appointment.notes) && (
+                                    <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-200/50">
+                                      <div className="flex items-start gap-3">
+                                        <div className="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                          <MessageSquare className="w-4 h-4 text-blue-600" />
+                                        </div>
+                                        <div className="flex-1">
+                                          <p className="text-xs text-blue-600 font-medium uppercase tracking-wide mb-2">Informations supplémentaires</p>
+                                          <div className="text-sm text-blue-900 leading-relaxed">
+                                            {parseInfosSuppFromNotes(appointment.notes)}
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
+                                  )}
                                 </div>
                               )}
                             </div>
