@@ -213,22 +213,45 @@ const AdminDashboard = () => {
   };
 
   const deleteAppointment = async (appointmentId) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce rendez-vous ?')) return;
-    
     try {
       await apiService.deleteAppointment(appointmentId);
-      
+      setAppointments(appointments.filter(app => app.id !== appointmentId));
       toast({
         title: "Succès",
-        description: "Rendez-vous supprimé !"
+        description: "Rendez-vous supprimé avec succès",
       });
-      
-      fetchData();
     } catch (error) {
       console.error('Error deleting appointment:', error);
       toast({
         title: "Erreur",
-        description: "Impossible de supprimer le rendez-vous",
+        description: error.response?.data?.detail || "Impossible de supprimer le rendez-vous",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const cancelAppointment = async (appointmentId) => {
+    if (!window.confirm('Êtes-vous sûr de vouloir annuler ce rendez-vous ? Le client sera automatiquement notifié par email.')) {
+      return;
+    }
+    
+    try {
+      await apiService.cancelAppointment(appointmentId);
+      // Update the appointment status in the list
+      setAppointments(appointments.map(app => 
+        app.id === appointmentId 
+          ? { ...app, status: 'cancelled' }
+          : app
+      ));
+      toast({
+        title: "Succès",
+        description: "Rendez-vous annulé avec succès et client notifié par email",
+      });
+    } catch (error) {
+      console.error('Error cancelling appointment:', error);
+      toast({
+        title: "Erreur",
+        description: error.response?.data?.detail || "Impossible d'annuler le rendez-vous",
         variant: "destructive"
       });
     }
