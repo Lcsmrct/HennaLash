@@ -603,36 +603,39 @@ const ClientDashboard = () => {
                         return (
                           <div 
                             key={slot.id} 
-                            className="bg-white border border-gray-200 rounded-lg p-4 hover:border-orange-300 hover:shadow-md transition-all duration-200 cursor-pointer group"
+                            className="bg-white border-2 border-gray-200 rounded-xl p-5 hover:border-orange-300 hover:shadow-lg transition-all duration-300 cursor-pointer group hover:scale-[1.02]"
                             onClick={() => goToBookingDetails(slot.id)}
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center space-x-4">
-                                <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-200 rounded-lg flex items-center justify-center flex-shrink-0">
-                                  <Calendar className="w-6 h-6 text-orange-600" />
+                                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md">
+                                  <Calendar className="w-7 h-7 text-white" />
                                 </div>
                                 <div>
-                                  <div className="font-medium text-gray-900 flex items-center">
+                                  <div className="font-bold text-gray-900 flex items-center text-lg">
                                     {dateLabel}
-                                    {isToday && <span className="ml-2 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full">Urgent</span>}
-                                    {isTomorrow && <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full">Bientôt</span>}
+                                    {isToday && <span className="ml-3 text-xs bg-red-500 text-white px-2 py-1 rounded-full font-bold animate-pulse">URGENT</span>}
+                                    {isTomorrow && <span className="ml-3 text-xs bg-orange-500 text-white px-2 py-1 rounded-full font-bold">BIENTÔT</span>}
                                   </div>
-                                  <div className="text-sm text-gray-600 flex items-center mt-1">
-                                    <Clock className="w-4 h-4 mr-1" />
-                                    {slot.start_time ? `${formatTime(slot.start_time)} - ${slot.end_time ? formatTime(slot.end_time) : '(60min)'}` : 'Heure non spécifiée'}
+                                  <div className="text-sm text-gray-600 flex items-center mt-2 font-medium">
+                                    <Clock className="w-4 h-4 mr-2 text-orange-500" />
+                                    <span className="text-gray-800 font-semibold">
+                                      {slot.start_time ? `${formatTime(slot.start_time)} - ${slot.end_time ? formatTime(slot.end_time) : '(60min)'}` : 'Heure non spécifiée'}
+                                    </span>
                                   </div>
                                 </div>
                               </div>
                               
-                              <div className="flex items-center space-x-3">
+                              <div className="flex items-center space-x-4">
                                 <div className="text-right hidden sm:block">
-                                  <div className="text-xs text-gray-500">Durée</div>
-                                  <div className="text-sm font-medium text-gray-700">1 heure</div>
+                                  <div className="text-xs text-gray-500 font-medium uppercase tracking-wide">Durée</div>
+                                  <div className="text-sm font-bold text-gray-800">1 heure</div>
                                 </div>
                                 <Button 
-                                  size="sm"
-                                  className="bg-orange-600 hover:bg-orange-700 text-white group-hover:bg-orange-700 transition-colors"
+                                  size="lg"
+                                  className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-6 py-2 shadow-lg group-hover:shadow-xl transition-all duration-300"
                                 >
+                                  <span className="mr-2">✨</span>
                                   Réserver
                                 </Button>
                               </div>
