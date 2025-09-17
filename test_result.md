@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Erreur lorsque je choisis mon rdv depuis l'espace client 'réserver' et améliore le design coté espace client des rdv etccc sans modifier le design du site / fonctionalites actuel - CORRIGÉ: Erreur 422 résolue (prix numériques) + Design espace client amélioré"
+user_problem_statement: "Dans l'espace client le lieu afficher sur le rdv n'est pas le meme choisi dans le systeme de réservation (Chez vous/Chez moi/Autres), ensuite je veux bien que tu refasse le design de tout lespace client et Admin très moderne en restant dans le meme thème tout de meme, et sans tocuher au fonctionnalitées/design déja existant - CORRIGÉ: Problème lieu résolu + Design moderne glassmorphism appliqué"
 
 backend:
   - task: "MongoDB Database Connection"
