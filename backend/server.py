@@ -770,7 +770,6 @@ async def request_password_reset(
     
     # Generate 6-digit code
     reset_code = generate_reset_code()
-    print(f"DEBUG: Generated reset code {reset_code} for email {request.email}")  # Debug logging
     
     # Save reset code to database
     reset_data = PasswordResetCode(
