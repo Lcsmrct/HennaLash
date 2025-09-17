@@ -860,11 +860,389 @@ class BackendTester:
             self.log_result("Design - Backend Support", False, f"Exception: {str(e)}")
             return False
 
+    def test_admin_appointment_cancellation(self):
+        """TEST: Admin appointment cancellation with email notification"""
+        if not self.admin_token:
+            self.log_result("Admin Appointment Cancellation", False, "Missing admin token")
+            return False
+        
+        # First create an appointment to cancel
+        appointment_id = self.create_test_appointment_for_admin_tests()
+        if not appointment_id:
+            self.log_result("Admin Appointment Cancellation", False, "Could not create test appointment")
+            return False
+        
+        try:
+            start_time = time.time()
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            response = requests.put(
+                f"{BASE_URL}/appointments/{appointment_id}/cancel",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                result = response.json()
+                self.log_result("Admin Appointment Cancellation", True, 
+                              f"Appointment cancelled successfully: {result.get('message', 'N/A')}", duration)
+                
+                # Verify appointment status is 'cancelled'
+                return self.verify_appointment_status(appointment_id, "cancelled")
+            else:
+                self.log_result("Admin Appointment Cancellation", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Admin Appointment Cancellation", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_admin_appointment_deletion(self):
+        """TEST: Admin appointment deletion"""
+        if not self.admin_token:
+            self.log_result("Admin Appointment Deletion", False, "Missing admin token")
+            return False
+        
+        # First create an appointment to delete
+        appointment_id = self.create_test_appointment_for_admin_tests()
+        if not appointment_id:
+            self.log_result("Admin Appointment Deletion", False, "Could not create test appointment")
+            return False
+        
+        try:
+            start_time = time.time()
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            response = requests.delete(
+                f"{BASE_URL}/appointments/{appointment_id}",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                result = response.json()
+                self.log_result("Admin Appointment Deletion", True, 
+                              f"Appointment deleted successfully: {result.get('message', 'N/A')}", duration)
+                
+                # Verify appointment no longer exists
+                return self.verify_appointment_deleted(appointment_id)
+            else:
+                self.log_result("Admin Appointment Deletion", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Admin Appointment Deletion", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_slot_availability_after_cancellation(self):
+        """TEST: Verify slot becomes available after appointment cancellation"""
+        if not self.admin_token:
+            self.log_result("Slot Availability After Cancellation", False, "Missing admin token")
+            return False
+        
+        # Create appointment and get slot ID
+        appointment_data = self.create_test_appointment_for_admin_tests(return_full_data=True)
+        if not appointment_data:
+            self.log_result("Slot Availability After Cancellation", False, "Could not create test appointment")
+            return False
+        
+        appointment_id = appointment_data.get('appointment_id')
+        slot_id = appointment_data.get('slot_id')
+        
+        try:
+            # Cancel the appointment
+            start_time = time.time()
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            response = requests.put(
+                f"{BASE_URL}/appointments/{appointment_id}/cancel",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                # Check if slot is now available
+                return self.verify_slot_availability(slot_id, should_be_available=True)
+            else:
+                self.log_result("Slot Availability After Cancellation", False, 
+                              f"Cancellation failed: {response.status_code} - {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Slot Availability After Cancellation", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_slot_availability_after_deletion(self):
+        """TEST: Verify slot becomes available after appointment deletion"""
+        if not self.admin_token:
+            self.log_result("Slot Availability After Deletion", False, "Missing admin token")
+            return False
+        
+        # Create appointment and get slot ID
+        appointment_data = self.create_test_appointment_for_admin_tests(return_full_data=True)
+        if not appointment_data:
+            self.log_result("Slot Availability After Deletion", False, "Could not create test appointment")
+            return False
+        
+        appointment_id = appointment_data.get('appointment_id')
+        slot_id = appointment_data.get('slot_id')
+        
+        try:
+            # Delete the appointment
+            start_time = time.time()
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            response = requests.delete(
+                f"{BASE_URL}/appointments/{appointment_id}",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                # Check if slot is now available
+                return self.verify_slot_availability(slot_id, should_be_available=True)
+            else:
+                self.log_result("Slot Availability After Deletion", False, 
+                              f"Deletion failed: {response.status_code} - {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Slot Availability After Deletion", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_past_appointments_logic(self):
+        """TEST: Logic for identifying past appointments (older than 24h)"""
+        if not self.admin_token:
+            self.log_result("Past Appointments Logic", False, "Missing admin token")
+            return False
+        
+        try:
+            start_time = time.time()
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            # Get all appointments
+            response = requests.get(
+                f"{BASE_URL}/appointments",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                appointments = response.json()
+                
+                # Analyze appointments for past dates
+                now = datetime.now()
+                past_appointments = []
+                future_appointments = []
+                
+                for apt in appointments:
+                    slot_info = apt.get('slot_info', {})
+                    if slot_info and slot_info.get('date') and slot_info.get('start_time'):
+                        try:
+                            # Parse appointment date and time
+                            apt_date_str = slot_info['date']
+                            apt_time_str = slot_info['start_time']
+                            
+                            # Handle different date formats
+                            if 'T' in apt_date_str:
+                                apt_date = datetime.fromisoformat(apt_date_str.replace('Z', '+00:00')).date()
+                            else:
+                                apt_date = datetime.strptime(apt_date_str, '%Y-%m-%d').date()
+                            
+                            apt_time = datetime.strptime(apt_time_str, '%H:%M').time()
+                            apt_datetime = datetime.combine(apt_date, apt_time)
+                            
+                            # Check if more than 24 hours in the past
+                            time_diff = now - apt_datetime
+                            if time_diff.total_seconds() > 24 * 3600:  # 24 hours in seconds
+                                past_appointments.append({
+                                    'id': apt.get('id'),
+                                    'datetime': apt_datetime,
+                                    'hours_past': time_diff.total_seconds() / 3600
+                                })
+                            else:
+                                future_appointments.append({
+                                    'id': apt.get('id'),
+                                    'datetime': apt_datetime
+                                })
+                        except Exception as parse_error:
+                            # Skip appointments with invalid date/time data
+                            continue
+                
+                self.log_result("Past Appointments Logic", True, 
+                              f"Successfully analyzed appointments: {len(past_appointments)} past (>24h), {len(future_appointments)} future/recent", 
+                              duration)
+                
+                # Log some examples if found
+                if past_appointments:
+                    print(f"  📅 Past appointments found:")
+                    for apt in past_appointments[:3]:  # Show first 3
+                        print(f"    - ID: {apt['id']}, Date: {apt['datetime']}, Hours past: {apt['hours_past']:.1f}h")
+                
+                return True
+            else:
+                self.log_result("Past Appointments Logic", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Past Appointments Logic", False, f"Exception: {str(e)}")
+            return False
+    
+    def create_test_appointment_for_admin_tests(self, return_full_data=False):
+        """Helper: Create a test appointment for admin testing"""
+        if not self.client_token:
+            return None
+        
+        # Get available slot
+        if not self.get_available_slot():
+            return None
+        
+        try:
+            headers = {"Authorization": f"Bearer {self.client_token}"}
+            appointment_data = {
+                "slot_id": self.available_slot_id,
+                "service_name": "Simple",
+                "service_price": 8.0,
+                "notes": "Test appointment for admin operations"
+            }
+            
+            response = requests.post(
+                f"{BASE_URL}/appointments",
+                json=appointment_data,
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            
+            if response.status_code == 200:
+                appointment = response.json()
+                appointment_id = appointment.get('id')
+                
+                if return_full_data:
+                    return {
+                        'appointment_id': appointment_id,
+                        'slot_id': self.available_slot_id,
+                        'appointment_data': appointment
+                    }
+                else:
+                    return appointment_id
+            else:
+                return None
+        except Exception:
+            return None
+    
+    def verify_appointment_status(self, appointment_id, expected_status):
+        """Helper: Verify appointment has expected status"""
+        if not self.admin_token:
+            return False
+        
+        try:
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            response = requests.get(
+                f"{BASE_URL}/appointments",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            
+            if response.status_code == 200:
+                appointments = response.json()
+                appointment = next((apt for apt in appointments if apt.get('id') == appointment_id), None)
+                
+                if appointment:
+                    actual_status = appointment.get('status')
+                    if actual_status == expected_status:
+                        self.log_result("Verify Appointment Status", True, 
+                                      f"Appointment {appointment_id} has correct status: {expected_status}")
+                        return True
+                    else:
+                        self.log_result("Verify Appointment Status", False, 
+                                      f"Appointment {appointment_id} has status '{actual_status}', expected '{expected_status}'")
+                        return False
+                else:
+                    self.log_result("Verify Appointment Status", False, 
+                                  f"Appointment {appointment_id} not found")
+                    return False
+            else:
+                return False
+        except Exception:
+            return False
+    
+    def verify_appointment_deleted(self, appointment_id):
+        """Helper: Verify appointment no longer exists"""
+        if not self.admin_token:
+            return False
+        
+        try:
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            response = requests.get(
+                f"{BASE_URL}/appointments",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            
+            if response.status_code == 200:
+                appointments = response.json()
+                appointment = next((apt for apt in appointments if apt.get('id') == appointment_id), None)
+                
+                if appointment is None:
+                    self.log_result("Verify Appointment Deleted", True, 
+                                  f"Appointment {appointment_id} successfully deleted")
+                    return True
+                else:
+                    self.log_result("Verify Appointment Deleted", False, 
+                                  f"Appointment {appointment_id} still exists after deletion")
+                    return False
+            else:
+                return False
+        except Exception:
+            return False
+    
+    def verify_slot_availability(self, slot_id, should_be_available=True):
+        """Helper: Verify slot availability status"""
+        try:
+            start_time = time.time()
+            response = requests.get(
+                f"{BASE_URL}/slots",
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                slots = response.json()
+                slot = next((s for s in slots if s.get('id') == slot_id), None)
+                
+                if slot:
+                    is_available = slot.get('is_available', False)
+                    if is_available == should_be_available:
+                        status_text = "available" if should_be_available else "unavailable"
+                        self.log_result("Verify Slot Availability", True, 
+                                      f"Slot {slot_id} is correctly {status_text}", duration)
+                        return True
+                    else:
+                        expected_text = "available" if should_be_available else "unavailable"
+                        actual_text = "available" if is_available else "unavailable"
+                        self.log_result("Verify Slot Availability", False, 
+                                      f"Slot {slot_id} is {actual_text}, expected {expected_text}", duration)
+                        return False
+                else:
+                    self.log_result("Verify Slot Availability", False, 
+                                  f"Slot {slot_id} not found", duration)
+                    return False
+            else:
+                self.log_result("Verify Slot Availability", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Verify Slot Availability", False, f"Exception: {str(e)}")
+            return False
+
     def run_tests(self):
-        """Run final validation tests as requested"""
-        print("🎯 TESTS DE VALIDATION FINAUX")
+        """Run admin appointment functionality tests as requested"""
+        print("🎯 TESTS DES FONCTIONNALITÉS ADMIN RENDEZ-VOUS")
         print("=" * 60)
-        print("Focus: Erreur 422 + Design + End-to-End")
+        print("Focus: Annulation RDV + Suppression RDV + Logique RDV passés")
         print("=" * 60)
         
         # Authentication setup
@@ -887,21 +1265,25 @@ class BackendTester:
             print("✅ Available slots found, creating additional slots...")
             self.create_multiple_test_slots(6)
         
-        print("\n🚨 TEST 1: ERREUR 422 RÉSERVATION")
+        print("\n🚨 TEST 1: ANNULATION DE RDV CÔTÉ ADMIN")
         print("-" * 40)
-        self.test_422_error_specifically()
+        self.test_admin_appointment_cancellation()
         
-        print("\n🎨 TEST 2: PAGES DESIGN BACKEND SUPPORT")
+        print("\n🗑️ TEST 2: SUPPRESSION DE RDV CÔTÉ ADMIN")
         print("-" * 40)
-        self.test_login_registration_pages_backend()
+        self.test_admin_appointment_deletion()
         
-        print("\n🔄 TEST 3: WORKFLOW COMPLET END-TO-END")
+        print("\n🔄 TEST 3: LIBÉRATION CRÉNEAU APRÈS ANNULATION")
         print("-" * 40)
-        self.test_complete_end_to_end_workflow()
+        self.test_slot_availability_after_cancellation()
         
-        print("\n⚡ TEST 4: PERFORMANCE VALIDATION")
+        print("\n🔄 TEST 4: LIBÉRATION CRÉNEAU APRÈS SUPPRESSION")
         print("-" * 40)
-        self.test_appointment_creation_performance()
+        self.test_slot_availability_after_deletion()
+        
+        print("\n📅 TEST 5: LOGIQUE DES RDV PASSÉS (>24H)")
+        print("-" * 40)
+        self.test_past_appointments_logic()
         
         # Summary
         self.print_summary()
