@@ -600,52 +600,97 @@ const ClientDashboard = () => {
           </TabsContent>
 
           <TabsContent value="reviews">
-            <Card>
-              <CardHeader>
+            <Card className="bg-white/80 backdrop-blur-sm border-2 border-orange-100 shadow-xl rounded-2xl overflow-hidden">
+              <CardHeader className="bg-gradient-to-r from-orange-500 to-amber-500 text-white">
                 <CardTitle className="flex items-center">
-                  <Star className="mr-2 h-5 w-5" />
-                  Laisser un Avis
+                  <Star className="mr-3 h-6 w-6" />
+                  <span className="text-xl font-bold">Laisser un Avis</span>
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-orange-100 text-base">
                   Partagez votre expérience avec nous
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <form onSubmit={submitReview} className="space-y-4 sm:space-y-6">
-                  <div className="space-y-2">
-                    <Label className="text-sm sm:text-base">Note</Label>
+              <CardContent className="p-6">
+                <form onSubmit={submitReview} className="space-y-8">
+                  <div className="space-y-4">
+                    <Label className="text-lg font-semibold text-gray-800 flex items-center">
+                      <span className="mr-2">⭐</span>
+                      Votre note
+                    </Label>
                     <Select 
                       value={reviewForm.rating.toString()} 
                       onValueChange={(value) => setReviewForm({...reviewForm, rating: parseInt(value)})}
                     >
-                      <SelectTrigger className="w-full h-10 sm:h-11">
+                      <SelectTrigger className="w-full h-14 text-base bg-white/90 border-2 border-orange-200 rounded-xl hover:border-orange-300 transition-all duration-300 shadow-sm">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="5">⭐⭐⭐⭐⭐ (5/5)</SelectItem>
-                        <SelectItem value="4">⭐⭐⭐⭐ (4/5)</SelectItem>
-                        <SelectItem value="3">⭐⭐⭐ (3/5)</SelectItem>
-                        <SelectItem value="2">⭐⭐ (2/5)</SelectItem>
-                        <SelectItem value="1">⭐ (1/5)</SelectItem>
+                      <SelectContent className="bg-white/95 backdrop-blur-sm border-2 border-orange-200 rounded-xl shadow-xl">
+                        <SelectItem value="5" className="text-base py-3 hover:bg-orange-50">
+                          <div className="flex items-center">
+                            <span className="mr-3 text-xl">⭐⭐⭐⭐⭐</span>
+                            <span className="font-semibold">Excellent (5/5)</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="4" className="text-base py-3 hover:bg-orange-50">
+                          <div className="flex items-center">
+                            <span className="mr-3 text-xl">⭐⭐⭐⭐</span>
+                            <span className="font-semibold">Très bien (4/5)</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="3" className="text-base py-3 hover:bg-orange-50">
+                          <div className="flex items-center">
+                            <span className="mr-3 text-xl">⭐⭐⭐</span>
+                            <span className="font-semibold">Bien (3/5)</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="2" className="text-base py-3 hover:bg-orange-50">
+                          <div className="flex items-center">
+                            <span className="mr-3 text-xl">⭐⭐</span>
+                            <span className="font-semibold">Moyen (2/5)</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="1" className="text-base py-3 hover:bg-orange-50">
+                          <div className="flex items-center">
+                            <span className="mr-3 text-xl">⭐</span>
+                            <span className="font-semibold">Décevant (1/5)</span>
+                          </div>
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   
-                  <div className="space-y-2">
-                    <Label htmlFor="comment" className="text-sm sm:text-base">Commentaire</Label>
+                  <div className="space-y-4">
+                    <Label htmlFor="comment" className="text-lg font-semibold text-gray-800 flex items-center">
+                      <span className="mr-2">💬</span>
+                      Votre commentaire
+                    </Label>
                     <Textarea
                       id="comment"
                       value={reviewForm.comment}
                       onChange={(e) => setReviewForm({...reviewForm, comment: e.target.value})}
-                      placeholder="Partagez votre expérience..."
-                      className="min-h-[80px] sm:min-h-[100px] text-sm sm:text-base"
+                      placeholder="Partagez votre expérience avec nous... Qu'avez-vous pensé du service ? Y a-t-il quelque chose que vous aimeriez améliorer ?"
+                      className="min-h-[120px] text-base bg-white/90 border-2 border-orange-200 rounded-xl hover:border-orange-300 focus:border-orange-400 transition-all duration-300 shadow-sm resize-none"
                       required
                     />
+                    <p className="text-sm text-gray-500 italic">
+                      💡 Votre avis nous aide à améliorer nos services et aide d'autres clients à faire leur choix
+                    </p>
                   </div>
                   
-                  <Button type="submit" className="w-full py-2 sm:py-3 text-sm sm:text-base font-medium">
-                    Soumettre l'avis
+                  <Button 
+                    type="submit" 
+                    className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <Star className="w-5 h-5 mr-3" />
+                    Soumettre mon avis
                   </Button>
+                  
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border-2 border-blue-200">
+                    <p className="text-sm text-blue-700 font-medium flex items-center">
+                      <span className="mr-2">ℹ️</span>
+                      Votre avis sera examiné par notre équipe avant publication pour maintenir la qualité de nos services
+                    </p>
+                  </div>
                 </form>
               </CardContent>
             </Card>
