@@ -303,10 +303,32 @@ const ClientDashboard = () => {
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    {appointments.map((appointment) => {
+                    {appointments.filter((appointment) => {
+                      // Masquer les RDV passés de plus de 24h
+                      if (appointment.status === 'completed' || appointment.status === 'cancelled') {
+                        const appointmentDate = new Date(
+                          (appointment.slot_info && appointment.slot_info.date) || appointment.date || new Date()
+                        );
+                        const now = new Date();
+                        const hoursDiff = (now - appointmentDate) / (1000 * 60 * 60);
+                        
+                        // Masquer si passé depuis plus de 24h
+                        if (hoursDiff > 24) {
+                          return false;
+                        }
+                      }
+                      return true;
+                    }).map((appointment) => {
                       const isUpcoming = appointment.status === 'confirmed' || appointment.status === 'pending';
                       const isCompleted = appointment.status === 'completed';
                       const isCancelled = appointment.status === 'cancelled';
+                      
+                      // Vérifier si le RDV est passé (pour le bouton supprimer)
+                      const appointmentDate = new Date(
+                        (appointment.slot_info && appointment.slot_info.date) || appointment.date || new Date()
+                      );
+                      const now = new Date();
+                      const isPastAppointment = appointmentDate < now;
                       
                       // Parser les informations depuis les notes
                       const lieu = parseLieuFromNotes(appointment.notes);
