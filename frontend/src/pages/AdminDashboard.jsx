@@ -411,7 +411,7 @@ const AdminDashboard = () => {
         {/* Stats Overview */}
         <div className="container mx-auto px-6 py-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white rounded-2xl p-6 border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-200">
+            <div className="bg-white rounded-2xl p-6 border-2 border-orange-100 hover:border-orange-200 shadow-sm hover:shadow-md transition-all duration-200">
               <div className="flex items-center justify-between mb-4">
                 <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center">
                   <Users className="w-6 h-6 text-blue-600" />
