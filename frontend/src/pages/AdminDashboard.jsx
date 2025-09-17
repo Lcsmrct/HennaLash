@@ -278,7 +278,7 @@ const AdminDashboard = () => {
   };
 
   const deleteSlot = async (slotId) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce créneau ?')) return;
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce créneau ?')) return;
     
     try {
       await apiService.deleteSlot(slotId);
