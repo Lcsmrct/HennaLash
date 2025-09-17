@@ -317,10 +317,17 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-orange-200 border-t-orange-600 mb-4"></div>
-          <p className="text-lg font-semibold text-gray-700">Chargement de l'administration...</p>
+      <div className="min-h-screen bg-slate-50/50 flex items-center justify-center">
+        <div className="text-center p-8">
+          <div className="relative mx-auto w-20 h-20 mb-6">
+            <div className="absolute inset-0 rounded-full border-4 border-orange-100"></div>
+            <div className="absolute inset-0 rounded-full border-4 border-orange-500 border-t-transparent animate-spin"></div>
+            <div className="absolute inset-2 rounded-full bg-gradient-to-r from-orange-400 to-amber-500 flex items-center justify-center">
+              <Settings className="w-6 h-6 text-white animate-pulse" />
+            </div>
+          </div>
+          <p className="text-xl font-semibold text-slate-700 mb-2">Administration</p>
+          <p className="text-slate-500">Chargement des données...</p>
         </div>
       </div>
     );
