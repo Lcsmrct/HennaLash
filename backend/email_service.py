@@ -398,7 +398,7 @@ L'équipe HennaLash
                     </div>
                     
                     <!-- Appointment Details Card -->
-                    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 16px; padding: 24px; margin: 24px 0; border: 2px solid #10b981;">
+                    <div style="background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%); border-radius: 16px; padding: 24px; margin: 24px 0; border: 2px solid #f97316;">
                         <div style="text-align: center; margin-bottom: 24px;">
                             <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
