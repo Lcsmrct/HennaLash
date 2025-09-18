@@ -671,7 +671,6 @@ async def cancel_appointment(
         
         if slot_info.get("date"):
             try:
-                from datetime import datetime
                 date_obj = datetime.fromisoformat(slot_info["date"].replace('Z', '+00:00'))
                 appointment_date = date_obj.strftime("%d/%m/%Y")
             except:
