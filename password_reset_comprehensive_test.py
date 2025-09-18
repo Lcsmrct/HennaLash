@@ -13,7 +13,7 @@ import random
 import re
 
 # Configuration - Use frontend .env URL
-BASE_URL = "https://cancel-appt-fix.preview.emergentagent.com/api"
+BASE_URL = "https://missing-import.preview.emergentagent.com/api"
 TIMEOUT = 15
 
 class ComprehensivePasswordResetTester:
