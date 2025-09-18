@@ -2082,13 +2082,339 @@ class BackendTester:
         
         return False
 
-    def run_tests(self):
-        """Run maintenance endpoints tests as requested"""
-        print("🔧 MAINTENANCE ENDPOINTS TESTING")
+    def test_maintenance_endpoints_comprehensive(self):
+        """COMPREHENSIVE TEST: Complete maintenance system testing as requested"""
+        print("\n🔧 SYSTÈME DE MAINTENANCE - TESTS COMPLETS")
         print("=" * 60)
-        print("Focus: Testing maintenance endpoints functionality")
-        print("Tests: GET /api/maintenance (public) + POST /api/maintenance (admin only)")
-        print("Verification: MongoDB persistence + Authentication + State management")
+        
+        # Test 1 - État initial : Vérifier que le mode maintenance est désactivé par défaut
+        print("\n📋 Test 1 - État initial du mode maintenance")
+        if not self.test_maintenance_initial_state():
+            return False
+        
+        # Test 2 - Activation : Activer le mode maintenance avec un message personnalisé via l'admin
+        print("\n📋 Test 2 - Activation du mode maintenance")
+        if not self.test_maintenance_activation():
+            return False
+        
+        # Test 3 - Vérification activation : Confirmer que le statut de maintenance est bien activé
+        print("\n📋 Test 3 - Vérification de l'activation")
+        if not self.test_maintenance_activation_verification():
+            return False
+        
+        # Test 4 - Désactivation : Désactiver le mode maintenance
+        print("\n📋 Test 4 - Désactivation du mode maintenance")
+        if not self.test_maintenance_deactivation():
+            return False
+        
+        # Test 5 - Vérification désactivation : Confirmer que le statut de maintenance est bien désactivé
+        print("\n📋 Test 5 - Vérification de la désactivation")
+        if not self.test_maintenance_deactivation_verification():
+            return False
+        
+        # Test 6 - Persistance de données : Vérifier que les changements sont bien persistés dans MongoDB
+        print("\n📋 Test 6 - Persistance des données en MongoDB")
+        if not self.test_maintenance_data_persistence():
+            return False
+        
+        print("\n🎉 TOUS LES TESTS DE MAINTENANCE RÉUSSIS!")
+        self.log_result("Système de Maintenance Complet", True, "Tous les 6 tests de maintenance ont réussi")
+        return True
+    
+    def test_maintenance_initial_state(self):
+        """Test 1 - État initial : Vérifier que le mode maintenance est désactivé par défaut"""
+        try:
+            start_time = time.time()
+            response = requests.get(
+                f"{BASE_URL}/maintenance",
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                maintenance_status = response.json()
+                is_maintenance = maintenance_status.get("is_maintenance", True)  # Default True to catch errors
+                message = maintenance_status.get("message", "N/A")
+                
+                print(f"  📊 Réponse API: {json.dumps(maintenance_status, indent=2, ensure_ascii=False)}")
+                
+                if is_maintenance == False:
+                    self.log_result("Test 1 - État Initial", True, 
+                                  f"✅ Mode maintenance désactivé par défaut (is_maintenance: {is_maintenance})", duration)
+                    return True
+                else:
+                    self.log_result("Test 1 - État Initial", False, 
+                                  f"❌ Mode maintenance activé par défaut (is_maintenance: {is_maintenance})", duration)
+                    return False
+            else:
+                self.log_result("Test 1 - État Initial", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Test 1 - État Initial", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_maintenance_activation(self):
+        """Test 2 - Activation : Activer le mode maintenance avec un message personnalisé via l'admin"""
+        if not self.admin_token:
+            self.log_result("Test 2 - Activation", False, "Token admin manquant")
+            return False
+        
+        try:
+            start_time = time.time()
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            maintenance_data = {
+                "is_maintenance": True,
+                "message": "Site en maintenance pour améliorations. Retour prévu dans 2 heures."
+            }
+            
+            response = requests.post(
+                f"{BASE_URL}/maintenance",
+                json=maintenance_data,
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                result = response.json()
+                is_maintenance = result.get("is_maintenance", False)
+                message = result.get("message", "N/A")
+                enabled_at = result.get("enabled_at", "N/A")
+                enabled_by = result.get("enabled_by", "N/A")
+                
+                print(f"  📊 Réponse API: {json.dumps(result, indent=2, ensure_ascii=False)}")
+                
+                if is_maintenance == True:
+                    self.log_result("Test 2 - Activation", True, 
+                                  f"✅ Mode maintenance activé avec succès. Message: '{message}', Activé à: {enabled_at}", duration)
+                    return True
+                else:
+                    self.log_result("Test 2 - Activation", False, 
+                                  f"❌ Mode maintenance non activé (is_maintenance: {is_maintenance})", duration)
+                    return False
+            else:
+                self.log_result("Test 2 - Activation", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Test 2 - Activation", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_maintenance_activation_verification(self):
+        """Test 3 - Vérification activation : Confirmer que le statut de maintenance est bien activé"""
+        try:
+            start_time = time.time()
+            response = requests.get(
+                f"{BASE_URL}/maintenance",
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                maintenance_status = response.json()
+                is_maintenance = maintenance_status.get("is_maintenance", False)
+                message = maintenance_status.get("message", "N/A")
+                
+                print(f"  📊 Réponse API: {json.dumps(maintenance_status, indent=2, ensure_ascii=False)}")
+                
+                if is_maintenance == True:
+                    self.log_result("Test 3 - Vérification Activation", True, 
+                                  f"✅ Mode maintenance confirmé activé (is_maintenance: {is_maintenance})", duration)
+                    return True
+                else:
+                    self.log_result("Test 3 - Vérification Activation", False, 
+                                  f"❌ Mode maintenance non activé (is_maintenance: {is_maintenance})", duration)
+                    return False
+            else:
+                self.log_result("Test 3 - Vérification Activation", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Test 3 - Vérification Activation", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_maintenance_deactivation(self):
+        """Test 4 - Désactivation : Désactiver le mode maintenance"""
+        if not self.admin_token:
+            self.log_result("Test 4 - Désactivation", False, "Token admin manquant")
+            return False
+        
+        try:
+            start_time = time.time()
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            maintenance_data = {
+                "is_maintenance": False,
+                "message": "Site opérationnel"
+            }
+            
+            response = requests.post(
+                f"{BASE_URL}/maintenance",
+                json=maintenance_data,
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                result = response.json()
+                is_maintenance = result.get("is_maintenance", True)  # Default True to catch errors
+                message = result.get("message", "N/A")
+                enabled_at = result.get("enabled_at", "N/A")
+                
+                print(f"  📊 Réponse API: {json.dumps(result, indent=2, ensure_ascii=False)}")
+                
+                if is_maintenance == False:
+                    self.log_result("Test 4 - Désactivation", True, 
+                                  f"✅ Mode maintenance désactivé avec succès. Message: '{message}', enabled_at: {enabled_at}", duration)
+                    return True
+                else:
+                    self.log_result("Test 4 - Désactivation", False, 
+                                  f"❌ Mode maintenance toujours activé (is_maintenance: {is_maintenance})", duration)
+                    return False
+            else:
+                self.log_result("Test 4 - Désactivation", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Test 4 - Désactivation", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_maintenance_deactivation_verification(self):
+        """Test 5 - Vérification désactivation : Confirmer que le statut de maintenance est bien désactivé"""
+        try:
+            start_time = time.time()
+            response = requests.get(
+                f"{BASE_URL}/maintenance",
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                maintenance_status = response.json()
+                is_maintenance = maintenance_status.get("is_maintenance", True)  # Default True to catch errors
+                message = maintenance_status.get("message", "N/A")
+                
+                print(f"  📊 Réponse API: {json.dumps(maintenance_status, indent=2, ensure_ascii=False)}")
+                
+                if is_maintenance == False:
+                    self.log_result("Test 5 - Vérification Désactivation", True, 
+                                  f"✅ Mode maintenance confirmé désactivé (is_maintenance: {is_maintenance})", duration)
+                    return True
+                else:
+                    self.log_result("Test 5 - Vérification Désactivation", False, 
+                                  f"❌ Mode maintenance toujours activé (is_maintenance: {is_maintenance})", duration)
+                    return False
+            else:
+                self.log_result("Test 5 - Vérification Désactivation", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Test 5 - Vérification Désactivation", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_maintenance_data_persistence_comprehensive(self):
+        """Test 6 - Persistance de données : Vérifier que les changements sont bien persistés dans MongoDB"""
+        if not self.admin_token:
+            self.log_result("Test 6 - Persistance", False, "Token admin manquant")
+            return False
+        
+        try:
+            # Test de persistance en activant puis vérifiant plusieurs fois
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            # Étape 1: Activer maintenance avec message spécifique
+            test_message = f"Test persistance MongoDB - {datetime.now().strftime('%H:%M:%S')}"
+            
+            start_time = time.time()
+            response = requests.post(
+                f"{BASE_URL}/maintenance",
+                json={
+                    "is_maintenance": True,
+                    "message": test_message
+                },
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration1 = time.time() - start_time
+            
+            if response.status_code != 200:
+                self.log_result("Test 6 - Persistance", False, 
+                              f"Échec activation pour test persistance: {response.status_code}", duration1)
+                return False
+            
+            # Étape 2: Vérifier immédiatement
+            start_time = time.time()
+            response = requests.get(f"{BASE_URL}/maintenance", timeout=TIMEOUT)
+            duration2 = time.time() - start_time
+            
+            if response.status_code != 200:
+                self.log_result("Test 6 - Persistance", False, 
+                              f"Échec lecture immédiate: {response.status_code}", duration2)
+                return False
+            
+            immediate_status = response.json()
+            
+            # Étape 3: Attendre 2 secondes et vérifier à nouveau (simulation redémarrage)
+            time.sleep(2)
+            
+            start_time = time.time()
+            response = requests.get(f"{BASE_URL}/maintenance", timeout=TIMEOUT)
+            duration3 = time.time() - start_time
+            
+            if response.status_code != 200:
+                self.log_result("Test 6 - Persistance", False, 
+                              f"Échec lecture après délai: {response.status_code}", duration3)
+                return False
+            
+            delayed_status = response.json()
+            
+            print(f"  📊 État immédiat: {json.dumps(immediate_status, indent=2, ensure_ascii=False)}")
+            print(f"  📊 État après délai: {json.dumps(delayed_status, indent=2, ensure_ascii=False)}")
+            
+            # Vérifier la persistance
+            immediate_maintenance = immediate_status.get("is_maintenance", False)
+            immediate_message = immediate_status.get("message", "")
+            delayed_maintenance = delayed_status.get("is_maintenance", False)
+            delayed_message = delayed_status.get("message", "")
+            
+            if (immediate_maintenance == True and delayed_maintenance == True and 
+                immediate_message == test_message and delayed_message == test_message):
+                
+                # Nettoyer: désactiver maintenance
+                requests.post(
+                    f"{BASE_URL}/maintenance",
+                    json={"is_maintenance": False, "message": "Site opérationnel"},
+                    headers=headers,
+                    timeout=TIMEOUT
+                )
+                
+                total_duration = duration1 + duration2 + duration3
+                self.log_result("Test 6 - Persistance", True, 
+                              f"✅ Données persistées correctement dans MongoDB. Message: '{test_message}' conservé après délai", total_duration)
+                return True
+            else:
+                self.log_result("Test 6 - Persistance", False, 
+                              f"❌ Persistance échouée. Immédiat: {immediate_maintenance}/{immediate_message}, Délai: {delayed_maintenance}/{delayed_message}")
+                return False
+                
+        except Exception as e:
+            self.log_result("Test 6 - Persistance", False, f"Exception: {str(e)}")
+            return False
+
+    def run_tests(self):
+        """Run comprehensive maintenance system tests as requested"""
+        print("🔧 SYSTÈME DE MAINTENANCE - TESTS COMPLETS DEMANDÉS")
+        print("=" * 60)
+        print("Tests demandés: 6 tests spécifiques du système de maintenance")
+        print("1. État initial (mode maintenance désactivé par défaut)")
+        print("2. Activation avec message personnalisé via admin")
+        print("3. Vérification de l'activation")
+        print("4. Désactivation du mode maintenance")
+        print("5. Vérification de la désactivation")
+        print("6. Persistance des données dans MongoDB 'maintenance'")
         print("=" * 60)
         
         # Authentication setup
@@ -2096,44 +2422,13 @@ class BackendTester:
             print("❌ Cannot proceed without admin authentication")
             return
         
-        if not self.authenticate_client():
-            print("❌ Cannot proceed without client authentication")
-            return
+        # Run the comprehensive maintenance tests
+        success = self.test_maintenance_endpoints_comprehensive()
         
-        print("\n🌐 TEST 1: GET /api/maintenance (PUBLIC ACCESS)")
-        print("-" * 50)
-        print("Vérifier que l'endpoint GET est public et ne nécessite pas d'authentification")
-        self.test_maintenance_get_public()
-        
-        print("\n🚫 TEST 2: POST /api/maintenance (NO AUTH - SHOULD FAIL)")
-        print("-" * 50)
-        print("Vérifier que l'endpoint POST nécessite une authentification")
-        self.test_maintenance_post_without_auth()
-        
-        print("\n👤 TEST 3: POST /api/maintenance (CLIENT AUTH - SHOULD FAIL)")
-        print("-" * 50)
-        print("Vérifier que l'endpoint POST nécessite une authentification admin")
-        self.test_maintenance_post_with_client_auth()
-        
-        print("\n🔒 TEST 4: POST /api/maintenance (ADMIN - ENABLE)")
-        print("-" * 50)
-        print("Activer le mode maintenance avec un compte admin")
-        self.test_maintenance_enable_with_admin()
-        
-        print("\n🔓 TEST 5: POST /api/maintenance (ADMIN - DISABLE)")
-        print("-" * 50)
-        print("Désactiver le mode maintenance avec un compte admin")
-        self.test_maintenance_disable_with_admin()
-        
-        print("\n💾 TEST 6: MONGODB PERSISTENCE")
-        print("-" * 50)
-        print("Vérifier que les données sont bien sauvegardées dans la collection MongoDB 'maintenance'")
-        self.test_maintenance_data_persistence()
-        
-        print("\n🔄 TEST 7: TOGGLE STATES")
-        print("-" * 50)
-        print("Tester les deux états : maintenance activée et désactivée")
-        self.test_maintenance_toggle_states()
+        if success:
+            print("\n🎉 TOUS LES TESTS DE MAINTENANCE DEMANDÉS ONT RÉUSSI!")
+        else:
+            print("\n❌ CERTAINS TESTS DE MAINTENANCE ONT ÉCHOUÉ")
         
         # Summary
         self.print_summary()
