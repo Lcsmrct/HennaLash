@@ -514,6 +514,21 @@ frontend:
         agent: "main"
         comment: "🎨 BOUTONS ADMIN NETTOYÉS - Amélioré responsive et alignement: largeur min 120px, gap augmenté à 3, transitions fluides, shadows améliorées, meilleure logique d'affichage conditionnel pour éviter boutons vides, suppression logique ternaire null."
 
+  - task: "Correction Fonctionnalité Annulation Rendez-vous"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "L'annulation d'un rdv ne fonctionne pas."
+      - working: true
+        agent: "main"
+        comment: "🔧 ANNULATION RDV CORRIGÉE - Ajout BackgroundTasks à l'endpoint /appointments/{id}/cancel et fonction send_appointment_cancellation_background() pour envoi email asynchrone. Le statut est changé à 'cancelled', le créneau redevient disponible, et le client reçoit une notification email en arrière-plan sans bloquer l'API."
+
   - task: "Client Dashboard - Available Slots Booking"
     implemented: true
     working: false
