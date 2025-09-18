@@ -684,6 +684,7 @@ async def cancel_appointment(
 @api_router.post("/reviews", response_model=ReviewResponse)
 async def create_review(
     review_data: ReviewCreate,
+    background_tasks: BackgroundTasks,
     current_user: User = Depends(get_current_active_user_with_db),
     db = Depends(get_db)
 ):
