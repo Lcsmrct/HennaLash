@@ -660,9 +660,10 @@ async def cancel_appointment(
         if slot_info.get("start_time"):
             appointment_time = slot_info["start_time"]
         
-        # Send email
-        try:
-            await email_service.send_appointment_cancellation_to_client(
+        # Send email in background (non-blocking for better performance)
+        if client_email:
+            background_tasks.add_task(
+                send_appointment_cancellation_background,
                 client_email=client_email,
                 client_name=client_name,
                 service_name=service_name,
@@ -670,9 +671,9 @@ async def cancel_appointment(
                 appointment_time=appointment_time,
                 service_price=service_price
             )
-        except Exception as e:
-            logger.error(f"Failed to send cancellation email: {str(e)}")
-            # Continue execution even if email fails
+            logging.info(f"Cancellation email scheduled for: {client_email}")
+        else:
+            logging.warning("No client email found for cancellation notification")
     
     return {"message": "Appointment cancelled successfully and client notified by email"}
 
