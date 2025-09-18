@@ -1423,6 +1423,322 @@ class BackendTester:
             self.log_result("Slot Availability After Cancellation Critical", False, f"Exception: {str(e)}")
             return False
 
+    def test_maintenance_get_public(self):
+        """TEST: GET /api/maintenance - public endpoint (no auth required)"""
+        try:
+            start_time = time.time()
+            response = requests.get(
+                f"{BASE_URL}/maintenance",
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                maintenance_status = response.json()
+                is_maintenance = maintenance_status.get('is_maintenance', False)
+                message = maintenance_status.get('message', '')
+                
+                self.log_result("Maintenance GET (Public)", True, 
+                              f"✅ Public access works - is_maintenance: {is_maintenance}, message: '{message}'", duration)
+                return True
+            else:
+                self.log_result("Maintenance GET (Public)", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Maintenance GET (Public)", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_maintenance_post_without_auth(self):
+        """TEST: POST /api/maintenance without authentication (should fail with 401)"""
+        try:
+            start_time = time.time()
+            response = requests.post(
+                f"{BASE_URL}/maintenance",
+                json={
+                    "is_maintenance": True,
+                    "message": "Test maintenance mode"
+                },
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 401:
+                self.log_result("Maintenance POST (No Auth)", True, 
+                              "✅ Correctly rejected with 401 Unauthorized", duration)
+                return True
+            else:
+                self.log_result("Maintenance POST (No Auth)", False, 
+                              f"Expected 401, got {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Maintenance POST (No Auth)", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_maintenance_post_with_client_auth(self):
+        """TEST: POST /api/maintenance with client authentication (should fail with 403)"""
+        if not self.client_token:
+            self.log_result("Maintenance POST (Client Auth)", False, "Missing client token")
+            return False
+        
+        try:
+            start_time = time.time()
+            headers = {"Authorization": f"Bearer {self.client_token}"}
+            response = requests.post(
+                f"{BASE_URL}/maintenance",
+                json={
+                    "is_maintenance": True,
+                    "message": "Test maintenance mode"
+                },
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 403:
+                self.log_result("Maintenance POST (Client Auth)", True, 
+                              "✅ Correctly rejected client with 403 Forbidden", duration)
+                return True
+            else:
+                self.log_result("Maintenance POST (Client Auth)", False, 
+                              f"Expected 403, got {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Maintenance POST (Client Auth)", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_maintenance_enable_with_admin(self):
+        """TEST: POST /api/maintenance to enable maintenance mode (admin required)"""
+        if not self.admin_token:
+            self.log_result("Maintenance Enable (Admin)", False, "Missing admin token")
+            return False
+        
+        try:
+            start_time = time.time()
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            maintenance_data = {
+                "is_maintenance": True,
+                "message": "Site en maintenance pour tests - Mode activé par admin"
+            }
+            
+            response = requests.post(
+                f"{BASE_URL}/maintenance",
+                json=maintenance_data,
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                result = response.json()
+                is_maintenance = result.get('is_maintenance', False)
+                message = result.get('message', '')
+                enabled_at = result.get('enabled_at')
+                enabled_by = result.get('enabled_by')
+                
+                if is_maintenance and enabled_at and enabled_by:
+                    self.log_result("Maintenance Enable (Admin)", True, 
+                                  f"✅ Maintenance enabled successfully - Message: '{message}', Enabled at: {enabled_at}, By: {enabled_by}", duration)
+                    return True
+                else:
+                    self.log_result("Maintenance Enable (Admin)", False, 
+                                  f"Maintenance response incomplete - is_maintenance: {is_maintenance}, enabled_at: {enabled_at}, enabled_by: {enabled_by}", duration)
+                    return False
+            else:
+                self.log_result("Maintenance Enable (Admin)", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Maintenance Enable (Admin)", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_maintenance_disable_with_admin(self):
+        """TEST: POST /api/maintenance to disable maintenance mode (admin required)"""
+        if not self.admin_token:
+            self.log_result("Maintenance Disable (Admin)", False, "Missing admin token")
+            return False
+        
+        try:
+            start_time = time.time()
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            maintenance_data = {
+                "is_maintenance": False,
+                "message": "Site opérationnel - Mode désactivé par admin"
+            }
+            
+            response = requests.post(
+                f"{BASE_URL}/maintenance",
+                json=maintenance_data,
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                result = response.json()
+                is_maintenance = result.get('is_maintenance', False)
+                message = result.get('message', '')
+                enabled_at = result.get('enabled_at')
+                enabled_by = result.get('enabled_by')
+                
+                if not is_maintenance and enabled_at is None and enabled_by is None:
+                    self.log_result("Maintenance Disable (Admin)", True, 
+                                  f"✅ Maintenance disabled successfully - Message: '{message}', Enabled at: {enabled_at}, By: {enabled_by}", duration)
+                    return True
+                else:
+                    self.log_result("Maintenance Disable (Admin)", False, 
+                                  f"Maintenance disable incomplete - is_maintenance: {is_maintenance}, enabled_at: {enabled_at}, enabled_by: {enabled_by}", duration)
+                    return False
+            else:
+                self.log_result("Maintenance Disable (Admin)", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Maintenance Disable (Admin)", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_maintenance_data_persistence(self):
+        """TEST: Verify maintenance data is persisted in MongoDB 'maintenance' collection"""
+        if not self.admin_token:
+            self.log_result("Maintenance Data Persistence", False, "Missing admin token")
+            return False
+        
+        try:
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            # First, enable maintenance mode
+            maintenance_data = {
+                "is_maintenance": True,
+                "message": "Test persistence - Données sauvegardées en MongoDB"
+            }
+            
+            start_time = time.time()
+            response = requests.post(
+                f"{BASE_URL}/maintenance",
+                json=maintenance_data,
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            
+            if response.status_code != 200:
+                self.log_result("Maintenance Data Persistence", False, 
+                              f"Failed to enable maintenance: {response.status_code} - {response.text}")
+                return False
+            
+            # Now verify the data is persisted by reading it back
+            response = requests.get(
+                f"{BASE_URL}/maintenance",
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                result = response.json()
+                is_maintenance = result.get('is_maintenance', False)
+                message = result.get('message', '')
+                enabled_at = result.get('enabled_at')
+                enabled_by = result.get('enabled_by')
+                
+                # Check if all expected fields are present and correct
+                if (is_maintenance and 
+                    message == "Test persistence - Données sauvegardées en MongoDB" and 
+                    enabled_at and enabled_by):
+                    
+                    self.log_result("Maintenance Data Persistence", True, 
+                                  f"✅ Data persisted correctly in MongoDB - is_maintenance: {is_maintenance}, message: '{message}', enabled_at: {enabled_at}, enabled_by: {enabled_by}", duration)
+                    
+                    # Clean up - disable maintenance
+                    requests.post(
+                        f"{BASE_URL}/maintenance",
+                        json={"is_maintenance": False, "message": "Test completed"},
+                        headers=headers,
+                        timeout=TIMEOUT
+                    )
+                    return True
+                else:
+                    self.log_result("Maintenance Data Persistence", False, 
+                                  f"Data not persisted correctly - is_maintenance: {is_maintenance}, message: '{message}', enabled_at: {enabled_at}, enabled_by: {enabled_by}", duration)
+                    return False
+            else:
+                self.log_result("Maintenance Data Persistence", False, 
+                              f"Failed to read maintenance status: {response.status_code} - {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Maintenance Data Persistence", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_maintenance_toggle_states(self):
+        """TEST: Test both maintenance states (enabled and disabled)"""
+        if not self.admin_token:
+            self.log_result("Maintenance Toggle States", False, "Missing admin token")
+            return False
+        
+        try:
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            # Test State 1: Enable maintenance
+            start_time = time.time()
+            response = requests.post(
+                f"{BASE_URL}/maintenance",
+                json={
+                    "is_maintenance": True,
+                    "message": "État 1: Maintenance activée pour tests"
+                },
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            
+            if response.status_code != 200:
+                self.log_result("Maintenance Toggle States", False, 
+                              f"Failed to enable maintenance: {response.status_code} - {response.text}")
+                return False
+            
+            # Verify enabled state
+            response = requests.get(f"{BASE_URL}/maintenance", timeout=TIMEOUT)
+            if response.status_code != 200 or not response.json().get('is_maintenance'):
+                self.log_result("Maintenance Toggle States", False, "Failed to verify enabled state")
+                return False
+            
+            # Test State 2: Disable maintenance
+            response = requests.post(
+                f"{BASE_URL}/maintenance",
+                json={
+                    "is_maintenance": False,
+                    "message": "État 2: Maintenance désactivée après tests"
+                },
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            
+            if response.status_code != 200:
+                self.log_result("Maintenance Toggle States", False, 
+                              f"Failed to disable maintenance: {response.status_code} - {response.text}")
+                return False
+            
+            # Verify disabled state
+            response = requests.get(f"{BASE_URL}/maintenance", timeout=TIMEOUT)
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                result = response.json()
+                is_maintenance = result.get('is_maintenance', True)  # Default to True to catch errors
+                
+                if not is_maintenance:
+                    self.log_result("Maintenance Toggle States", True, 
+                                  f"✅ Both states work correctly - Final state: disabled (is_maintenance: {is_maintenance})", duration)
+                    return True
+                else:
+                    self.log_result("Maintenance Toggle States", False, 
+                                  f"Failed to disable maintenance - is_maintenance: {is_maintenance}", duration)
+                    return False
+            else:
+                self.log_result("Maintenance Toggle States", False, 
+                              f"Failed to verify disabled state: {response.status_code} - {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Maintenance Toggle States", False, f"Exception: {str(e)}")
+            return False
+
     def test_appointment_cancellation_datetime_fix(self):
         """CRITICAL FIX TEST: Test PUT /api/appointments/{id}/cancel endpoint - datetime error fix"""
         print("\n🚨 CRITICAL DATETIME FIX TEST - APPOINTMENT CANCELLATION")
