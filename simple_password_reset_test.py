@@ -7,7 +7,7 @@ import requests
 import time
 import random
 
-BASE_URL = "https://client-text-fix.preview.emergentagent.com/api"
+BASE_URL = "https://maintenance-fix.preview.emergentagent.com/api"
 TIMEOUT = 15
 
 def test_password_reset_with_debug():
