@@ -2114,7 +2114,7 @@ class BackendTester:
         
         # Test 6 - Persistance de données : Vérifier que les changements sont bien persistés dans MongoDB
         print("\n📋 Test 6 - Persistance des données en MongoDB")
-        if not self.test_maintenance_data_persistence():
+        if not self.test_maintenance_data_persistence_comprehensive():
             return False
         
         print("\n🎉 TOUS LES TESTS DE MAINTENANCE RÉUSSIS!")
