@@ -16,7 +16,7 @@ import sys
 import random
 
 # Configuration - Use frontend .env URL
-BASE_URL = "https://booking-fix-3.preview.emergentagent.com/api"
+BASE_URL = "https://cancel-appt-fix.preview.emergentagent.com/api"
 TIMEOUT = 15
 
 class BackendTester:
