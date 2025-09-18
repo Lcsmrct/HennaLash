@@ -167,6 +167,13 @@ const ClientDashboard = () => {
     return personnesMatch ? personnesMatch[1].trim() : null;
   };
 
+  // Fonction pour parser les informations supplémentaires depuis les notes
+  const parseInformationsSupplementairesFromNotes = (notes) => {
+    if (!notes) return null;
+    const infoMatch = notes.match(/ℹ️ Informations supplémentaires:\s*\n(.+?)(?=\n\n|$)/s);
+    return infoMatch ? infoMatch[1].trim() : null;
+  };
+
   const getStatusBadgeEnhanced = (status) => {
     const statusConfigs = {
       pending: { 
