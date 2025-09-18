@@ -12,9 +12,10 @@ import PasswordResetPage from "./pages/PasswordResetPage";
 import ClientDashboard from "./pages/ClientDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import BookingDetailsPage from "./pages/BookingDetailsPage";
+import MaintenancePage from "./pages/MaintenancePage";
 import { AuthProvider } from "./context/AuthContext";
 import { Toaster } from "./components/ui/toaster";
-import MaintenancePage from "./components/MaintenancePage";
+import MaintenanceGuard from "./components/MaintenanceGuard";
 import { useMaintenance } from "./hooks/useMaintenance";
 
 function App() {
