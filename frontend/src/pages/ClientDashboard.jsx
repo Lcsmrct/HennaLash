@@ -363,6 +363,7 @@ const ClientDashboard = () => {
                       const lieu = parseLieuFromNotes(appointment.notes);
                       const instagram = parseInstagramFromNotes(appointment.notes);
                       const personnes = parsePersonnesFromNotes(appointment.notes);
+                      const informationsSupplementaires = parseInformationsSupplementairesFromNotes(appointment.notes);
                       
                       return (
                         <div key={appointment.id} className={`border-2 rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl backdrop-blur-sm ${
