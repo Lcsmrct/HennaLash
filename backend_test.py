@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Backend API Testing - Critical Performance & Functionality Tests
-Focus: Tester les corrections critiques pour résoudre les problèmes utilisateur:
-1. Performance des avis (critique) - POST /api/reviews timing <2s
-2. Annulation rendez-vous (critique) - PUT /api/appointments/{id}/cancel 
-3. Données email admin (critique) - GET /api/appointments user_name/user_email
+Backend API Testing - Maintenance Features & Regression Tests
+Focus: Tester les nouvelles fonctionnalités de maintenance et vérifier les régressions:
+1. Endpoints de maintenance (critique) - GET/POST /api/maintenance
+2. Interface admin améliorée - vérifier authentification admin
+3. Tests de régression - s'assurer que les fonctionnalités existantes marchent toujours
 """
 
 import requests
