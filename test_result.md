@@ -310,16 +310,19 @@ backend:
         comment: "🎯 URGENT TESTING COMPLETED - BACKEND DATA IS PERFECT! Comprehensive testing of GET /api/slots?available_only=true shows: ✅ API returns 21 available slots with correct structure, ✅ All slots have valid date field ('2025-09-08T00:00:00' format), ✅ All slots have valid start_time field ('20:57' format), ✅ All slots have valid end_time field ('21:57' format), ✅ JSON parsing works correctly, ✅ JavaScript truthiness tests pass, ✅ Date/time formats compatible with frontend formatDate() and formatTime() functions. 🚨 DIAGNOSIS: Backend API is NOT the problem. User's 'Date non spécifiée' and 'Heure non spécifiée' issues are caused by FRONTEND problems: 1) Browser cache not cleared, 2) Service worker caching old data, 3) User accessing wrong URL/version, 4) JavaScript runtime errors in browser, 5) Network issues preventing data fetch. SOLUTION: User needs to clear browser cache, disable service workers, or check browser console for JavaScript errors."
 
   - task: "URGENT: Appointment Creation Performance Optimization"
-    implemented: false
-    working: false
+    implemented: true
+    working: true
     file: "/app/backend/server.py, /app/backend/email_service.py"
     stuck_count: 0
     priority: "critical"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: false
         agent: "testing"
         comment: "🚨 CRITICAL PERFORMANCE ISSUE CONFIRMED - USER COMPLAINT VALIDATED! Diagnostic chronométrique précis révèle: POST /api/appointments prend 4.7s en moyenne (4411ms-5684ms), confirmant exactement la plainte utilisateur de ~5 secondes pour confirmation RDV. 🔍 CAUSE RACINE: Service email Gmail SMTP synchrone = goulot d'étranglement principal (~3.3s sur 4.7s total). Comparaison: endpoints sans email = 0.3-0.5s, endpoints avec email = 4.4-5.7s. 💡 SOLUTION REQUISE: Rendre envoi email ASYNCHRONE (background tasks) pour réduire temps réponse à ~1.0-1.8s. Email admin notification bloque actuellement réponse API pendant 3-4 secondes via connexion SMTP Gmail synchrone dans create_appointment()."
+      - working: true
+        agent: "main"
+        comment: "🚀 PERFORMANCES OPTIMISÉES - Système email asynchrone implémenté: 1) Ajout fonctions background pour création RDV, annulation et avis, 2) Tous les emails envoyés via BackgroundTasks non-bloquantes, 3) API répond immédiatement sans attendre email, 4) Logging amélioré pour suivi background tasks. Temps de réponse attendu réduit de ~4.7s à ~0.5-1s."
 
   - task: "Erreur 422 Réservation Rendez-vous"
     implemented: true
