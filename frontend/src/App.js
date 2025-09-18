@@ -18,52 +18,29 @@ import { Toaster } from "./components/ui/toaster";
 import MaintenanceGuard from "./components/MaintenanceGuard";
 import { useMaintenance } from "./hooks/useMaintenance";
 
-function App() {
-  const { maintenanceStatus, loading } = useMaintenance();
-
-  // Si en cours de vérification de maintenance, afficher un loading léger
-  if (loading) {
-    return (
-      <div className="App">
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600 mx-auto"></div>
-            <p className="mt-2 text-gray-600">Chargement...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Si le site est en maintenance, afficher la page de maintenance
-  if (maintenanceStatus.is_maintenance) {
-    return (
-      <div className="App">
-        <MaintenancePage maintenanceInfo={maintenanceStatus} />
-      </div>
-    );
-  }
-
+function App() {  
   // Site normal
   return (
     <div className="App">
       <AuthProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-
-            <Route path="/galerie" element={<GalleryPage />} />
-            <Route path="/tarifs" element={<PricingPage />} />
-            <Route path="/avis" element={<ReviewsPage />} />
-            <Route path="/connexion" element={<LoginPage />} />
-            <Route path="/inscription" element={<RegisterPage />} />
-            <Route path="/mot-de-passe-oublie" element={<PasswordResetPage />} />
-            <Route path="/mon-espace" element={<ClientDashboard />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/reserver/:slotId" element={<BookingDetailsPage />} />
-            {/* Keep legacy route for backward compatibility */}
-            <Route path="/deconnexion" element={<HomePage />} />
-          </Routes>
+          <MaintenanceGuard>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/galerie" element={<GalleryPage />} />
+              <Route path="/tarifs" element={<PricingPage />} />
+              <Route path="/avis" element={<ReviewsPage />} />
+              <Route path="/connexion" element={<LoginPage />} />
+              <Route path="/inscription" element={<RegisterPage />} />
+              <Route path="/mot-de-passe-oublie" element={<PasswordResetPage />} />
+              <Route path="/mon-espace" element={<ClientDashboard />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/maintenance" element={<MaintenancePage />} />
+              <Route path="/reserver/:slotId" element={<BookingDetailsPage />} />
+              {/* Keep legacy route for backward compatibility */}
+              <Route path="/deconnexion" element={<HomePage />} />
+            </Routes>
+          </MaintenanceGuard>
         </BrowserRouter>
         <Toaster />
       </AuthProvider>
