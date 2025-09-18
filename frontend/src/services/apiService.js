@@ -162,6 +162,20 @@ export const apiService = {
       new_password
     });
     return response.data;
+  },
+
+  // Maintenance Mode
+  getMaintenanceStatus: async () => {
+    const response = await apiClient.get('/api/maintenance');
+    return response.data;
+  },
+
+  toggleMaintenance: async (is_maintenance, message = '') => {
+    const response = await apiClient.post('/api/maintenance', {
+      is_maintenance,
+      message
+    });
+    return response.data;
   }
 };
 
