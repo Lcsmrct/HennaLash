@@ -2042,11 +2042,12 @@ class BackendTester:
         return False
 
     def run_tests(self):
-        """Run critical appointment cancellation tests as requested"""
-        print("🎯 APPOINTMENT CANCELLATION FUNCTIONALITY TESTS")
+        """Run maintenance endpoints tests as requested"""
+        print("🔧 MAINTENANCE ENDPOINTS TESTING")
         print("=" * 60)
-        print("Focus: Critical datetime fix + Full workflow + Background tasks + Error handling")
-        print("Context: Testing the UnboundLocalError datetime fix in cancel_appointment function")
+        print("Focus: Testing maintenance endpoints functionality")
+        print("Tests: GET /api/maintenance (public) + POST /api/maintenance (admin only)")
+        print("Verification: MongoDB persistence + Authentication + State management")
         print("=" * 60)
         
         # Authentication setup
@@ -2058,33 +2059,40 @@ class BackendTester:
             print("❌ Cannot proceed without client authentication")
             return
         
-        # Ensure we have slots for testing
-        if not self.get_available_slot():
-            print("⚠️ Creating test slots for comprehensive testing...")
-            self.create_multiple_test_slots(5)
-            if not self.get_available_slot():
-                print("❌ Still no available slots after creation")
-                return
-        
-        print("\n🚀 TEST CRITIQUE 1: PERFORMANCE DES AVIS (<2s)")
+        print("\n🌐 TEST 1: GET /api/maintenance (PUBLIC ACCESS)")
         print("-" * 50)
-        print("Test POST /api/reviews avec timing précis - BackgroundTasks")
-        self.test_reviews_performance_critical()
+        print("Vérifier que l'endpoint GET est public et ne nécessite pas d'authentification")
+        self.test_maintenance_get_public()
         
-        print("\n🚨 TEST CRITIQUE 2: ANNULATION RENDEZ-VOUS")
+        print("\n🚫 TEST 2: POST /api/maintenance (NO AUTH - SHOULD FAIL)")
         print("-" * 50)
-        print("Test PUT /api/appointments/{id}/cancel avec email background")
-        self.test_appointment_cancellation_critical()
+        print("Vérifier que l'endpoint POST nécessite une authentification")
+        self.test_maintenance_post_without_auth()
         
-        print("\n📧 TEST CRITIQUE 3: DONNÉES EMAIL ADMIN")
+        print("\n👤 TEST 3: POST /api/maintenance (CLIENT AUTH - SHOULD FAIL)")
         print("-" * 50)
-        print("Test GET /api/appointments pour user_name et user_email")
-        self.test_admin_email_data_critical()
+        print("Vérifier que l'endpoint POST nécessite une authentification admin")
+        self.test_maintenance_post_with_client_auth()
         
-        print("\n🔄 TEST CRITIQUE 4: CRÉNEAU DISPONIBLE APRÈS ANNULATION")
+        print("\n🔒 TEST 4: POST /api/maintenance (ADMIN - ENABLE)")
         print("-" * 50)
-        print("Vérifier que le créneau redevient disponible")
-        self.test_slot_availability_after_cancellation_critical()
+        print("Activer le mode maintenance avec un compte admin")
+        self.test_maintenance_enable_with_admin()
+        
+        print("\n🔓 TEST 5: POST /api/maintenance (ADMIN - DISABLE)")
+        print("-" * 50)
+        print("Désactiver le mode maintenance avec un compte admin")
+        self.test_maintenance_disable_with_admin()
+        
+        print("\n💾 TEST 6: MONGODB PERSISTENCE")
+        print("-" * 50)
+        print("Vérifier que les données sont bien sauvegardées dans la collection MongoDB 'maintenance'")
+        self.test_maintenance_data_persistence()
+        
+        print("\n🔄 TEST 7: TOGGLE STATES")
+        print("-" * 50)
+        print("Tester les deux états : maintenance activée et désactivée")
+        self.test_maintenance_toggle_states()
         
         # Summary
         self.print_summary()
