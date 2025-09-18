@@ -75,15 +75,19 @@ class BackendTester:
     def create_admin_user(self):
         """Create admin user and then authenticate"""
         try:
-            # Register admin user
+            # Try creating admin user with unique email
+            import random
+            random_num = random.randint(1000, 9999)
+            admin_email = f"testadmin{random_num}@salon.com"
+            
             start_time = time.time()
             response = requests.post(
                 f"{BASE_URL}/register",
                 json={
-                    "email": "admin@salon.com",
+                    "email": admin_email,
                     "password": "admin123",
-                    "first_name": "Admin",
-                    "last_name": "Salon",
+                    "first_name": "Test",
+                    "last_name": "Admin",
                     "phone": "0123456789"
                 },
                 timeout=TIMEOUT
@@ -91,14 +95,39 @@ class BackendTester:
             duration = time.time() - start_time
             
             if response.status_code == 200:
-                self.log_result("Admin Registration", True, "Admin user created", duration)
-                # Now try to login
-                return self.authenticate_admin()
+                self.log_result("Admin Registration", True, f"Admin user created: {admin_email}", duration)
+                # Now try to login with new credentials
+                return self.login_new_admin(admin_email, "admin123")
             else:
                 self.log_result("Admin Registration", False, f"Status {response.status_code}: {response.text}", duration)
                 return False
         except Exception as e:
             self.log_result("Admin Registration", False, f"Exception: {str(e)}")
+            return False
+    
+    def login_new_admin(self, email, password):
+        """Login with new admin credentials"""
+        try:
+            start_time = time.time()
+            response = requests.post(
+                f"{BASE_URL}/login",
+                json={
+                    "email": email,
+                    "password": password
+                },
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                self.admin_token = response.json()["access_token"]
+                self.log_result("New Admin Login", True, "New admin login successful", duration)
+                return True
+            else:
+                self.log_result("New Admin Login", False, f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("New Admin Login", False, f"Exception: {str(e)}")
             return False
     
     def authenticate_client(self):
