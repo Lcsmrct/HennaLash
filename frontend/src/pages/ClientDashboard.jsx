@@ -250,22 +250,37 @@ const ClientDashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50">
       <Navigation />
       
-      <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 pt-20">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24">
+        {/* Header amélioré avec meilleure visibilité */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-6">
           <div className="w-full sm:w-auto">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 via-amber-600 to-rose-600 bg-clip-text text-transparent">
-              Bonjour, {user?.first_name} ! ✨
-            </h1>
-            <p className="text-sm sm:text-base text-gray-600 mt-2 font-medium">Gérez vos rendez-vous et laissez des avis</p>
+            {/* Titre principal avec fond semi-transparent pour meilleure lisibilité */}
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border-2 border-orange-200">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
+                <span className="bg-gradient-to-r from-orange-600 via-amber-600 to-rose-600 bg-clip-text text-transparent">
+                  Bonjour, {user?.first_name} ! ✨
+                </span>
+              </h1>
+              <p className="text-lg sm:text-xl text-gray-700 font-semibold">
+                Gérez vos rendez-vous et laissez des avis
+              </p>
+              <div className="mt-3 flex items-center text-sm text-gray-600">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                Connecté en tant que client
+              </div>
+            </div>
           </div>
-          <Button 
-            onClick={logout} 
-            variant="outline" 
-            className="w-full sm:w-auto min-w-[140px] bg-white/80 backdrop-blur-sm hover:bg-orange-50 border-orange-200 hover:border-orange-300 transition-all duration-300 hover:shadow-lg"
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            Déconnexion
-          </Button>
+          <div className="w-full sm:w-auto">
+            <Button 
+              onClick={logout} 
+              variant="outline" 
+              size="lg"
+              className="w-full sm:w-auto min-w-[160px] bg-white/90 backdrop-blur-sm hover:bg-orange-50 border-2 border-orange-300 hover:border-orange-400 transition-all duration-300 hover:shadow-xl text-gray-700 font-semibold"
+            >
+              <LogOut className="mr-2 h-5 w-5" />
+              Déconnexion
+            </Button>
+          </div>
         </div>
 
         <Tabs defaultValue="appointments" className="space-y-4 sm:space-y-6">
