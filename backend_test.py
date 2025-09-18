@@ -41,12 +41,12 @@ class BackendTester:
     def authenticate_admin(self):
         """Authenticate as admin user or create one"""
         try:
-            # First try to login
+            # First try to login with credentials from review request
             start_time = time.time()
             response = requests.post(
                 f"{BASE_URL}/login",
                 json={
-                    "email": "admin@salon.com",
+                    "email": "admin",
                     "password": "admin123"
                 },
                 timeout=TIMEOUT
