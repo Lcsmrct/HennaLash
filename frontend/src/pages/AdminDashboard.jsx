@@ -294,6 +294,23 @@ const AdminDashboard = () => {
     return match ? match[1].trim() : null;
   };
 
+  const parseActualNotesFromNotes = (notes) => {
+    if (!notes) return null;
+    
+    // Supprimer toutes les métadonnées structurées
+    let cleanNotes = notes
+      .replace(/📍\s*Lieu\s*:\s*[^\n\r]+/gi, '')
+      .replace(/👥\s*Personnes\s*:\s*[^\n\r]+/gi, '')
+      .replace(/📱\s*Instagram\s*:\s*[^\n\r]+/gi, '')
+      .replace(/ℹ️\s*Informations\s*supplémentaires\s*:\s*[^\n\r]+/gi, '')
+      .trim();
+    
+    // Nettoyer les sauts de ligne multiples
+    cleanNotes = cleanNotes.replace(/\n\s*\n/g, '\n').trim();
+    
+    return cleanNotes || null;
+  };
+
   if (!isAuthenticated || user?.role !== 'admin') {
     return <div>Accès non autorisé</div>;
   }
