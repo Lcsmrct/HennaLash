@@ -484,6 +484,36 @@ frontend:
         agent: "main"
         comment: "🔧 AFFICHAGE EMAIL CORRIGÉ - Problème identifié: frontend cherchait 'appointment.user_info.email' mais backend renvoie 'appointment.user_email' directement. Modifié AdminDashboard.jsx pour utiliser les bonnes propriétés: user_name et user_email du modèle AppointmentResponse."
 
+  - task: "Séparation Notes Utilisateur et Métadonnées Admin"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/AdminDashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "Dans les notes, seules les notes saisies doivent apparaitre, les autres infos comme email dans une case séparée."
+      - working: true
+        agent: "main"
+        comment: "🔧 SÉPARATION NOTES CORRIGÉE - Ajout fonction parseActualNotesFromNotes() qui supprime les métadonnées structurées (📍 Lieu, 👥 Personnes, 📱 Instagram, ℹ️ Informations supplémentaires) pour n'afficher que les vraies notes saisies par l'utilisateur dans une section 'Notes du client'."
+
+  - task: "Nettoyage Affichage Boutons Admin"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/AdminDashboard.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "Affichage des boutons côté admin pas propre."
+      - working: true
+        agent: "main"
+        comment: "🎨 BOUTONS ADMIN NETTOYÉS - Amélioré responsive et alignement: largeur min 120px, gap augmenté à 3, transitions fluides, shadows améliorées, meilleure logique d'affichage conditionnel pour éviter boutons vides, suppression logique ternaire null."
+
   - task: "Client Dashboard - Available Slots Booking"
     implemented: true
     working: false
