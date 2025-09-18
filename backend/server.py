@@ -561,6 +561,7 @@ async def delete_appointment(
 @api_router.put("/appointments/{appointment_id}/cancel")
 async def cancel_appointment(
     appointment_id: str,
+    background_tasks: BackgroundTasks,
     current_user: User = Depends(get_current_admin_user_with_db),
     db = Depends(get_db)
 ):
