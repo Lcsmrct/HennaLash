@@ -496,35 +496,35 @@ const AdminDashboard = () => {
                               </div>
                             )}
                             
-                            {/* Actions */}
-                            <div className="flex flex-col sm:flex-row gap-2 flex-wrap">
+                            {/* Actions - Boutons admin nettoyés */}
+                            <div className="flex flex-col sm:flex-row gap-3 justify-start">
                               {appointment.status === 'pending' && (
                                 <Button 
                                   size="sm" 
                                   onClick={() => updateAppointmentStatus(appointment.id, 'confirmed')}
-                                  className="flex-1 lg:flex-none bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-medium"
+                                  className="w-full sm:w-auto min-w-[120px] bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-medium shadow-md hover:shadow-lg transition-all duration-200"
                                 >
                                   <Check className="w-4 h-4 mr-2" />
                                   Confirmer
                                 </Button>
                               )}
-                              {appointment.status !== 'cancelled' && !canDelete ? (
+                              {appointment.status !== 'cancelled' && !canDelete && (
                                 <Button 
                                   size="sm" 
                                   variant="outline"
                                   onClick={() => cancelAppointment(appointment.id)}
-                                  className="flex-1 lg:flex-none border-orange-200 text-orange-600 hover:bg-orange-50 hover:border-orange-300 font-medium"
+                                  className="w-full sm:w-auto min-w-[120px] border-orange-300 text-orange-600 hover:bg-orange-50 hover:border-orange-400 font-medium shadow-sm hover:shadow-md transition-all duration-200"
                                 >
                                   <X className="w-4 h-4 mr-2" />
                                   Annuler
                                 </Button>
-                              ) : null}
+                              )}
                               {canDelete && (
                                 <Button 
                                   size="sm" 
                                   variant="outline"
                                   onClick={() => deleteAppointment(appointment.id)}
-                                  className="flex-1 lg:flex-none border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 font-medium"
+                                  className="w-full sm:w-auto min-w-[120px] border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 font-medium shadow-sm hover:shadow-md transition-all duration-200"
                                 >
                                   <Trash2 className="w-4 h-4 mr-2" />
                                   Supprimer
