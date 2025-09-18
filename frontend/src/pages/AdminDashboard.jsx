@@ -8,7 +8,7 @@ import { Input } from '../components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '../components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Label } from '../components/ui/label';
-import { Calendar, Check, X, Clock, MessageSquare, Trash2, Users } from 'lucide-react';
+import { Calendar, Check, X, Clock, MessageSquare, Trash2, Users, Settings, AlertTriangle } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 import apiService from '../services/apiService';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -62,6 +62,10 @@ const AdminDashboard = () => {
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  const goToMaintenance = () => {
+    navigate('/maintenance');
   };
 
   const formatDate = (dateString) => {
@@ -334,43 +338,74 @@ const AdminDashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-rose-100">
       <Navigation />
       <div className="pt-20 container mx-auto px-4 py-8">
-        {/* Header */}
+        {/* Header amélioré */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent mb-4">
-            🎨 Espace Administrateur
-          </h1>
-          <p className="text-gray-600 text-lg">Gérez vos rendez-vous, créneaux et avis clients</p>
-          <div className="mt-4">
-            <Button 
-              onClick={handleLogout} 
-              variant="outline"
-              className="bg-white/80 backdrop-blur-sm border-orange-200 text-orange-600 hover:bg-orange-50 font-medium"
-            >
-              Se déconnecter
-            </Button>
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-2 border-orange-200 max-w-4xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+                🎨 Espace Administrateur
+              </span>
+            </h1>
+            <p className="text-gray-700 text-lg sm:text-xl font-medium mb-6">
+              Gérez vos rendez-vous, créneaux et avis clients
+            </p>
+            
+            {/* Boutons d'action améliorés */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button 
+                onClick={goToMaintenance}
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto min-w-[180px] bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-300 text-purple-700 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100 hover:border-purple-400 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              >
+                <Settings className="mr-2 h-5 w-5" />
+                🔧 Maintenance
+              </Button>
+              
+              <Button 
+                onClick={handleLogout} 
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto min-w-[180px] bg-white/80 backdrop-blur-sm border-2 border-orange-300 text-orange-700 hover:bg-orange-50 hover:border-orange-400 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              >
+                <svg className="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Se déconnecter
+              </Button>
+            </div>
           </div>
         </div>
 
-        {/* Tabs */}
+        {/* Tabs avec design amélioré et meilleur contraste */}
         <Tabs defaultValue="appointments" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8 bg-white/60 backdrop-blur-sm rounded-2xl p-2 shadow-lg">
+          <TabsList className="grid w-full grid-cols-3 mb-8 bg-white/80 backdrop-blur-sm rounded-2xl p-2 shadow-2xl border-2 border-orange-200">
             <TabsTrigger 
               value="appointments" 
-              className="rounded-xl font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+              className="rounded-xl font-bold text-base py-4 px-6 transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:border-2 data-[state=active]:border-orange-300 hover:bg-orange-50 hover:text-orange-700 text-gray-600"
             >
               📅 Rendez-vous
+              <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                {appointments.length}
+              </span>
             </TabsTrigger>
             <TabsTrigger 
               value="slots" 
-              className="rounded-xl font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+              className="rounded-xl font-bold text-base py-4 px-6 transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:border-2 data-[state=active]:border-orange-300 hover:bg-orange-50 hover:text-orange-700 text-gray-600"
             >
               🕐 Créneaux
+              <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                {slots.length}
+              </span>
             </TabsTrigger>
             <TabsTrigger 
               value="reviews" 
-              className="rounded-xl font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+              className="rounded-xl font-bold text-base py-4 px-6 transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:border-2 data-[state=active]:border-orange-300 hover:bg-orange-50 hover:text-orange-700 text-gray-600"
             >
               ⭐ Avis
+              <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                {reviews.length}
+              </span>
             </TabsTrigger>
           </TabsList>
 
@@ -502,13 +537,13 @@ const AdminDashboard = () => {
                               </div>
                             )}
                             
-                            {/* Actions - Boutons admin nettoyés */}
-                            <div className="flex flex-col sm:flex-row gap-3 justify-start">
+                            {/* Actions - Boutons admin avec meilleur design */}
+                            <div className="flex flex-col sm:flex-row gap-2 justify-start">
                               {appointment.status === 'pending' && (
                                 <Button 
                                   size="sm" 
                                   onClick={() => updateAppointmentStatus(appointment.id, 'confirmed')}
-                                  className="w-full sm:w-auto min-w-[120px] bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-medium shadow-md hover:shadow-lg transition-all duration-200"
+                                  className="w-full sm:w-auto min-w-[140px] bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-2 border-green-300"
                                 >
                                   <Check className="w-4 h-4 mr-2" />
                                   Confirmer
@@ -519,7 +554,7 @@ const AdminDashboard = () => {
                                   size="sm" 
                                   variant="outline"
                                   onClick={() => cancelAppointment(appointment.id)}
-                                  className="w-full sm:w-auto min-w-[120px] border-orange-300 text-orange-600 hover:bg-orange-50 hover:border-orange-400 font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                                  className="w-full sm:w-auto min-w-[140px] border-2 border-orange-400 text-orange-700 hover:bg-orange-100 hover:border-orange-500 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/80"
                                 >
                                   <X className="w-4 h-4 mr-2" />
                                   Annuler
@@ -530,7 +565,7 @@ const AdminDashboard = () => {
                                   size="sm" 
                                   variant="outline"
                                   onClick={() => deleteAppointment(appointment.id)}
-                                  className="w-full sm:w-auto min-w-[120px] border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                                  className="w-full sm:w-auto min-w-[140px] border-2 border-red-400 text-red-700 hover:bg-red-100 hover:border-red-500 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/80"
                                 >
                                   <Trash2 className="w-4 h-4 mr-2" />
                                   Supprimer
