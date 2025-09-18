@@ -16,7 +16,6 @@ import MaintenancePage from "./pages/MaintenancePage";
 import { AuthProvider } from "./context/AuthContext";
 import { Toaster } from "./components/ui/toaster";
 import MaintenanceGuard from "./components/MaintenanceGuard";
-import { useMaintenance } from "./hooks/useMaintenance";
 
 function App() {  
   // Site normal
