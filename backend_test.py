@@ -2117,11 +2117,15 @@ class BackendTester:
                 print(f"  ❌ {test['test']}: {test['message']}")
         
         # Show critical results
-        print("\n🎯 CRITICAL RESULTS (422 Error Fixes):")
+        print("\n🎯 CRITICAL RESULTS (Maintenance Endpoints):")
         critical_tests = [
-            "Appointment Creation (With Token)",
-            "Appointment Creation (No Token)",
-            "Client Appointments (Slot Info)"
+            "Maintenance GET (Public)",
+            "Maintenance POST (No Auth)",
+            "Maintenance POST (Client Auth)",
+            "Maintenance Enable (Admin)",
+            "Maintenance Disable (Admin)",
+            "Maintenance Data Persistence",
+            "Maintenance Toggle States"
         ]
         
         for test_name in critical_tests:
