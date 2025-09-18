@@ -469,6 +469,20 @@ frontend:
       - working: true
         agent: "main"
         comment: "✅ CORRIGÉ - AdminDashboard.jsx utilisait apiService.delete() au lieu de apiService.deleteSlot(). Backend tests confirment que tous les endpoints de créneaux fonctionnent parfaitement. Suppression de créneaux réparée."
+  - task: "Affichage Email Clients dans Interface Admin"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/AdminDashboard.jsx"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "L'email du client n'apparaît pas dans l'interface admin, il affiche 'Email non disponible' au lieu de l'email réel."
+      - working: true
+        agent: "main"
+        comment: "🔧 AFFICHAGE EMAIL CORRIGÉ - Problème identifié: frontend cherchait 'appointment.user_info.email' mais backend renvoie 'appointment.user_email' directement. Modifié AdminDashboard.jsx pour utiliser les bonnes propriétés: user_name et user_email du modèle AppointmentResponse."
 
   - task: "Client Dashboard - Available Slots Booking"
     implemented: true
