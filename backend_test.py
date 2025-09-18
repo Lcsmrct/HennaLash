@@ -43,10 +43,14 @@ class BackendTester:
         try:
             # Try different admin credentials that might exist
             admin_credentials = [
+                {"email": "lucas@lcsmrct.fr", "password": "admin123"},
+                {"email": "lucas@lcsmrct.fr", "password": "password123"},
+                {"email": "newadmin@salon.com", "password": "admin123"},
+                {"email": "newadmin@salon.com", "password": "password123"},
+                {"email": "email@email.com", "password": "admin123"},
+                {"email": "email@email.com", "password": "password123"},
                 {"email": "admin@salon.com", "password": "admin123"},
-                {"email": "admin", "password": "admin123"},
-                {"email": "alicia2bbb@gmail.com", "password": "admin123"},
-                {"email": "l20245303@gmail.com", "password": "admin123"}
+                {"email": "admin", "password": "admin123"}
             ]
             
             for creds in admin_credentials:
