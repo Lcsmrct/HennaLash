@@ -41,25 +41,33 @@ class BackendTester:
     def authenticate_admin(self):
         """Authenticate as admin user or create one"""
         try:
-            # First try to login with credentials from review request
-            start_time = time.time()
-            response = requests.post(
-                f"{BASE_URL}/login",
-                json={
-                    "email": "admin",
-                    "password": "admin123"
-                },
-                timeout=TIMEOUT
-            )
-            duration = time.time() - start_time
+            # Try different admin credentials that might exist
+            admin_credentials = [
+                {"email": "admin@salon.com", "password": "admin123"},
+                {"email": "admin", "password": "admin123"},
+                {"email": "alicia2bbb@gmail.com", "password": "admin123"},
+                {"email": "l20245303@gmail.com", "password": "admin123"}
+            ]
             
-            if response.status_code == 200:
-                self.admin_token = response.json()["access_token"]
-                self.log_result("Admin Authentication", True, "Admin login successful", duration)
-                return True
-            else:
-                # Try to create admin user
-                return self.create_admin_user()
+            for creds in admin_credentials:
+                try:
+                    start_time = time.time()
+                    response = requests.post(
+                        f"{BASE_URL}/login",
+                        json=creds,
+                        timeout=TIMEOUT
+                    )
+                    duration = time.time() - start_time
+                    
+                    if response.status_code == 200:
+                        self.admin_token = response.json()["access_token"]
+                        self.log_result("Admin Authentication", True, f"Admin login successful with {creds['email']}", duration)
+                        return True
+                except:
+                    continue
+            
+            # If no existing admin found, try to create one
+            return self.create_admin_user()
         except Exception as e:
             self.log_result("Admin Authentication", False, f"Exception: {str(e)}")
             return False
