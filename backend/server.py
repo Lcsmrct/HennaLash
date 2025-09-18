@@ -719,19 +719,23 @@ async def create_review(
     review_dict = review.model_dump()
     await db.reviews.insert_one(review_dict)
     
-    # Send notification to admin
+    # Send notification to admin in background (non-blocking for better performance)
     try:
         admin_users = await db.users.find({"role": "admin"}).to_list(10)
-        for admin in admin_users:
+        admin_emails = [admin["email"] for admin in admin_users]
+        
+        if admin_emails:
             user_name = f"{current_user.first_name} {current_user.last_name}"
-            await email_service.send_review_notification(
-                admin_email=admin["email"],
+            background_tasks.add_task(
+                send_review_notification_background,
+                admin_emails=admin_emails,
                 user_name=user_name,
                 rating=review_data.rating,
                 comment=review_data.comment
             )
+            logging.info(f"Review notification scheduled for: {user_name} - {review_data.rating} stars")
     except Exception as e:
-        logger.warning(f"Failed to send review notification: {str(e)}")
+        logger.warning(f"Failed to schedule review notification: {str(e)}")
     
     return ReviewResponse(**review_dict)
 
