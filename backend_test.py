@@ -96,13 +96,13 @@ class BackendTester:
     def authenticate_client(self):
         """Authenticate as client user or create one"""
         try:
-            # Try to login with existing client
+            # Try to login with credentials from review request
             start_time = time.time()
             response = requests.post(
                 f"{BASE_URL}/login",
                 json={
-                    "email": "marie.dupont@email.com",
-                    "password": "client123"
+                    "email": "marie",
+                    "password": "password123"
                 },
                 timeout=TIMEOUT
             )
@@ -110,7 +110,7 @@ class BackendTester:
             
             if response.status_code == 200:
                 self.client_token = response.json()["access_token"]
-                self.log_result("Client Authentication", True, "Client login successful", duration)
+                self.log_result("Client Authentication", True, "Client login successful with marie:password123", duration)
                 return True
             else:
                 # If login fails, try with different credentials or create new user
