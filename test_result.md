@@ -416,6 +416,18 @@ backend:
       - working: true
         agent: "testing"
         comment: "🔐 PROBLÈME CRITIQUE RÉSOLU! Diagnostic complet effectué: ✅ PROBLÈME IDENTIFIÉ: Erreur dans server.py ligne 831 - tentative de mise à jour du champ 'hashed_password' alors que le modèle User utilise 'password_hash'. ✅ CORRECTION APPLIQUÉE: Modifié la requête MongoDB pour utiliser le bon nom de champ 'password_hash'. ✅ TESTS COMPLETS RÉUSSIS: 1) POST /api/auth/password-reset/request fonctionne, 2) Code 6 chiffres généré et stocké dans password_resets collection, 3) Validation des codes invalides fonctionne (400), 4) POST /api/auth/password-reset/confirm avec code valide fonctionne, 5) CRITIQUE: Mot de passe mis à jour dans users.password_hash, 6) Connexion avec nouveau mot de passe réussie, 7) Ancien mot de passe correctement rejeté (401). 🎯 VERDICT: Le système de réinitialisation de mot de passe fonctionne parfaitement maintenant!"
+
+  - task: "Endpoints de Maintenance"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🔧 MAINTENANCE ENDPOINTS FULLY FUNCTIONAL! Comprehensive testing completed with 10/10 tests passed: ✅ GET /api/maintenance (public endpoint, no authentication required) - returns current maintenance status from MongoDB, ✅ POST /api/maintenance (admin-only endpoint) - correctly rejects unauthenticated (403) and non-admin users (403), allows admin users to enable/disable maintenance mode, ✅ MongoDB persistence verified - data properly stored in 'maintenance' collection with document ID 'site_maintenance', includes is_maintenance, message, enabled_at, enabled_by fields, ✅ State management working - both maintenance enabled and disabled states function correctly, ✅ Authentication system working - using existing admin user (newadmin@salon.com), ✅ Security controls enforced - admin-only access for POST operations. All requested functionality implemented and tested successfully."
     implemented: true
     working: true
     file: "/app/frontend/src/context/AuthContext.jsx"
