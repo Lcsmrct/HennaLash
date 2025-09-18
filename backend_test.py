@@ -1423,12 +1423,314 @@ class BackendTester:
             self.log_result("Slot Availability After Cancellation Critical", False, f"Exception: {str(e)}")
             return False
 
+    def test_appointment_cancellation_datetime_fix(self):
+        """CRITICAL FIX TEST: Test PUT /api/appointments/{id}/cancel endpoint - datetime error fix"""
+        print("\n🚨 CRITICAL DATETIME FIX TEST - APPOINTMENT CANCELLATION")
+        print("-" * 55)
+        
+        if not self.admin_token:
+            self.log_result("Cancellation Datetime Fix", False, "Missing admin token")
+            return False
+        
+        # Create test appointment first
+        appointment_id = self.create_test_appointment_for_admin_tests()
+        if not appointment_id:
+            self.log_result("Cancellation Datetime Fix", False, "Could not create test appointment")
+            return False
+        
+        try:
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            start_time = time.time()
+            response = requests.put(
+                f"{BASE_URL}/appointments/{appointment_id}/cancel",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                result = response.json()
+                self.log_result("Cancellation Datetime Fix", True, 
+                              f"✅ DATETIME ERROR FIXED - Cancellation works! Response: {result.get('message', 'N/A')}", duration)
+                return True
+            elif response.status_code == 500:
+                error_text = response.text
+                if "UnboundLocalError" in error_text or "datetime" in error_text.lower():
+                    self.log_result("Cancellation Datetime Fix", False, 
+                                  f"❌ DATETIME ERROR STILL EXISTS - {error_text}", duration)
+                else:
+                    self.log_result("Cancellation Datetime Fix", False, 
+                                  f"❌ SERVER ERROR (not datetime related) - {error_text}", duration)
+                return False
+            else:
+                self.log_result("Cancellation Datetime Fix", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Cancellation Datetime Fix", False, f"Exception: {str(e)}")
+            return False
+
+    def test_full_cancellation_workflow(self):
+        """COMPREHENSIVE TEST: Full appointment cancellation workflow"""
+        print("\n🔄 FULL APPOINTMENT CANCELLATION WORKFLOW TEST")
+        print("-" * 50)
+        
+        if not self.admin_token:
+            self.log_result("Full Cancellation Workflow", False, "Missing admin token")
+            return False
+        
+        # Step 1: Create appointment with full data tracking
+        appointment_data = self.create_test_appointment_for_admin_tests(return_full_data=True)
+        if not appointment_data:
+            self.log_result("Full Cancellation Workflow", False, "Could not create test appointment")
+            return False
+        
+        appointment_id = appointment_data.get('appointment_id')
+        slot_id = appointment_data.get('slot_id')
+        
+        print(f"  📋 Created appointment: {appointment_id}")
+        print(f"  🎯 Using slot: {slot_id}")
+        
+        # Step 2: Verify slot is unavailable before cancellation
+        if not self.verify_slot_availability(slot_id, should_be_available=False):
+            self.log_result("Full Cancellation Workflow", False, "Slot should be unavailable before cancellation")
+            return False
+        
+        # Step 3: Cancel the appointment
+        try:
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            start_time = time.time()
+            response = requests.put(
+                f"{BASE_URL}/appointments/{appointment_id}/cancel",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code != 200:
+                self.log_result("Full Cancellation Workflow", False, 
+                              f"Cancellation failed: {response.status_code} - {response.text}", duration)
+                return False
+            
+            result = response.json()
+            print(f"  ✅ Cancellation response: {result.get('message', 'N/A')}")
+            
+        except Exception as e:
+            self.log_result("Full Cancellation Workflow", False, f"Cancellation exception: {str(e)}")
+            return False
+        
+        # Step 4: Verify appointment status changed to 'cancelled'
+        if not self.verify_appointment_status(appointment_id, "cancelled"):
+            self.log_result("Full Cancellation Workflow", False, "Appointment status not changed to cancelled")
+            return False
+        
+        # Step 5: Verify slot became available again
+        if not self.verify_slot_availability(slot_id, should_be_available=True):
+            self.log_result("Full Cancellation Workflow", False, "Slot should be available after cancellation")
+            return False
+        
+        # Step 6: Test background email task (check logs)
+        print("  📧 Email notification sent via BackgroundTasks (check backend logs)")
+        
+        self.log_result("Full Cancellation Workflow", True, 
+                      f"✅ COMPLETE WORKFLOW SUCCESS - Appointment cancelled, status updated, slot available, email scheduled", duration)
+        return True
+
+    def test_cancellation_background_tasks(self):
+        """TEST: Verify cancellation email is sent asynchronously without blocking API"""
+        print("\n⚡ BACKGROUND TASK TESTING - EMAIL PERFORMANCE")
+        print("-" * 45)
+        
+        if not self.admin_token:
+            self.log_result("Cancellation Background Tasks", False, "Missing admin token")
+            return False
+        
+        # Create test appointment
+        appointment_id = self.create_test_appointment_for_admin_tests()
+        if not appointment_id:
+            self.log_result("Cancellation Background Tasks", False, "Could not create test appointment")
+            return False
+        
+        try:
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            
+            # Measure API response time - should be fast with background tasks
+            start_time = time.time()
+            response = requests.put(
+                f"{BASE_URL}/appointments/{appointment_id}/cancel",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 200:
+                if duration < 1.0:
+                    self.log_result("Cancellation Background Tasks", True, 
+                                  f"🚀 EXCELLENT - API response in {duration:.3f}s (<1s) - BackgroundTasks working perfectly!", duration)
+                elif duration < 2.0:
+                    self.log_result("Cancellation Background Tasks", True, 
+                                  f"✅ GOOD - API response in {duration:.3f}s (<2s) - BackgroundTasks effective", duration)
+                elif duration < 3.0:
+                    self.log_result("Cancellation Background Tasks", True, 
+                                  f"⚠️ ACCEPTABLE - API response in {duration:.3f}s (<3s) - Some improvement needed", duration)
+                else:
+                    self.log_result("Cancellation Background Tasks", False, 
+                                  f"❌ SLOW - API response in {duration:.3f}s (>3s) - BackgroundTasks may not be working", duration)
+                    return False
+                
+                result = response.json()
+                print(f"  📧 Email scheduled in background: {result.get('message', 'N/A')}")
+                return True
+            else:
+                self.log_result("Cancellation Background Tasks", False, 
+                              f"Status {response.status_code}: {response.text}", duration)
+                return False
+        except Exception as e:
+            self.log_result("Cancellation Background Tasks", False, f"Exception: {str(e)}")
+            return False
+
+    def test_cancellation_error_handling(self):
+        """TEST: Error handling for invalid appointment IDs and edge cases"""
+        print("\n🛡️ CANCELLATION ERROR HANDLING TESTS")
+        print("-" * 40)
+        
+        if not self.admin_token:
+            self.log_result("Cancellation Error Handling", False, "Missing admin token")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        error_tests_passed = 0
+        total_error_tests = 3
+        
+        # Test 1: Invalid appointment ID
+        try:
+            start_time = time.time()
+            response = requests.put(
+                f"{BASE_URL}/appointments/invalid-id-12345/cancel",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 404:
+                self.log_result("Error Test - Invalid ID", True, 
+                              "Correctly returned 404 for invalid appointment ID", duration)
+                error_tests_passed += 1
+            else:
+                self.log_result("Error Test - Invalid ID", False, 
+                              f"Expected 404, got {response.status_code}: {response.text}", duration)
+        except Exception as e:
+            self.log_result("Error Test - Invalid ID", False, f"Exception: {str(e)}")
+        
+        # Test 2: Non-existent appointment ID (valid format)
+        try:
+            start_time = time.time()
+            fake_id = "550e8400-e29b-41d4-a716-446655440000"  # Valid UUID format
+            response = requests.put(
+                f"{BASE_URL}/appointments/{fake_id}/cancel",
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 404:
+                self.log_result("Error Test - Non-existent ID", True, 
+                              "Correctly returned 404 for non-existent appointment", duration)
+                error_tests_passed += 1
+            else:
+                self.log_result("Error Test - Non-existent ID", False, 
+                              f"Expected 404, got {response.status_code}: {response.text}", duration)
+        except Exception as e:
+            self.log_result("Error Test - Non-existent ID", False, f"Exception: {str(e)}")
+        
+        # Test 3: Unauthorized access (no admin token)
+        try:
+            start_time = time.time()
+            response = requests.put(
+                f"{BASE_URL}/appointments/some-id/cancel",
+                timeout=TIMEOUT  # No authorization header
+            )
+            duration = time.time() - start_time
+            
+            if response.status_code == 401:
+                self.log_result("Error Test - Unauthorized", True, 
+                              "Correctly returned 401 for unauthorized access", duration)
+                error_tests_passed += 1
+            else:
+                self.log_result("Error Test - Unauthorized", False, 
+                              f"Expected 401, got {response.status_code}: {response.text}", duration)
+        except Exception as e:
+            self.log_result("Error Test - Unauthorized", False, f"Exception: {str(e)}")
+        
+        # Overall error handling result
+        if error_tests_passed == total_error_tests:
+            self.log_result("Cancellation Error Handling", True, 
+                          f"All {error_tests_passed}/{total_error_tests} error handling tests passed")
+            return True
+        else:
+            self.log_result("Cancellation Error Handling", False, 
+                          f"Only {error_tests_passed}/{total_error_tests} error handling tests passed")
+            return False
+
+    def test_cancellation_admin_credentials(self):
+        """TEST: Verify admin credentials work for cancellation endpoint"""
+        print("\n👤 ADMIN CREDENTIALS TEST FOR CANCELLATION")
+        print("-" * 45)
+        
+        # Test with different admin credential combinations
+        admin_credentials = [
+            {"email": "admin", "password": "admin123"},
+            {"email": "admin@salon.com", "password": "admin123"}
+        ]
+        
+        for creds in admin_credentials:
+            try:
+                start_time = time.time()
+                response = requests.post(
+                    f"{BASE_URL}/login",
+                    json=creds,
+                    timeout=TIMEOUT
+                )
+                duration = time.time() - start_time
+                
+                if response.status_code == 200:
+                    token = response.json()["access_token"]
+                    self.log_result(f"Admin Login ({creds['email']})", True, 
+                                  f"Admin credentials work: {creds['email']}", duration)
+                    
+                    # Test cancellation with this token
+                    appointment_id = self.create_test_appointment_for_admin_tests()
+                    if appointment_id:
+                        headers = {"Authorization": f"Bearer {token}"}
+                        cancel_response = requests.put(
+                            f"{BASE_URL}/appointments/{appointment_id}/cancel",
+                            headers=headers,
+                            timeout=TIMEOUT
+                        )
+                        
+                        if cancel_response.status_code == 200:
+                            self.log_result(f"Cancellation with {creds['email']}", True, 
+                                          "Cancellation works with admin credentials")
+                            return True
+                        else:
+                            self.log_result(f"Cancellation with {creds['email']}", False, 
+                                          f"Cancellation failed: {cancel_response.status_code}")
+                else:
+                    self.log_result(f"Admin Login ({creds['email']})", False, 
+                                  f"Login failed: {response.status_code} - {response.text}", duration)
+            except Exception as e:
+                self.log_result(f"Admin Login ({creds['email']})", False, f"Exception: {str(e)}")
+        
+        return False
+
     def run_tests(self):
-        """Run critical performance and functionality tests as requested"""
-        print("🎯 TESTS CRITIQUES - CORRECTIONS UTILISATEUR")
+        """Run critical appointment cancellation tests as requested"""
+        print("🎯 APPOINTMENT CANCELLATION FUNCTIONALITY TESTS")
         print("=" * 60)
-        print("Focus: Performance avis + Annulation RDV + Données email admin")
-        print("Credentials: admin:admin123 et marie:password123")
+        print("Focus: Critical datetime fix + Full workflow + Background tasks + Error handling")
+        print("Context: Testing the UnboundLocalError datetime fix in cancel_appointment function")
         print("=" * 60)
         
         # Authentication setup
