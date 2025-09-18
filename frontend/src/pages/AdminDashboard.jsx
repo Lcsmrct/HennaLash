@@ -290,17 +290,23 @@ const AdminDashboard = () => {
 
   const parsePersonnesFromNotes = (notes) => {
     if (!notes) return null;
-    const match = notes.match(/👥\s*Personnes\s*:\s*([^\n\r]+)/i);
+    const match = notes.match(/👥\s*Nombre de personnes\s*:\s*([^\n\r]+)/i);
     return match ? match[1].trim() : null;
   };
 
   const parseActualNotesFromNotes = (notes) => {
     if (!notes) return null;
     
-    // Supprimer toutes les métadonnées structurées
+    // Chercher d'abord les informations supplémentaires dans le format "ℹ️ Informations supplémentaires:\n{contenu}"
+    const infoMatch = notes.match(/ℹ️\s*Informations supplémentaires\s*:\s*\n(.+?)(?=\n\n|$)/s);
+    if (infoMatch) {
+      return infoMatch[1].trim();
+    }
+    
+    // Si pas trouvé, supprimer toutes les métadonnées structurées et retourner le reste
     let cleanNotes = notes
       .replace(/📍\s*Lieu\s*:\s*[^\n\r]+/gi, '')
-      .replace(/👥\s*Personnes\s*:\s*[^\n\r]+/gi, '')
+      .replace(/👥\s*Nombre de personnes\s*:\s*[^\n\r]+/gi, '')
       .replace(/📱\s*Instagram\s*:\s*[^\n\r]+/gi, '')
       .replace(/ℹ️\s*Informations\s*supplémentaires\s*:\s*[^\n\r]+/gi, '')
       .trim();
