@@ -135,20 +135,6 @@ export const apiService = {
     }
   },
 
-  // Maintenance Management
-  getMaintenanceStatus: async () => {
-    const response = await apiClient.get('/api/maintenance');
-    return response.data;
-  },
-
-  toggleMaintenance: async (isMaintenanceMode, message = null) => {
-    const response = await apiClient.post('/api/maintenance', {
-      is_maintenance: isMaintenanceMode,
-      message: message
-    });
-    return response.data;
-  },
-
   // Password Reset
   requestPasswordReset: async (email) => {
     const response = await apiClient.post('/api/auth/password-reset/request', { email });
