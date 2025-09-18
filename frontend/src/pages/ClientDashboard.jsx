@@ -247,10 +247,10 @@ const ClientDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50 pt-16">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50">
       <Navigation />
       
-      <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
+      <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 pt-20">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
           <div className="w-full sm:w-auto">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 via-amber-600 to-rose-600 bg-clip-text text-transparent">
