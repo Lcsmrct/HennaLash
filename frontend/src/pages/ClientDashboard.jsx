@@ -458,22 +458,20 @@ const ClientDashboard = () => {
                                     </div>
                                   </div>
                                 )}
-                              </div>
-
-                              {/* Notes supplémentaires */}
-                              {appointment.notes && appointment.notes.includes('ℹ️ Informations supplémentaires:') && (
-                                <div className="bg-white/80 rounded-xl p-4 border border-orange-200 shadow-sm">
-                                  <div className="flex items-start">
-                                    <MessageSquare className="w-5 h-5 mr-3 flex-shrink-0 mt-1 text-orange-500" />
-                                    <div>
-                                      <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">Notes</div>
-                                      <div className="text-sm text-gray-700 whitespace-pre-line leading-relaxed">
-                                        {appointment.notes.split('ℹ️ Informations supplémentaires:\n')[1] || 'Aucune note supplémentaire'}
+                                {informationsSupplementaires && (
+                                  <div className="bg-white/80 rounded-xl p-3 border border-orange-200 shadow-sm">
+                                    <div className="flex items-start">
+                                      <div className="w-8 h-8 bg-gradient-to-br from-orange-100 to-amber-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
+                                        <span className="text-sm">💬</span>
+                                      </div>
+                                      <div>
+                                        <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Notes supplémentaires</div>
+                                        <div className="font-semibold text-gray-800 text-sm whitespace-pre-line">{informationsSupplementaires}</div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              )}
+                                )}
+                              </div>
 
                               {/* Actions pour les RDV à venir */}
                               {isUpcoming && (
