@@ -408,12 +408,10 @@ const AdminDashboard = () => {
                                   <div>
                                     <div className="text-xs text-gray-500 uppercase font-medium">Client</div>
                                     <div className="font-semibold text-gray-800">
-                                      {appointment.user_info ? 
-                                        `${appointment.user_info.first_name} ${appointment.user_info.last_name}` : 
-                                        'Utilisateur inconnu'}
+                                      {appointment.user_name || 'Utilisateur inconnu'}
                                     </div>
                                     <div className="text-sm text-gray-600">
-                                      {appointment.user_info?.email || 'Email non disponible'}
+                                      {appointment.user_email || 'Email non disponible'}
                                     </div>
                                   </div>
                                 </div>
