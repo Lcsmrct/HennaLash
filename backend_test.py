@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
-Backend API Testing - French User Improvements Testing
-Focus: Test des améliorations demandées par l'utilisateur français
-- Lieu obligatoire côté client
-- Endpoint annulation avec email
-- Affichage lieu corrigé côté admin
-- Emails responsives mobiles
+Backend API Testing - Critical Performance & Functionality Tests
+Focus: Tester les corrections critiques pour résoudre les problèmes utilisateur:
+1. Performance des avis (critique) - POST /api/reviews timing <2s
+2. Annulation rendez-vous (critique) - PUT /api/appointments/{id}/cancel 
+3. Données email admin (critique) - GET /api/appointments user_name/user_email
 """
 
 import requests
@@ -15,8 +14,8 @@ from datetime import datetime, timedelta
 import sys
 import random
 
-# Configuration - Use frontend .env URL
-BASE_URL = "https://cancel-appt-fix.preview.emergentagent.com/api"
+# Configuration - Use localhost as per frontend/.env
+BASE_URL = "http://localhost:8001/api"
 TIMEOUT = 15
 
 class BackendTester:
