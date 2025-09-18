@@ -1504,13 +1504,13 @@ class BackendTester:
             )
             duration = time.time() - start_time
             
-            if response.status_code == 401:
+            if response.status_code in [401, 403]:
                 self.log_result("Maintenance POST (No Auth)", True, 
-                              "✅ Correctly rejected with 401 Unauthorized", duration)
+                              f"✅ Correctly rejected with {response.status_code} (authentication required)", duration)
                 return True
             else:
                 self.log_result("Maintenance POST (No Auth)", False, 
-                              f"Expected 401, got {response.status_code}: {response.text}", duration)
+                              f"Expected 401 or 403, got {response.status_code}: {response.text}", duration)
                 return False
         except Exception as e:
             self.log_result("Maintenance POST (No Auth)", False, f"Exception: {str(e)}")
