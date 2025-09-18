@@ -41,6 +41,29 @@ async def send_appointment_notification_background(
         logging.error(f"Background email notification failed: {str(e)}")
         # Don't re-raise - background task failures shouldn't affect API response
 
+async def send_appointment_cancellation_background(
+    client_email: str,
+    client_name: str,
+    service_name: str,
+    appointment_date: str,
+    appointment_time: str,
+    service_price: float
+):
+    """Send appointment cancellation email in background - non-blocking"""
+    try:
+        await email_service.send_appointment_cancellation_to_client(
+            client_email=client_email,
+            client_name=client_name,
+            service_name=service_name,
+            appointment_date=appointment_date,
+            appointment_time=appointment_time,
+            service_price=service_price
+        )
+        logging.info(f"Background cancellation email sent to: {client_email} - {service_name}")
+    except Exception as e:
+        logging.error(f"Background cancellation email failed: {str(e)}")
+        # Don't re-raise - background task failures shouldn't affect API response
+
 ROOT_DIR = Path(__file__).parent
 
 # Create the main app without a prefix
