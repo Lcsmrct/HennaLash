@@ -386,6 +386,7 @@ const AdminDashboard = () => {
                     const lieu = parseLieuFromNotes(appointment.notes);
                     const instagram = parseInstagramFromNotes(appointment.notes);
                     const personnes = parsePersonnesFromNotes(appointment.notes);
+                    const actualNotes = parseActualNotesFromNotes(appointment.notes);
                     const canDelete = isAppointmentOlderThan24Hours(appointment);
                     
                     return (
