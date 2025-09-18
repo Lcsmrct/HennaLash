@@ -6,7 +6,7 @@ Final Password Reset Test with Known Code
 import requests
 import time
 
-BASE_URL = "https://missing-import.preview.emergentagent.com/api"
+BASE_URL = "https://client-text-fix.preview.emergentagent.com/api"
 TIMEOUT = 15
 
 def test_complete_password_reset():
