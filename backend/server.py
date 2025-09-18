@@ -64,6 +64,26 @@ async def send_appointment_cancellation_background(
         logging.error(f"Background cancellation email failed: {str(e)}")
         # Don't re-raise - background task failures shouldn't affect API response
 
+async def send_review_notification_background(
+    admin_emails: list,
+    user_name: str,
+    rating: int,
+    comment: str
+):
+    """Send review notification email to admins in background - non-blocking"""
+    try:
+        for admin_email in admin_emails:
+            await email_service.send_review_notification(
+                admin_email=admin_email,
+                user_name=user_name,
+                rating=rating,
+                comment=comment
+            )
+        logging.info(f"Background review notification sent for: {user_name} - {rating} stars")
+    except Exception as e:
+        logging.error(f"Background review notification failed: {str(e)}")
+        # Don't re-raise - background task failures shouldn't affect API response
+
 ROOT_DIR = Path(__file__).parent
 
 # Create the main app without a prefix
