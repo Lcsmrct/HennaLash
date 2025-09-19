@@ -624,11 +624,44 @@ const ClientDashboard = () => {
                         return (
                           <div 
                             key={slot.id} 
-                            className="bg-white border-2 border-gray-200 rounded-xl p-5 hover:border-orange-300 hover:shadow-lg transition-all duration-300 cursor-pointer group hover:scale-[1.02]"
-                            onClick={() => goToBookingDetails(slot.id)}
+                            className="bg-white border-2 border-gray-200 rounded-xl p-4 sm:p-5 hover:border-orange-300 hover:shadow-lg transition-all duration-300 group"
                           >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-4">
+                            {/* Mobile layout - Stack vertically */}
+                            <div className="flex flex-col sm:hidden space-y-4">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md">
+                                  <Calendar className="w-6 h-6 text-white" />
+                                </div>
+                                <div className="flex-1">
+                                  <div className="font-bold text-gray-900 flex items-center text-base">
+                                    {dateLabel}
+                                    {isToday && <span className="ml-2 text-xs bg-red-500 text-white px-2 py-1 rounded-full font-bold animate-pulse">URGENT</span>}
+                                    {isTomorrow && <span className="ml-2 text-xs bg-orange-500 text-white px-2 py-1 rounded-full font-bold">BIENTÔT</span>}
+                                  </div>
+                                  <div className="text-sm text-gray-600 flex items-center mt-1 font-medium">
+                                    <Clock className="w-4 h-4 mr-2 text-orange-500" />
+                                    <span className="text-gray-800 font-semibold">
+                                      {slot.start_time ? `${formatTime(slot.start_time)}` : 'Heure non spécifiée'}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              {/* Mobile Reserve Button - Full width */}
+                              <Button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  goToBookingDetails(slot.id);
+                                }}
+                                className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-3 px-4 shadow-lg hover:shadow-xl transition-all duration-300 text-base"
+                              >
+                                <span className="mr-2">✨</span>
+                                Réserver ce créneau
+                              </Button>
+                            </div>
+
+                            {/* Desktop layout - Side by side */}
+                            <div className="hidden sm:flex items-center justify-between">
+                              <div className="flex items-center space-x-4 cursor-pointer" onClick={() => goToBookingDetails(slot.id)}>
                                 <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md">
                                   <Calendar className="w-7 h-7 text-white" />
                                 </div>
@@ -648,13 +681,17 @@ const ClientDashboard = () => {
                               </div>
                               
                               <div className="flex items-center space-x-4">
-                                <div className="text-right hidden sm:block">
+                                <div className="text-right hidden lg:block">
                                   <div className="text-xs text-gray-500 font-medium uppercase tracking-wide">Durée</div>
                                   <div className="text-sm font-bold text-gray-800">1 heure</div>
                                 </div>
                                 <Button 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    goToBookingDetails(slot.id);
+                                  }}
                                   size="lg"
-                                  className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-6 py-2 shadow-lg group-hover:shadow-xl transition-all duration-300"
+                                  className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-6 py-2 shadow-lg group-hover:shadow-xl transition-all duration-300 flex-shrink-0"
                                 >
                                   <span className="mr-2">✨</span>
                                   Réserver
