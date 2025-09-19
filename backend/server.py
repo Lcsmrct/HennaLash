@@ -1072,12 +1072,26 @@ async def maintenance_middleware(request: Request, call_next):
 # CORS Configuration
 # ==========================================
 
+# Configure CORS - More permissive for deployment
+cors_origins = os.getenv("CORS_ORIGINS", "*").split(",")
+if cors_origins == ["*"]:
+    cors_origins = ["*"]  # Allow all origins in development
+else:
+    # Add common deployment URLs
+    cors_origins.extend([
+        "http://localhost:3000", 
+        "https://hennalash.fr", 
+        "https://www.hennalash.fr", 
+        "https://hennalash.onrender.com"
+    ])
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://hennalash.fr", "https://www.hennalash.fr", "https://hennalash.onrender.com"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
     allow_headers=["*"],
+    expose_headers=["*"]
 )
 
 # ==========================================
