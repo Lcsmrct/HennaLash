@@ -271,16 +271,22 @@ class BackendTester:
         """Test email service configuration (check if credentials are set)"""
         print("\n📧 TESTING EMAIL SERVICE CONFIGURATION")
         
-        # Check if email environment variables are set
-        gmail_username = os.getenv("GMAIL_USERNAME")
-        gmail_password = os.getenv("GMAIL_PASSWORD")
-        
-        if gmail_username and gmail_password:
-            success = True
-            details = f"Gmail configured: {gmail_username}"
-        else:
+        # Check if email environment variables are set by reading .env file
+        try:
+            with open("/app/backend/.env", "r") as f:
+                env_content = f.read()
+                gmail_username = "GMAIL_USERNAME=" in env_content
+                gmail_password = "GMAIL_PASSWORD=" in env_content
+                
+            if gmail_username and gmail_password:
+                success = True
+                details = "Gmail credentials configured in .env file"
+            else:
+                success = False
+                details = "Gmail credentials not found in .env file"
+        except Exception as e:
             success = False
-            details = "Gmail credentials not configured"
+            details = f"Could not read .env file: {str(e)}"
         
         self.log_test("Email Configuration", success, details)
     
