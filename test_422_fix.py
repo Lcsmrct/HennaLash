@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 import sys
 
 # Configuration
-BASE_URL = "https://henna-lash.onrender.com/api"
+BASE_URL = "https://hennalash.onrender.com/api"
 TIMEOUT = 10
 
 class Service422Tester:

@@ -1063,7 +1063,7 @@ async def maintenance_middleware(request: Request, call_next):
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://hennalash.fr", "https://www.hennalash.fr", "https://henna-lash.onrender.com"],
+    allow_origins=["http://localhost:3000", "https://hennalash.fr", "https://www.hennalash.fr", "https://hennalash.onrender.com"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
     allow_headers=["*"],

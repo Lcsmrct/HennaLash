@@ -12,7 +12,7 @@ import sys
 import random
 
 # Configuration - Use external URL as specified in frontend/.env
-BASE_URL = "https://henna-lash.onrender.com/api"
+BASE_URL = "https://hennalash.onrender.com/api"
 TIMEOUT = 15
 
 class FocusedBackendTester:

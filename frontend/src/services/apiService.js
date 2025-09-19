@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'https://henna-lash.onrender.com';
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'https://hennalash.onrender.com';
 
 // Instance axios optimisée
 const apiClient = axios.create({
