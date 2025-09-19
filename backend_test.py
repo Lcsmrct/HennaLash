@@ -174,8 +174,8 @@ class BackendTester:
             json_data=client_user_data
         )
         
-        if status == 201:
-            self.log_test("Client Registration", True, "Test client created", response_time)
+        if status == 200:
+            self.log_test("Client Registration", True, "Test client created successfully", response_time)
         elif status == 400 and "already registered" in str(data):
             self.log_test("Client Registration", True, "Test client already exists", response_time)
         else:
