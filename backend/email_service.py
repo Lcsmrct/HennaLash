@@ -542,7 +542,7 @@ Nous sommes désolés de vous informer que votre rendez-vous a été annulé.
 
 Détails du rendez-vous annulé :
 - Service : {service_name}
-- Date : {slot.date}
+- Date : {appointment_date}
 - Heure : {appointment_time}
 - Prix : {service_price}€
 
