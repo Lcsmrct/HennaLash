@@ -1114,6 +1114,29 @@ async def root_head():
     """Root HEAD endpoint for health checks."""
     return {"status": "ok"}
 
+# Health endpoint for load balancers
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for load balancers and monitoring."""
+    try:
+        # Test database connection
+        db = await get_database()
+        await db.command('ping')
+        return {
+            "status": "healthy",
+            "service": "HennaLash API",
+            "database": "connected",
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "service": "HennaLash API", 
+            "database": "disconnected",
+            "error": str(e),
+            "timestamp": datetime.utcnow().isoformat()
+        }
+
 # Mount the API router
 app.include_router(api_router)
 
