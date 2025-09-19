@@ -333,7 +333,7 @@ backend:
     file: "/app/frontend/src/pages/BookingDetailsPage.jsx"
     stuck_count: 0
     priority: "critical"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "user"
@@ -341,6 +341,9 @@ backend:
       - working: true
         agent: "main"
         comment: "🔧 CORRIGÉ - Problème identifié: services envoyaient des prix en string (ex: '5€ par main') alors que backend attend des nombres. Modifié structure services avec price (numérique) et priceDisplay (affichage). Services corrigés: Très simple (5), Simple (8), Chargé (12), Mariée (20)."
+      - working: true
+        agent: "testing"
+        comment: "✅ APPOINTMENT BOOKING VERIFIED - Backend appointment creation API working perfectly. All 4 services (Très simple 5€, Simple 8€, Chargé 12€, Mariée 20€) can be booked successfully. No more 422 errors. Service price validation working correctly with numeric values."
 
   - task: "Correction Affichage Lieu dans Espace Client"
     implemented: true
