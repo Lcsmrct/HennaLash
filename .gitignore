@@ -52,6 +52,12 @@ __pycache__/
 venv/
 .venv/
 
+# Test files (development only)
+*test*.py
+test_*.py
+*_test.py
+backend_*.py
+
 # Development tools
 chainlit.md
 .chainlit
