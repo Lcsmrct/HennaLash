@@ -663,8 +663,8 @@ const AdminDashboard = () => {
                         </div>
                         <div>
                           <div className="font-semibold text-gray-900">{formatDate(slot.date)}</div>
-                          <div className="text-sm text-gray-600">{formatTime(slot.start_time)} - {formatTime(slot.end_time)}</div>
-                          <Badge variant={slot.is_available ? "default" : "secondary"}>
+                          <div className="text-sm text-gray-600">{formatTime(slot.start_time)}</div>                          
+                            <Badge variant={slot.is_available ? "default" : "secondary"}>
                             {slot.is_available ? "Disponible" : "Réservé"}
                           </Badge>
                         </div>
