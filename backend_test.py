@@ -350,7 +350,7 @@ class BackendTester:
         
         # Performance should be under 2 seconds (background email tasks)
         performance_good = response_time < 2.0
-        success = status == 201 and performance_good
+        success = status == 200 and performance_good
         
         details = f"Status: {status}, Time: {response_time:.3f}s, Performance: {'Good' if performance_good else 'Slow'}"
         self.log_test("Appointment Creation Performance", success, details, response_time)
