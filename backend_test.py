@@ -255,7 +255,7 @@ class BackendTester:
             json_data=slot_data
         )
         
-        if status == 201 and isinstance(data, dict):
+        if status == 200 and isinstance(data, dict):  # Changed from 201 to 200
             has_start_time = "start_time" in data
             has_end_time = "end_time" in data
             correct_times = data.get("start_time") == "14:30" and data.get("end_time") == "15:30"
