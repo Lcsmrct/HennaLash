@@ -1032,30 +1032,41 @@ from fastapi.responses import JSONResponse
 @app.middleware("http")
 async def maintenance_middleware(request: Request, call_next):
     """Middleware to handle maintenance mode."""
-    # Récupérer l'état de maintenance depuis la BD
-    maintenance_state = await get_maintenance_from_db()
-    
-    # Always allow these endpoints even during maintenance
-    allowed_paths = ["/api/maintenance", "/api/maintenance/emergency-disable", "/api/login", "/api/register", "/api/ping", "/docs", "/openapi.json"]
-    
-    if maintenance_state["is_maintenance"] and request.url.path not in allowed_paths:
-        # Allow admin users to bypass maintenance
-        auth_header = request.headers.get("authorization")
-        if auth_header and "Bearer " in auth_header:
-            # Let the request through - admin authentication will be validated later
-            pass
-        else:
-            return JSONResponse(
-                status_code=503,
-                content={
-                    "detail": maintenance_state["message"],
-                    "maintenance": True,
-                    "enabled_at": maintenance_state["enabled_at"].isoformat() if maintenance_state["enabled_at"] else None
-                }
-            )
-    
-    response = await call_next(request)
-    return response
+    try:
+        # Skip maintenance check for static health endpoints
+        if request.url.path in ["/", "/health", "/api/ping"]:
+            response = await call_next(request)
+            return response
+            
+        # Récupérer l'état de maintenance depuis la BD
+        maintenance_state = await get_maintenance_from_db()
+        
+        # Always allow these endpoints even during maintenance
+        allowed_paths = ["/api/maintenance", "/api/maintenance/emergency-disable", "/api/login", "/api/register", "/api/ping", "/docs", "/openapi.json", "/"]
+        
+        if maintenance_state["is_maintenance"] and request.url.path not in allowed_paths:
+            # Allow admin users to bypass maintenance
+            auth_header = request.headers.get("authorization")
+            if auth_header and "Bearer " in auth_header:
+                # Let the request through - admin authentication will be validated later
+                pass
+            else:
+                return JSONResponse(
+                    status_code=503,
+                    content={
+                        "detail": maintenance_state["message"],
+                        "maintenance": True,
+                        "enabled_at": maintenance_state["enabled_at"].isoformat() if maintenance_state["enabled_at"] else None
+                    }
+                )
+        
+        response = await call_next(request)
+        return response
+    except Exception as e:
+        # If maintenance check fails, let request through to avoid blocking service
+        logger.warning(f"Maintenance middleware error: {e}")
+        response = await call_next(request)
+        return response
 
 # ==========================================
 # CORS Configuration
