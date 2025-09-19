@@ -158,6 +158,29 @@ class BackendTester:
         # Test admin login
         self.admin_token = await self.authenticate(ADMIN_CREDENTIALS, "Admin")
         
+        # Create a test client user first
+        client_user_data = {
+            "email": CLIENT_CREDENTIALS["email"],
+            "password": CLIENT_CREDENTIALS["password"],
+            "first_name": "Test",
+            "last_name": "Client",
+            "phone": "1234567890"
+        }
+        
+        # Try to register the client (ignore if already exists)
+        status, data, response_time = await self.make_request(
+            "POST", 
+            f"{API_BASE}/register",
+            json_data=client_user_data
+        )
+        
+        if status == 201:
+            self.log_test("Client Registration", True, "Test client created", response_time)
+        elif status == 400 and "already registered" in str(data):
+            self.log_test("Client Registration", True, "Test client already exists", response_time)
+        else:
+            self.log_test("Client Registration", False, f"Status: {status}, Data: {data}", response_time)
+        
         # Test client login  
         self.client_token = await self.authenticate(CLIENT_CREDENTIALS, "Client")
         
