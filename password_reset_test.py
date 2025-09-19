@@ -12,7 +12,7 @@ import sys
 import random
 
 # Configuration - Use frontend .env URL
-BASE_URL = "https://maintenance-fix.preview.emergentagent.com/api"
+BASE_URL = "https://lash-maintenance.preview.emergentagent.com/api"
 TIMEOUT = 15
 
 class PasswordResetTester:
