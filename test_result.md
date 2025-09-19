@@ -315,7 +315,7 @@ backend:
     file: "/app/backend/server.py, /app/backend/email_service.py"
     stuck_count: 0
     priority: "critical"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "testing"
@@ -323,6 +323,9 @@ backend:
       - working: true
         agent: "main"
         comment: "🚀 PERFORMANCES OPTIMISÉES - Système email asynchrone implémenté: 1) Ajout fonctions background pour création RDV, annulation et avis, 2) Tous les emails envoyés via BackgroundTasks non-bloquantes, 3) API répond immédiatement sans attendre email, 4) Logging amélioré pour suivi background tasks. Temps de réponse attendu réduit de ~4.7s à ~0.5-1s."
+      - working: true
+        agent: "testing"
+        comment: "✅ PERFORMANCE OPTIMIZATION VERIFIED - Background email tasks working perfectly! Appointment creation now takes 0.725s (down from 4.7s), confirming the performance optimization is successful. Email notifications are sent asynchronously without blocking API response. Performance target achieved: <2s response time."
 
   - task: "Erreur 422 Réservation Rendez-vous"
     implemented: true
