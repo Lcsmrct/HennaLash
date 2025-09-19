@@ -287,21 +287,24 @@ const ClientDashboard = () => {
           <TabsList className="grid w-full grid-cols-3 h-auto p-1 bg-white/80 backdrop-blur-sm border-2 border-orange-100 shadow-lg rounded-xl">
             <TabsTrigger 
               value="appointments" 
-              className="text-xs sm:text-sm py-3 px-1 sm:px-3 rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+              className="text-xs sm:text-sm py-2 sm:py-3 px-1 sm:px-3 rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
             >
-              📅 Mes Rendez-vous
+              <span className="hidden sm:inline">📅 Mes Rendez-vous</span>
+              <span className="sm:hidden">📅 RDV</span>
             </TabsTrigger>
             <TabsTrigger 
               value="booking" 
-              className="text-xs sm:text-sm py-3 px-1 sm:px-3 rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+              className="text-xs sm:text-sm py-2 sm:py-3 px-1 sm:px-3 rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
             >
-              🎯 Réserver
+              <span className="hidden sm:inline">🎯 Réserver</span>
+              <span className="sm:hidden">🎯 Réserver</span>
             </TabsTrigger>
             <TabsTrigger 
               value="reviews" 
-              className="text-xs sm:text-sm py-3 px-1 sm:px-3 rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+              className="text-xs sm:text-sm py-2 sm:py-3 px-1 sm:px-3 rounded-lg font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
             >
-              ⭐ Laisser un Avis
+              <span className="hidden sm:inline">⭐ Laisser un Avis</span>
+              <span className="sm:hidden">⭐ Avis</span>
             </TabsTrigger>
           </TabsList>
 
