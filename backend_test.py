@@ -24,7 +24,7 @@ ADMIN_CREDENTIALS = {
 }
 
 CLIENT_CREDENTIALS = {
-    "email": "marie.dupont@email.com", 
+    "email": "client@test.com", 
     "password": "password123"
 }
 
