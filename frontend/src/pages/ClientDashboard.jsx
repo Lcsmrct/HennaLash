@@ -641,7 +641,7 @@ const ClientDashboard = () => {
                                   <div className="text-sm text-gray-600 flex items-center mt-2 font-medium">
                                     <Clock className="w-4 h-4 mr-2 text-orange-500" />
                                     <span className="text-gray-800 font-semibold">
-                                      {slot.start_time ? `${formatTime(slot.start_time)} - ${slot.end_time ? formatTime(slot.end_time) : '(60min)'}` : 'Heure non spécifiée'}
+                                      {slot.start_time ? `${formatTime(slot.start_time)} : '(60min)'}` : 'Heure non spécifiée'}
                                     </span>
                                   </div>
                                 </div>
