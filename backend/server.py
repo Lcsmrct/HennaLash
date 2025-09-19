@@ -1069,6 +1069,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ==========================================
+# ROOT ROUTE for Health Check (Render compatibility)
+# ==========================================
+
+@app.get("/")
+async def root():
+    """Root endpoint for health checks and deployment verification."""
+    return {
+        "status": "ok",
+        "service": "HennaLash Salon API",
+        "version": "1.0.0",
+        "message": "API is running"
+    }
+
+# Additional health check for HEAD requests (Render requirement)
+@app.head("/")
+async def root_head():
+    """Root HEAD endpoint for health checks."""
+    return {"status": "ok"}
+
 # Mount the API router
 app.include_router(api_router)
 
